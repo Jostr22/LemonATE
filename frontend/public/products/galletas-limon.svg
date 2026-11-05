@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" width="800" height="680" role="img" aria-label="GALLETAS">
+  <defs>
+    
+  <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff"/>
+    <stop offset="0.18" stop-color="#C5C9CC"/>
+    <stop offset="0.34" stop-color="#6F767C"/>
+    <stop offset="0.5" stop-color="#FFFFFF"/>
+    <stop offset="0.66" stop-color="#9AA1A7"/>
+    <stop offset="0.82" stop-color="#E9EEF1"/>
+    <stop offset="1" stop-color="#7D848A"/>
+  </linearGradient>
+    
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="n"/>
+    <feColorMatrix in="n" type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.06"/></feComponentTransfer>
+  </filter>
+    <radialGradient id="glow" cx="0.68" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#C98A3B" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#C98A3B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101213"/>
+      <stop offset="0.55" stop-color="#17191A"/>
+      <stop offset="1" stop-color="#0B0D0E"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="680" fill="url(#bg)"/>
+  <rect width="800" height="680" fill="url(#glow)"/>
+  <g opacity="0.5">
+    <circle cx="400" cy="300" r="240" fill="none" stroke="url(#chrome)" stroke-width="2" stroke-dasharray="3 9"/>
+    <circle cx="400" cy="300" r="196" fill="none" stroke="#C98A3B" stroke-width="1" opacity="0.4"/>
+  </g>
+  <text x="46" y="66" fill="#C98A3B" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="17" letter-spacing="4">POSTRES / 04</text>
+  <text x="754" y="66" text-anchor="end" fill="#C5C9CC" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="15" letter-spacing="3" opacity="0.7">LIMONATE®</text>
+  <g transform="translate(400 330)">
+        <ellipse cx="0" cy="96" rx="180" ry="24" fill="#000" opacity="0.35"/>
+        <g transform="rotate(-14)">
+          <circle cx="-66" cy="10" r="96" fill="#C98A3B"/>
+          <circle cx="-66" cy="6" r="84" fill="#E0A75E"/>
+          <circle cx="-22" cy="6" r="8" fill="#5B3A1E" opacity="0.55"/><circle cx="-71.66915774900309" cy="49.633251659908616" r="8" fill="#5B3A1E" opacity="0.55"/><circle cx="-108.5391204734963" cy="-5.243808489180573" r="8" fill="#5B3A1E" opacity="0.55"/><circle cx="-49.36897932062887" cy="-34.735846022420226" r="8" fill="#5B3A1E" opacity="0.55"/><circle cx="-27.746510424607685" cy="27.74098745009876" r="8" fill="#5B3A1E" opacity="0.55"/>
+        </g>
+        <g transform="rotate(16)">
+          <circle cx="86" cy="-6" r="86" fill="#B9822E"/>
+          <circle cx="86" cy="-10" r="74" fill="#E7B775"/>
+          <circle cx="124" cy="-10" r="7" fill="#C98A3B" opacity="0.8"/><circle cx="73.71499645918688" cy="25.959403332121752" r="7" fill="#C98A3B" opacity="0.8"/><circle cx="55.94322694725216" cy="-33.25059985582332" r="7" fill="#C98A3B" opacity="0.8"/><circle cx="117.71908582388805" cy="-30.926050618710256" r="7" fill="#C98A3B" opacity="0.8"/>
+        </g>
+      </g>
+  <g opacity="0.85">
+    <text x="46" y="560" fill="#F4F3EA" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">GALLETAS</text>
+    <text x="46" y="612" fill="none" stroke="#F4F3EA" stroke-opacity="0.55" stroke-width="1.4" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">LEMONATE</text>
+  </g>
+  <g transform="translate(600 560)" opacity="0.55">
+    <rect x="0" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="13" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="26" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="39" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="52" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="65" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="78" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="91" y="0" width="3" height="52" fill="#F4F3EA"/>
+    <text x="0" y="72" fill="#C5C9CC" font-family="monospace" font-size="11" letter-spacing="2">EXPRIME EL MOMENTO</text>
+  </g>
+  <rect width="800" height="680" filter="url(#grain)" opacity="0.5"/>
+  <rect x="1" y="1" width="798" height="678" fill="none" stroke="#F4F3EA" stroke-opacity="0.08"/>
+</svg>

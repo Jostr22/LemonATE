@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" width="800" height="680" role="img" aria-label="MOUSSE LIMON">
+  <defs>
+    
+  <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff"/>
+    <stop offset="0.18" stop-color="#C5C9CC"/>
+    <stop offset="0.34" stop-color="#6F767C"/>
+    <stop offset="0.5" stop-color="#FFFFFF"/>
+    <stop offset="0.66" stop-color="#9AA1A7"/>
+    <stop offset="0.82" stop-color="#E9EEF1"/>
+    <stop offset="1" stop-color="#7D848A"/>
+  </linearGradient>
+    
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="n"/>
+    <feColorMatrix in="n" type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.06"/></feComponentTransfer>
+  </filter>
+    <radialGradient id="glow" cx="0.68" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#E7FF36" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#E7FF36" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101213"/>
+      <stop offset="0.55" stop-color="#17191A"/>
+      <stop offset="1" stop-color="#0B0D0E"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="680" fill="url(#bg)"/>
+  <rect width="800" height="680" fill="url(#glow)"/>
+  <g opacity="0.5">
+    <circle cx="400" cy="300" r="240" fill="none" stroke="url(#chrome)" stroke-width="2" stroke-dasharray="3 9"/>
+    <circle cx="400" cy="300" r="196" fill="none" stroke="#E7FF36" stroke-width="1" opacity="0.4"/>
+  </g>
+  <text x="46" y="66" fill="#E7FF36" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="17" letter-spacing="4">POSTRES / 07</text>
+  <text x="754" y="66" text-anchor="end" fill="#C5C9CC" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="15" letter-spacing="3" opacity="0.7">LIMONATE®</text>
+  <g transform="translate(400 330)">
+        <ellipse cx="0" cy="112" rx="130" ry="20" fill="#000" opacity="0.35"/>
+        <path d="M-96 -60 L96 -60 L76 108 L-76 108 Z" fill="#FFFFFF" opacity="0.08"/>
+        <path d="M-88 -20 L88 -20 L76 108 L-76 108 Z" fill="#F0F0C0"/>
+        <ellipse cx="0" cy="-60" rx="96" ry="18" fill="#F0F0C0"/>
+        <ellipse cx="0" cy="-64" rx="96" ry="16" fill="#FDFBF1"/>
+        <g opacity="1">
+    <circle cx="0" cy="-88" r="34" fill="none" stroke="#E7FF36" stroke-width="3.06" opacity="0.9"/>
+    <circle cx="0" cy="-88" r="30.6" fill="#E7FF36" opacity="0.12"/>
+    <path d="M0 -88 L31.28 -88 A31.28 31.28 0 0 1 27.219347846062764 -72.58748875636944 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L25.306051584048358 -69.61407730829144 A31.28 31.28 0 0 1 12.961668173469931 -59.53188523697334 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L9.666051584048356 -58.2509521702876 A31.28 31.28 0 0 1 -6.246928190490648 -57.35013396142075 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L-9.666051584048352 -58.25095217028759 A31.28 31.28 0 0 1 -23.06941031096368 -66.87558976197435 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L-25.306051584048355 -69.61407730829143 A31.28 31.28 0 0 1 -31.080161793065862 -84.4698522811575 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L-31.28 -88 A31.28 31.28 0 0 1 -27.21934784606276 -103.41251124363058 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L-25.306051584048358 -106.38592269170856 A31.28 31.28 0 0 1 -12.961668173469935 -116.46811476302666 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L-9.66605158404836 -117.7490478297124 A31.28 31.28 0 0 1 6.246928190490643 -118.64986603857925 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L9.66605158404835 -117.74904782971241 A31.28 31.28 0 0 1 23.069410310963676 -109.12441023802566 Z" fill="#E7FF36" opacity="0.5"/><path d="M0 -88 L25.306051584048355 -106.38592269170857 A31.28 31.28 0 0 1 31.080161793065862 -91.53014771884251 Z" fill="#E7FF36" opacity="0.5"/>
+    <circle cx="0" cy="-88" r="4.08" fill="#E7FF36" opacity="0.85"/>
+  </g>
+        <path d="M-96 -60 L96 -60 L92 -46 L-92 -46 Z" fill="#FFFFFF" opacity="0.2"/>
+      </g>
+  <g opacity="0.85">
+    <text x="46" y="560" fill="#F4F3EA" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">MOUSSE</text>
+    <text x="46" y="612" fill="none" stroke="#F4F3EA" stroke-opacity="0.55" stroke-width="1.4" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">LIMON</text>
+  </g>
+  <g transform="translate(600 560)" opacity="0.55">
+    <rect x="0" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="13" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="26" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="39" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="52" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="65" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="78" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="91" y="0" width="3" height="52" fill="#F4F3EA"/>
+    <text x="0" y="72" fill="#C5C9CC" font-family="monospace" font-size="11" letter-spacing="2">EXPRIME EL MOMENTO</text>
+  </g>
+  <rect width="800" height="680" filter="url(#grain)" opacity="0.5"/>
+  <rect x="1" y="1" width="798" height="678" fill="none" stroke="#F4F3EA" stroke-opacity="0.08"/>
+</svg>

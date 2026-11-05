@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" width="520" height="520" role="img" aria-label="Limón cromado">
+  <defs>
+    <linearGradient id="body" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#F6FF9E"/>
+      <stop offset="0.22" stop-color="#E7FF36"/>
+      <stop offset="0.48" stop-color="#B7FF00"/>
+      <stop offset="0.72" stop-color="#7BA800"/>
+      <stop offset="1" stop-color="#2F3D00"/>
+    </linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.25" stop-color="#C5C9CC"/>
+      <stop offset="0.5" stop-color="#6F767C"/>
+      <stop offset="0.72" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#8439B8"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.32" cy="0.24" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="26" stdDeviation="26" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <path d="M260 42c34 0 34 26 62 34 30 9 52-8 70 22 18 31-6 46 4 74 10 29 34 32 26 64-8 33-32 34-42 62-10 29 8 52-20 70-29 17-45-6-72 4-28 9-31 34-62 26-32-8-34-32-61-42-29-10-51 8-69-20-18-28 5-45-5-72-9-28-34-31-26-63 8-33 32-35 42-63 10-28-8-51 20-69 28-18 45 4 72-5 28-10 30-32 61-32Z" fill="url(#body)"/>
+    <path d="M260 42c34 0 34 26 62 34 30 9 52-8 70 22 18 31-6 46 4 74 10 29 34 32 26 64-8 33-32 34-42 62-10 29 8 52-20 70-29 17-45-6-72 4-28 9-31 34-62 26-32-8-34-32-61-42-29-10-51 8-69-20-18-28 5-45-5-72-9-28-34-31-26-63 8-33 32-35 42-63 10-28-8-51 20-69 28-18 45 4 72-5 28-10 30-32 61-32Z" fill="url(#shine)"/>
+    <ellipse cx="260" cy="262" rx="128" ry="124" fill="none" stroke="url(#chrome)" stroke-width="10" opacity="0.9"/>
+    <g stroke="#17191A" stroke-opacity="0.35" stroke-width="5" stroke-linecap="round">
+      <path d="M260 262 260 138"/>
+      <path d="M260 262 356 186"/>
+      <path d="M260 262 380 262"/>
+      <path d="M260 262 356 338"/>
+      <path d="M260 262 260 386"/>
+      <path d="M260 262 164 338"/>
+      <path d="M260 262 140 262"/>
+      <path d="M260 262 164 186"/>
+    </g>
+    <circle cx="260" cy="262" r="26" fill="#17191A" opacity="0.65"/>
+    <circle cx="260" cy="262" r="12" fill="#E7FF36"/>
+    <path d="M96 150c26-46 74-78 128-86" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="12" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

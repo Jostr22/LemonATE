@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" width="800" height="680" role="img" aria-label="CHEESECAKE">
+  <defs>
+    
+  <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff"/>
+    <stop offset="0.18" stop-color="#C5C9CC"/>
+    <stop offset="0.34" stop-color="#6F767C"/>
+    <stop offset="0.5" stop-color="#FFFFFF"/>
+    <stop offset="0.66" stop-color="#9AA1A7"/>
+    <stop offset="0.82" stop-color="#E9EEF1"/>
+    <stop offset="1" stop-color="#7D848A"/>
+  </linearGradient>
+    
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="n"/>
+    <feColorMatrix in="n" type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.06"/></feComponentTransfer>
+  </filter>
+    <radialGradient id="glow" cx="0.68" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#F4F3EA" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#F4F3EA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101213"/>
+      <stop offset="0.55" stop-color="#17191A"/>
+      <stop offset="1" stop-color="#0B0D0E"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="680" fill="url(#bg)"/>
+  <rect width="800" height="680" fill="url(#glow)"/>
+  <g opacity="0.5">
+    <circle cx="400" cy="300" r="240" fill="none" stroke="url(#chrome)" stroke-width="2" stroke-dasharray="3 9"/>
+    <circle cx="400" cy="300" r="196" fill="none" stroke="#F4F3EA" stroke-width="1" opacity="0.4"/>
+  </g>
+  <text x="46" y="66" fill="#F4F3EA" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="17" letter-spacing="4">POSTRES / 02</text>
+  <text x="754" y="66" text-anchor="end" fill="#C5C9CC" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="15" letter-spacing="3" opacity="0.7">LIMONATE®</text>
+  <g transform="translate(400 330)">
+        <ellipse cx="0" cy="110" rx="170" ry="24" fill="#000" opacity="0.35"/>
+        <path d="M-140 100 L-130 -40 Q0 -62 130 -40 L140 100 Z" fill="#E8D9AE"/>
+        <path d="M-130 -20 L140 -20 L140 30 L-130 30 Z" fill="#F0E3B8"/>
+        <path d="M-130 -40 Q0 -62 130 -40 L130 -10 Q0 -30 -130 -10 Z" fill="#F4F3EA"/>
+        <g opacity="1">
+    <circle cx="0" cy="-46" r="30" fill="none" stroke="#F4F3EA" stroke-width="2.6999999999999997" opacity="0.9"/>
+    <circle cx="0" cy="-46" r="27" fill="#F4F3EA" opacity="0.12"/>
+    <path d="M0 -46 L27.6 -46 A27.6 27.6 0 0 1 24.01707162887891 -32.40072537326715 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L22.32886904474855 -29.77712703672774 A27.6 27.6 0 0 1 11.436766035414646 -20.881075209094117 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L8.52886904474855 -19.75084015025376 A27.6 27.6 0 0 1 -5.51199546219763 -18.956000554194784 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L-8.528869044748546 -19.750840150253758 A27.6 27.6 0 0 1 -20.3553620390856 -27.36081449585972 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L-22.328869044748547 -29.777127036727737 A27.6 27.6 0 0 1 -27.423672170352233 -42.88516377749191 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L-27.6 -46 A27.6 27.6 0 0 1 -24.017071628878906 -59.59927462673285 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L-22.32886904474855 -62.22287296327225 A27.6 27.6 0 0 1 -11.43676603541465 -71.11892479090588 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L-8.528869044748554 -72.24915984974623 A27.6 27.6 0 0 1 5.511995462197627 -73.04399944580521 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L8.528869044748545 -72.24915984974623 A27.6 27.6 0 0 1 20.355362039085595 -64.63918550414029 Z" fill="#F4F3EA" opacity="0.5"/><path d="M0 -46 L22.328869044748547 -62.222872963272266 A27.6 27.6 0 0 1 27.423672170352233 -49.1148362225081 Z" fill="#F4F3EA" opacity="0.5"/>
+    <circle cx="0" cy="-46" r="3.5999999999999996" fill="#F4F3EA" opacity="0.85"/>
+  </g>
+        <path d="M-100 40 L100 40" stroke="#C5A76A" stroke-width="4" opacity="0.6"/>
+      </g>
+  <g opacity="0.85">
+    <text x="46" y="560" fill="#F4F3EA" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">CHEESECAKE</text>
+    <text x="46" y="612" fill="none" stroke="#F4F3EA" stroke-opacity="0.55" stroke-width="1.4" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">LEMONATE</text>
+  </g>
+  <g transform="translate(600 560)" opacity="0.55">
+    <rect x="0" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="13" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="26" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="39" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="52" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="65" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="78" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="91" y="0" width="3" height="52" fill="#F4F3EA"/>
+    <text x="0" y="72" fill="#C5C9CC" font-family="monospace" font-size="11" letter-spacing="2">EXPRIME EL MOMENTO</text>
+  </g>
+  <rect width="800" height="680" filter="url(#grain)" opacity="0.5"/>
+  <rect x="1" y="1" width="798" height="678" fill="none" stroke="#F4F3EA" stroke-opacity="0.08"/>
+</svg>
