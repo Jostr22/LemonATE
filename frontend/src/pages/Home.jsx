@@ -54,7 +54,7 @@ export default function Home() {
                 <span>{t('hero.metric1')}</span>
               </div>
               <div>
-                <strong>12 km</strong>
+                <strong>{settings?.delivery?.maxKm ?? 12} km</strong>
                 <span>{t('hero.metric2')}</span>
               </div>
               <div>
@@ -147,7 +147,14 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-            <Link to={`/producto/${products.find((p) => p.customizable)?._id || ''}`} className="btn">
+            <Link
+              to={
+                products.find((p) => p.customizable)
+                  ? `/producto/${products.find((p) => p.customizable)._id}`
+                  : '/tienda'
+              }
+              className="btn"
+            >
               {t('home.customizeCta')} <IconArrow />
             </Link>
           </div>

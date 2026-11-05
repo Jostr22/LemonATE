@@ -82,7 +82,7 @@ export default function ProductCard({ product }) {
             disabled={soldOut}
             aria-label={`${t('common.add')} ${pick(product.name)}`}
           >
-            {product.customizable ? t('common.add') : t('common.add')}
+            {t('common.add')}
           </button>
         </div>
       </div>

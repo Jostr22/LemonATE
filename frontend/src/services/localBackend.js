@@ -19,18 +19,32 @@ const TOKEN_KEY = 'lemonate.demo.token';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
+// Caché en memoria: evita sembrar dos veces al montar la tienda y mantiene
+// la demo coherente dentro de la misma pestaña.
+let memoryDb = null;
+
 function read() {
+  if (memoryDb) return memoryDb;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      memoryDb = JSON.parse(raw);
+      return memoryDb;
+    }
   } catch {
     /* almacenamiento no disponible: se reinicia */
   }
-  return seed();
+  memoryDb = seed();
+  return memoryDb;
 }
 
 function write(db) {
-  localStorage.setItem(KEY, JSON.stringify(db));
+  memoryDb = db;
+  try {
+    localStorage.setItem(KEY, JSON.stringify(db));
+  } catch {
+    /* modo privado sin almacenamiento: la demo sigue en memoria */
+  }
 }
 
 function seed() {
@@ -56,15 +70,17 @@ function seed() {
     settings: clone(DEFAULT_SETTINGS),
     seq: { user: 1, order: 1, message: 1 },
   };
-  localStorage.setItem(KEY, JSON.stringify(db));
-  hashPassword('LemonATE2026', 'demo-admin').then((hash) => {
-    const current = JSON.parse(localStorage.getItem(KEY));
-    const admin = current.users.find((u) => u._id === 'u_admin');
-    if (admin) {
-      admin.passwordHash = hash;
-      localStorage.setItem(KEY, JSON.stringify(current));
-    }
-  });
+  write(db);
+  hashPassword('LemonATE2026', 'demo-admin')
+    .then((hash) => {
+      const current = read();
+      const admin = current.users.find((u) => u._id === 'u_admin');
+      if (admin) {
+        admin.passwordHash = hash;
+        write(current);
+      }
+    })
+    .catch(() => {});
   return db;
 }
 
@@ -236,6 +252,12 @@ export const localBackend = {
     const cleanEmail = normalizeEmail(email);
     const user = db.users.find((u) => u.email === cleanEmail);
     if (!user) throw new Error('Correo o contraseña incorrectos.');
+    // Si el hash del seed aún no se había calculado, se completa con la
+    // contraseña de demostración (nunca con la que escriba el visitante).
+    if (!user.passwordHash) {
+      user.passwordHash = await hashPassword('LemonATE2026', user.salt);
+      write(db);
+    }
     const hash = await hashPassword(password, user.salt);
     if (hash !== user.passwordHash) throw new Error('Correo o contraseña incorrectos.');
     localStorage.setItem(TOKEN_KEY, makeToken(user));
@@ -432,6 +454,7 @@ export const localBackend = {
 
   /** Solo para la demo: restablecer los datos de ejemplo. */
   async resetDemo() {
+    memoryDb = null;
     localStorage.removeItem(KEY);
     localStorage.removeItem(TOKEN_KEY);
     return delay({ ok: true });
