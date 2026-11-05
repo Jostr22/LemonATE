@@ -1,0 +1,68 @@
+:root {
+  /* Paleta de marca */
+  --neon: #b7ff00;
+  --acid: #e7ff36;
+  --purple: #8439b8;
+  --chrome: #c5c9cc;
+  --ink: #17191a;
+  --cream: #f4f3ea;
+
+  /* Derivados */
+  --ink-soft: #23262a;
+  --ink-line: #33373c;
+  --cream-dim: rgba(244, 243, 234, 0.68);
+  --cream-faint: rgba(244, 243, 234, 0.14);
+  --neon-glow: rgba(183, 255, 0, 0.35);
+  --purple-glow: rgba(132, 57, 184, 0.4);
+  --danger: #ff5b4a;
+  --ok: #6ee7a8;
+
+  /* Tipografía */
+  --font-display: 'Archivo Black', 'Arial Black', Impact, sans-serif;
+  --font-body: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+
+  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.85rem);
+  --step-0: clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2.1rem);
+  --step-3: clamp(2rem, 1.5rem + 2.4vw, 3.4rem);
+  --step-4: clamp(2.8rem, 1.8rem + 5vw, 5.6rem);
+  --step-5: clamp(3.4rem, 1.5rem + 9vw, 9rem);
+
+  /* Espaciado */
+  --space-1: 0.35rem;
+  --space-2: 0.6rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.25rem;
+  --space-6: 3.5rem;
+  --space-7: 5.5rem;
+
+  /* Estructura */
+  --shell: min(1240px, 92vw);
+  --radius-sm: 6px;
+  --radius: 14px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --header-h: 74px;
+
+  /* Sombras y bordes */
+  --line: 1px solid var(--ink-line);
+  --shadow-card: 0 18px 40px -22px rgba(0, 0, 0, 0.9);
+  --shadow-pop: 0 24px 60px -20px rgba(0, 0, 0, 0.85);
+  --chrome-sheen: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #c5c9cc 18%,
+    #6f767c 34%,
+    #ffffff 48%,
+    #9aa1a7 62%,
+    #e9eef1 80%,
+    #7d848a 100%
+  );
+
+  /* Animación */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 160ms;
+  --normal: 320ms;
+}
