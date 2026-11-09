@@ -25,6 +25,23 @@ LemonATE/
 
 ## Ejecución local
 
+### Prueba rápida (Fase 0, sin backend)
+
+La tienda funciona sin MongoDB ni backend gracias al modo demostración. Desde la
+carpeta raíz del proyecto:
+
+```bash
+npm run dev
+```
+
+Abre `http://localhost:5173` en el navegador. Si `frontend/.env` no existe o no
+define `VITE_API_URL`, la app arranca automáticamente en modo demostración y
+guarda los datos en el `localStorage` del navegador.
+
+> Importante: los comandos deben ejecutarse en la carpeta indicada. Si ves
+> `npm error Missing script: "dev"`, estás en una carpeta que no tiene ese script:
+> usa la raíz del proyecto (como arriba) o entra primero en `frontend/`.
+
 ### 1. Backend
 
 ```bash

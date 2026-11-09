@@ -5,6 +5,8 @@
   "description": "Proyecto final LemonATE — frontend React y backend Express",
   "scripts": {
     "install:all": "npm --prefix frontend install && npm --prefix backend install",
+    "dev": "npm --prefix frontend run dev",
+    "preview": "npm --prefix frontend run preview",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "npm --prefix backend run dev",
     "build": "npm --prefix frontend run build",
