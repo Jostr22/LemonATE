@@ -111,7 +111,7 @@ Flujo: `ruta → auth/validación → controlador → servicio → modelo → Mo
 
 ## 7. Explicación del frontend
 
-- **Páginas** (`src/pages`): Inicio, Tienda, Producto, Carrito, Checkout, Seguimiento,
+- **Páginas** (`src/pages`): Inicio, Menú (tienda con pestañas por categoría), Producto, Carrito, Checkout, Seguimiento,
   Login, Registro, Cuenta, Admin, Contacto, Marca y 404.
 - **Componentes** (`src/components`): cabecera, pie, tarjeta de producto, carrito lateral,
   asistente, ruta protegida e iconos.

@@ -43,8 +43,8 @@ export default function Brand() {
             {t('hero.cta1')} <IconArrow />
           </Link>
         </div>
-        <div className="frame">
-          <img src="./products/combo-duo.svg" alt="Ilustración de marca de LemonATE" width="800" height="680" />
+        <div className="frame brand-logo-frame">
+          <img src="./brand/logo-lemonate.jpg" alt="Logo oficial de LemonATE" width="1200" height="743" />
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function Brand() {
 
       <section className="section--tight">
         <div className="panel">
-          <h3 style={{ fontSize: 'var(--step-2)', marginBottom: '1rem' }}>{t('home.customize')}</h3>
+          <h3 style={{ fontSize: 'var(--step-2)', marginBottom: '1rem' }}>{t('brand.palette')}</h3>
           <div className="grid grid--4">
             {['#B7FF00', '#E7FF36', '#8439B8', '#C5C9CC', '#17191A', '#F4F3EA'].map((color) => (
               <div key={color}>

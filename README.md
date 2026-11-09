@@ -83,6 +83,7 @@ Nunca se suben al repositorio el archivo `.env`, la cadena de MongoDB ni el `JWT
 - [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) — decisiones técnicas y diagramas.
 - [`docs/DOCUMENTACION.md`](docs/DOCUMENTACION.md) — documento académico completo.
 - [`docs/GUIA_EXPOSICION.md`](docs/GUIA_EXPOSICION.md) — guion de defensa y preguntas del profesor.
+- [`docs/FOTOS.md`](docs/FOTOS.md) — nombres y medidas para reemplazar las ilustraciones por fotos reales.
 
 ## Estado del proyecto
 

@@ -157,7 +157,7 @@ continua.
 ## 4. Demostración paso a paso (checklist)
 
 1. Abrir la landing y cambiar el idioma a inglés y de vuelta a español.
-2. Ir a Tienda, buscar «maracuyá» y filtrar por Postres.
+2. Ir a Menú, buscar «maracuyá» y cambiar entre las pestañas de categoría.
 3. Abrir una limonada, cambiar a tamaño grande y agregar un extra; ver el precio.
 4. Agregar dos productos y abrir el carrito; cambiar cantidades.
 5. Checkout con distancia de 3 km: debe cobrar $5.000 de domicilio.

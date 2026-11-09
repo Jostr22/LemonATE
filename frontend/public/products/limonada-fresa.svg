@@ -32,8 +32,6 @@
     <circle cx="400" cy="300" r="240" fill="none" stroke="url(#chrome)" stroke-width="2" stroke-dasharray="3 9"/>
     <circle cx="400" cy="300" r="196" fill="none" stroke="#FF5C8A" stroke-width="1" opacity="0.4"/>
   </g>
-  <text x="46" y="66" fill="#FF5C8A" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="17" letter-spacing="4">LIMONADAS / 05</text>
-  <text x="754" y="66" text-anchor="end" fill="#C5C9CC" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="15" letter-spacing="3" opacity="0.7">LIMONATE®</text>
   <g>
     <defs>
       <clipPath id="clip-250-210"><path d="M250 210 L267.1 510 Q345 528 422.9 510 L440 210 Z"/></clipPath>
@@ -61,13 +59,10 @@
     <circle cx="520" cy="230" r="9.36" fill="#FF5C8A" opacity="0.85"/>
   </g>
   <g opacity="0.85">
-    <text x="46" y="560" fill="#F4F3EA" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">LIMONADA</text>
-    <text x="46" y="612" fill="none" stroke="#F4F3EA" stroke-opacity="0.55" stroke-width="1.4" font-family="'Archivo Black','Arial Black',Impact,sans-serif" font-size="54" letter-spacing="-1">FRESA</text>
-  </g>
+    </g>
   <g transform="translate(600 560)" opacity="0.55">
     <rect x="0" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="13" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="26" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="39" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="52" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="65" y="0" width="3" height="52" fill="#F4F3EA"/><rect x="78" y="0" width="5" height="52" fill="#F4F3EA"/><rect x="91" y="0" width="3" height="52" fill="#F4F3EA"/>
-    <text x="0" y="72" fill="#C5C9CC" font-family="monospace" font-size="11" letter-spacing="2">EXPRIME EL MOMENTO</text>
-  </g>
+    </g>
   <rect width="800" height="680" filter="url(#grain)" opacity="0.5"/>
   <rect x="1" y="1" width="798" height="678" fill="none" stroke="#F4F3EA" stroke-opacity="0.08"/>
 </svg>

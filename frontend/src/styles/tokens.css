@@ -2,6 +2,8 @@
   /* Paleta de marca */
   --neon: #b7ff00;
   --acid: #e7ff36;
+  --lemon: #ffe14d;
+  --lemon-deep: #ffc400;
   --purple: #8439b8;
   --chrome: #c5c9cc;
   --ink: #17191a;
@@ -44,7 +46,7 @@
   --radius: 14px;
   --radius-lg: 28px;
   --radius-pill: 999px;
-  --header-h: 74px;
+  --header-h: 86px;
 
   /* Sombras y bordes */
   --line: 1px solid var(--ink-line);

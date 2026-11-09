@@ -8,7 +8,10 @@ export const DEFAULT_LANG = 'es';
 export const translations = {
   es: {
     'brand.slogan': 'Exprime el momento',
+    'brand.palette': 'Paleta de marca',
     'nav.home': 'Inicio',
+    'nav.menu': 'Menú',
+    'nav.about': 'Nosotros',
     'nav.shop': 'Tienda',
     'nav.lemonades': 'Limonadas',
     'nav.special': 'Especiales',
@@ -83,6 +86,19 @@ export const translations = {
     'home.review1': '“La de maracuyá es criminal. Pedí dos.”',
     'home.review2': '“El pie de limón llega frío y crocante. Puntual.”',
     'home.review3': '“El combo oficina nos salvó la tarde.”',
+    'home.viewMenu': 'Ver el menú',
+    'home.menuCta': 'Ver el menú completo',
+    'home.heroChip1': '12 / 16 / 22 oz',
+    'home.heroChip2': 'Domicilio 30–60 min',
+    'home.bestTitle': 'Los favoritos de la casa',
+    'home.bestLead': 'Los que más salen. Pídelos tal cual o personalízalos.',
+    'home.ctaTitle': '¿No sabes qué pedir?',
+    'home.ctaLead':
+      'Cuéntale tu antojo a LemonATE AI o escríbenos por WhatsApp. Te ayudamos a elegir sin inventar precios ni productos.',
+    'home.ctaAi': 'Preguntar a LemonATE AI',
+    'home.ctaWhatsapp': 'Pedir por WhatsApp',
+    'home.ctaTrack': 'Rastrear mi pedido',
+    'home.categoryCta': 'Ver categoría',
 
     'shop.title': 'Tienda',
     'shop.lead': 'Todo el catálogo. Filtra, busca y personaliza.',
@@ -281,7 +297,10 @@ export const translations = {
 
   en: {
     'brand.slogan': 'Squeeze the moment',
+    'brand.palette': 'Brand palette',
     'nav.home': 'Home',
+    'nav.menu': 'Menu',
+    'nav.about': 'About us',
     'nav.shop': 'Shop',
     'nav.lemonades': 'Lemonades',
     'nav.special': 'Special drinks',
@@ -355,6 +374,19 @@ export const translations = {
     'home.review1': '“The passion fruit one is criminal. I ordered two.”',
     'home.review2': '“The lemon pie arrives cold and crunchy. On time.”',
     'home.review3': '“The office combo saved our afternoon.”',
+    'home.viewMenu': 'View the menu',
+    'home.menuCta': 'See the full menu',
+    'home.heroChip1': '12 / 16 / 22 oz',
+    'home.heroChip2': 'Delivery 30–60 min',
+    'home.bestTitle': 'House favorites',
+    'home.bestLead': 'Our best sellers. Order them as they are or customize them.',
+    'home.ctaTitle': 'Not sure what to order?',
+    'home.ctaLead':
+      'Tell LemonATE AI what you are craving or message us on WhatsApp. We help you choose without inventing prices or products.',
+    'home.ctaAi': 'Ask LemonATE AI',
+    'home.ctaWhatsapp': 'Order on WhatsApp',
+    'home.ctaTrack': 'Track my order',
+    'home.categoryCta': 'View category',
 
     'shop.title': 'Shop',
     'shop.lead': 'The whole catalog. Filter, search and customize.',
