@@ -2210,7 +2210,8 @@ tbody tr:hover {
     width: min(100%, 320px);
   }
   .hero__stamp {
-    width: min(92%, 300px);
+    width: min(78%, 250px);
+    left: 0;
   }
   .hero__chip {
     font-size: 0.58rem;
