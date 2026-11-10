@@ -76,6 +76,10 @@ En `.env` del frontend:
 | Backend | Render | Web Service con `rootDir: backend`, build `npm install`, start `npm start`. Variables de entorno en el panel de Render. |
 | Base de datos | MongoDB Atlas | Cadena `MONGODB_URI`. Crear usuario de base de datos con permisos de lectura/escritura. |
 
+Antes del primer despliegue, en GitHub entra a **Settings → Pages → Build and deployment**
+y elige **Source: GitHub Actions**. Si Pages no está habilitado, el workflow falla en el
+paso `Configurar Pages`.
+
 Nunca se suben al repositorio el archivo `.env`, la cadena de MongoDB ni el `JWT_SECRET`.
 
 ## Documentación
