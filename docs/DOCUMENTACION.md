@@ -339,7 +339,7 @@ servicio en la nube fallan.
 - Reseñas verificadas y moderación.
 - Panel con roles, auditoría y reportes de ventas.
 - Pruebas E2E con Playwright en CI y monitoreo de errores.
-- Imágenes fotográficas propias en formato AVIF/WebP.
+- Conversión adicional a AVIF y generación automática de miniaturas.
 
 ## Estado y limitaciones (honesto)
 
@@ -350,7 +350,7 @@ servicio en la nube fallan.
 | MongoDB Atlas | Integración por variable de entorno; las pruebas usan MongoDB en memoria |
 | Despliegue en Render y Pages | Configuración incluida; requiere que el estudiante conecte sus cuentas |
 | Pagos | Solo demostración; no se cobra ni se confirma automáticamente |
-| Imágenes | Ilustraciones SVG propias, reemplazables desde el panel; no son fotos reales |
+| Imágenes | Fotografías reales del negocio en WebP, recortadas a 4:5 y reemplazables desde el panel |
 | Datos de contacto y dirección | Provisionales, editables desde el panel |
 
 No se afirma que el sitio esté publicado: el repositorio incluye el workflow y la

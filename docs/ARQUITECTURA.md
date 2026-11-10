@@ -141,8 +141,9 @@ radio de cobertura, tarifas por rango, métodos de pago, costo de extras y texto
   para exponer sin depender de la red del aula.
 - **Datos bilingües** dentro del mismo documento (`{ es, en }`) para evitar colecciones extra.
 - **Sin pasarela de pago** en esta entrega: se documenta como mejora futura.
-- **Imágenes ilustrativas SVG** generadas para el proyecto; el administrador puede sustituirlas
-  por fotografías propias desde el panel. No se presentan como fotos reales del producto.
+- **Fotografías reales del negocio** integradas en WebP (4:5, 600 × 750 px) y collages
+  para los combos. El administrador puede sustituirlas desde el panel; el detalle está
+  en [`FOTOS.md`](FOTOS.md).
 
 ## 8. Riesgos y limitaciones conocidas
 
