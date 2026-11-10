@@ -14,7 +14,10 @@ import {
 import { SEED_PRODUCTS, DEFAULT_SETTINGS } from '../../../shared/catalog.js';
 import { buildReply } from '../../../shared/aiEngine.js';
 
-const KEY = 'lemonate.demo.v1';
+const KEY = 'lemonate.demo.v2';
+// Versiones anteriores del catálogo de demostración: se descartan al sembrar
+// la nueva para que no queden productos retirados (mango, maracuyá, granizados).
+const LEGACY_KEYS = ['lemonate.demo.v1'];
 const TOKEN_KEY = 'lemonate.demo.token';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
@@ -48,6 +51,13 @@ function write(db) {
 }
 
 function seed() {
+  for (const legacy of LEGACY_KEYS) {
+    try {
+      localStorage.removeItem(legacy);
+    } catch {
+      /* almacenamiento no disponible */
+    }
+  }
   const db = {
     products: SEED_PRODUCTS.map((p, i) => ({ ...clone(p), _id: `p_${String(i + 1).padStart(2, '0')}` })),
     users: [
@@ -191,7 +201,7 @@ export const localBackend = {
       category: payload.category || 'limonadas',
       price: Number(payload.price) || 0,
       stock: Number(payload.stock) || 0,
-      image: payload.image || 'products/limonada-natural.svg',
+      image: payload.image || 'products/fotos/limonada-natural.webp',
       customizable: Boolean(payload.customizable),
       tags: payload.tags || [],
       featured: Boolean(payload.featured),

@@ -55,7 +55,7 @@ const T = {
     en: 'Customizable drinks come in 12 oz (small), 16 oz (medium, +$2,000) and 22 oz (large, +$4,000). You also choose ice, sugar and extras such as fruit, mint or cream.',
   },
   allergens: {
-    es: 'Los postres y bebidas cremosas pueden contener leche, gluten y huevo. Las limonadas clásicas y los granizados son sin lácteos. Si tienes una alergia, escríbenos por WhatsApp antes de pedir.',
+    es: 'Los postres y bebidas cremosas pueden contener leche, gluten y huevo. Las limonadas clásicas son sin lácteos. Si tienes una alergia, escríbenos por WhatsApp antes de pedir.',
     en: 'Desserts and creamy drinks may contain milk, gluten and egg. Classic lemonades and slushies are dairy free. If you have an allergy, message us on WhatsApp before ordering.',
   },
   fallback: {
@@ -93,6 +93,10 @@ const FLAVOR_MAP = [
   { keys: ['chocolate', 'brownie'], tags: ['chocolate'], terms: ['brownie', 'chocolate'] },
   { keys: ['hierbabuena', 'menta', 'mint'], tags: ['hierbas'], terms: ['hierbabuena'] },
   { keys: ['panela'], tags: ['tradicional'], terms: ['panela'] },
+  { keys: ['brasileña', 'brasilena', 'brazilian', 'condensada'], tags: ['cremoso', 'dulce'], terms: ['brasilena'] },
+  { keys: ['cereza', 'cherry'], tags: ['frutal', 'dulce'], terms: ['cereza'] },
+  { keys: ['sandia', 'watermelon'], tags: ['frutal', 'refrescante'], terms: ['sandia'] },
+  { keys: ['maracumango'], tags: ['tropical', 'dulce'], terms: ['maracumango'] },
   { keys: ['acido', 'agrio', 'sour'], tags: ['acido'], terms: [] },
   { keys: ['dulce', 'sweet'], tags: ['dulce'], terms: [] },
   { keys: ['cremoso', 'creamy'], tags: ['cremoso'], terms: [] },

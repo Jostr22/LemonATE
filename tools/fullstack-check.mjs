@@ -140,7 +140,7 @@ check('IA consulta el catÃ¡logo de MongoDB', /coco/i.test(chat), chat.slice(-1
 
 const failed = results.filter((ok) => !ok).length;
 console.log(`\n${results.length - failed}/${results.length} comprobaciones full stack`);
-console.log(`Modo demostraciÃ³n activo: ${await evaluate(`localStorage.getItem('lemonate.demo.v1') ? 'sÃ­' : 'no'`)}`);
+console.log(`Modo demostraciÃ³n activo: ${await evaluate(`localStorage.getItem('lemonate.demo.v2') ? 'sÃ­' : 'no'`)}`);
 
 ws.close();
 chrome.kill();
