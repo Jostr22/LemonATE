@@ -2281,3 +2281,94 @@ tbody tr:hover {
   border-radius: calc(var(--radius-lg) - 10px);
 }
 
+/* =========================================================
+   Animaciones sutiles (solo transform/opacity, sin layout)
+   ========================================================= */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bubble-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes tab-pop {
+  0% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.grid--products > *,
+.grid--4 > .product-card,
+.grid--4 > .cat-tile {
+  animation: card-in 480ms var(--ease) both;
+}
+
+.grid--products > *:nth-child(2),
+.grid--4 > *:nth-child(2) {
+  animation-delay: 55ms;
+}
+
+.grid--products > *:nth-child(3),
+.grid--4 > *:nth-child(3) {
+  animation-delay: 110ms;
+}
+
+.grid--products > *:nth-child(4),
+.grid--4 > *:nth-child(4) {
+  animation-delay: 165ms;
+}
+
+.grid--products > *:nth-child(5) {
+  animation-delay: 200ms;
+}
+
+.grid--products > *:nth-child(6) {
+  animation-delay: 235ms;
+}
+
+.grid--products > *:nth-child(7) {
+  animation-delay: 265ms;
+}
+
+.grid--products > *:nth-child(8) {
+  animation-delay: 290ms;
+}
+
+.cta-banner__art span:nth-child(1) {
+  animation: bubble-float 11s ease-in-out infinite;
+}
+
+.cta-banner__art span:nth-child(2) {
+  animation: bubble-float 9s ease-in-out infinite reverse;
+}
+
+.menu-tabs a.is-active {
+  animation: tab-pop 240ms var(--ease);
+}
+
+.cat-tile__cta svg,
+.link-arrow svg {
+  transition: transform var(--fast) var(--ease);
+}
+
+.cat-tile:hover .cat-tile__cta svg,
+.link-arrow:hover svg {
+  transform: translateX(4px);
+}
