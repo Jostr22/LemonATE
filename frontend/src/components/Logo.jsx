@@ -5,10 +5,10 @@ export default function Logo({ compact = false }) {
     <Link to="/" className={`logo${compact ? ' logo--compact' : ''}`} aria-label="LemonATE — Exprime el momento">
       <img
         className="logo__img"
-        src={`${import.meta.env.BASE_URL}brand/logo-header-a.jpg`}
+        src={`${import.meta.env.BASE_URL}brand/logo-wordmark.webp`}
         alt="LemonATE — Exprime el momento"
-        width="700"
-        height="230"
+        width="620"
+        height="149"
       />
     </Link>
   );

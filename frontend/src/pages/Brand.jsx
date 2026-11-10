@@ -44,7 +44,7 @@ export default function Brand() {
           </Link>
         </div>
         <div className="frame brand-logo-frame">
-          <img src="./brand/logo-lemonate.jpg" alt="Logo oficial de LemonATE" width="1200" height="743" />
+          <img src="./brand/logo-lemonate.webp" alt="Logo oficial de LemonATE" width="820" height="498" />
         </div>
       </div>
 

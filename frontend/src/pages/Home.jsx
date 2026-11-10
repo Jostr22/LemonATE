@@ -2,31 +2,30 @@ import { Link } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import { CATEGORIES } from '../../../shared/catalog.js';
 import { IconArrow, IconSpark, IconWhatsapp } from '../components/Icons.jsx';
 
-const CATEGORY_META = {
-  limonadas: { image: './products/limonada-maracuya.svg', className: 'cat-tile--lemon' },
-  especiales: { image: './products/frappe-caramelo.svg', className: 'cat-tile--purple' },
-  postres: { image: './products/cupcake-limon.svg', className: 'cat-tile--cream' },
-  combos: { image: './products/combo-fiesta.svg', className: 'cat-tile--lime' },
+const TILE_CLASS = {
+  limonadas: 'cat-tile--lemon',
+  especiales: 'cat-tile--purple',
+  postres: 'cat-tile--cream',
+  combos: 'cat-tile--lime',
 };
 
 export default function Home() {
-  const { t } = useLang();
+  const { t, pick } = useLang();
   const { products, featured, settings, loading } = useStore();
 
-  const categories = [
-    { id: 'limonadas', label: t('nav.lemonades') },
-    { id: 'especiales', label: t('nav.special') },
-    { id: 'postres', label: t('nav.desserts') },
-    { id: 'combos', label: t('nav.combos') },
-  ].map((category) => ({
+  const categories = CATEGORIES.map((category) => ({
     ...category,
+    label: pick(category.name),
+    className: TILE_CLASS[category.id],
     count: products.filter((product) => product.category === category.id).length,
-    ...CATEGORY_META[category.id],
   }));
 
-  const favorites = (featured?.length ? featured : products).filter((product) => product.active !== false).slice(0, 4);
+  const favorites = (featured?.length ? featured : products)
+    .filter((product) => product.active !== false)
+    .slice(0, 4);
   const whatsappNumber = String(settings?.contact?.whatsapp || '').replace(/\D/g, '');
   const whatsapp = whatsappNumber ? `https://wa.me/${whatsappNumber}` : '/contacto';
 
@@ -71,14 +70,22 @@ export default function Home() {
 
           <div className="hero__visual">
             <span className="hero__burst" aria-hidden="true" />
-            <div className="hero__logo-card">
+            <div className="hero__photo">
               <img
-                src={`${import.meta.env.BASE_URL}brand/logo-lemonate.jpg`}
-                alt="Logo de LemonATE: Exprime el momento"
+                src={`${import.meta.env.BASE_URL}brand/hero-limonada.webp`}
+                alt={t('home.photoAlt')}
                 width="1200"
-                height="743"
+                height="900"
+                fetchPriority="high"
               />
             </div>
+            <img
+              className="hero__stamp"
+              src={`${import.meta.env.BASE_URL}brand/logo-lemonate.webp`}
+              alt="LemonATE — Exprime el momento"
+              width="820"
+              height="500"
+            />
             <span className="hero__chip hero__chip--1">{t('home.heroChip1')}</span>
             <span className="hero__chip hero__chip--2">{t('hero.sticker1')}</span>
             <span className="hero__chip hero__chip--3">{t('home.heroChip2')}</span>
@@ -113,8 +120,9 @@ export default function Home() {
               to={`/tienda/${category.id}`}
               key={category.id}
               className={`cat-tile ${category.className}`}
+              style={{ '--tile-tone': category.tone }}
             >
-              <img src={category.image} alt="" loading="lazy" width="800" height="680" />
+              <img src={category.image} alt="" loading="lazy" width="600" height="750" />
               <span className="cat-tile__shade" aria-hidden="true" />
               <span className="cat-tile__count">{String(category.count).padStart(2, '0')}</span>
               <span className="cat-tile__body">
@@ -150,6 +158,38 @@ export default function Home() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* ---------- Ambiente de marca ---------- */}
+      <section className="section--tight shell">
+        <div className="brand-band">
+          <div className="brand-band__copy">
+            <span className="eyebrow">{t('home.brandKicker')}</span>
+            <h2>{t('home.brandTitle')}</h2>
+            <p>{t('home.brandLead')}</p>
+            <Link to="/marca" className="btn btn--dark">
+              {t('home.brandCta')} <IconArrow />
+            </Link>
+          </div>
+          <div className="brand-band__gallery">
+            <img
+              className="brand-band__shot brand-band__shot--wide"
+              src={`${import.meta.env.BASE_URL}brand/ambiente-1.webp`}
+              alt={t('home.brandAlt1')}
+              loading="lazy"
+              width="900"
+              height="900"
+            />
+            <img
+              className="brand-band__shot brand-band__shot--tall"
+              src={`${import.meta.env.BASE_URL}brand/ambiente-2.webp`}
+              alt={t('home.brandAlt2')}
+              loading="lazy"
+              width="640"
+              height="800"
+            />
+          </div>
+        </div>
       </section>
 
       {/* ---------- CTA ---------- */}

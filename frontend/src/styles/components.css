@@ -127,10 +127,8 @@
 
 .logo__img {
   width: auto;
-  height: 56px;
-  border-radius: 10px;
-  /* El logo fue diseñado sobre negro: screen lo funde con el header oscuro. */
-  mix-blend-mode: screen;
+  height: 42px;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45));
 }
 
 .logo--compact .logo__img {
@@ -326,52 +324,8 @@
 
 .hero__visual {
   position: relative;
-  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-}
-
-.hero__disc {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--chrome-sheen);
-  opacity: 0.12;
-  position: absolute;
-  inset: 0;
-  animation: spin-slow 42s linear infinite;
-}
-
-.hero__lemon {
-  width: 74%;
-  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.6));
-}
-
-.hero__sticker {
-  position: absolute;
-  padding: 0.6rem 1rem;
-  background: var(--acid);
-  color: var(--ink);
-  border-radius: var(--radius-pill);
-  font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transform: rotate(-8deg);
-  box-shadow: var(--shadow-card);
-}
-
-.hero__sticker--1 {
-  top: 6%;
-  right: 2%;
-}
-
-.hero__sticker--2 {
-  bottom: 8%;
-  left: 0;
-  background: var(--purple);
-  color: var(--cream);
-  transform: rotate(6deg);
 }
 
 /* ---------- Marquee ---------- */
@@ -422,8 +376,8 @@
 
 .product-card__media {
   position: relative;
-  aspect-ratio: 4 / 3.4;
-  background: #0f1112;
+  aspect-ratio: 4 / 4.6;
+  background: linear-gradient(160deg, #fff8dd 0%, #ffe9a8 100%);
   overflow: hidden;
 }
 
@@ -432,6 +386,14 @@
   height: 100%;
   object-fit: cover;
   transition: transform 600ms var(--ease);
+}
+
+.product-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 -34px 40px -34px rgba(23, 25, 26, 0.45);
 }
 
 .product-card:hover .product-card__media img {
@@ -1651,6 +1613,8 @@ tbody tr:hover {
 
 .hero--citrus h1 {
   color: var(--ink);
+  font-size: clamp(2.3rem, 1.1rem + 4.4vw, 5.4rem);
+  line-height: 0.9;
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.25);
 }
 
@@ -1712,15 +1676,18 @@ tbody tr:hover {
 
 .hero__visual {
   position: relative;
-  aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
+  width: 100%;
+  max-width: 560px;
+  justify-self: end;
+  padding-bottom: 3.4rem;
   isolation: isolate;
 }
 
 .hero__burst {
   position: absolute;
-  width: 94%;
+  width: 86%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 28%, #fffbe0 0%, var(--lemon) 46%, var(--lemon-deep) 100%);
@@ -1729,24 +1696,50 @@ tbody tr:hover {
   z-index: -1;
 }
 
-.hero__logo-card {
+.hero__photo {
   position: relative;
   z-index: 1;
-  width: min(100%, 470px);
+  width: 100%;
+  max-width: 520px;
   padding: 10px;
-  border-radius: 28px;
-  background: #050606;
-  border: 3px solid var(--ink);
+  border-radius: 30px;
+  background: #fffdf5;
+  border: 2px solid rgba(23, 25, 26, 0.85);
   box-shadow:
-    0 30px 60px -22px rgba(23, 25, 26, 0.6),
-    0 0 0 10px rgba(255, 255, 255, 0.35);
-  transform: rotate(-3deg);
+    0 34px 60px -24px rgba(23, 25, 26, 0.55),
+    0 0 0 12px rgba(255, 255, 255, 0.32);
+  transform: rotate(-2deg);
 }
 
-.hero__logo-card img {
+.hero__photo img {
+  display: block;
   width: 100%;
   height: auto;
-  border-radius: 20px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 22px;
+}
+
+.hero__stamp {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  left: -3%;
+  width: min(68%, 360px);
+  height: auto;
+  transform: rotate(-3deg);
+  filter: drop-shadow(0 18px 26px rgba(23, 25, 26, 0.42));
+  animation: stamp-float 7s ease-in-out infinite;
+}
+
+@keyframes stamp-float {
+  0%,
+  100% {
+    transform: rotate(-3deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-2deg) translateY(-9px);
+  }
 }
 
 .hero__chip {
@@ -1790,7 +1783,7 @@ tbody tr:hover {
 .cat-tile {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 4.7;
+  aspect-ratio: 4 / 5;
   border-radius: 24px;
   overflow: hidden;
   isolation: isolate;
@@ -1800,8 +1793,8 @@ tbody tr:hover {
 }
 
 .cat-tile:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 28px 50px -26px rgba(0, 0, 0, 0.95);
+  transform: translateY(-6px);
+  box-shadow: 0 30px 52px -26px rgba(0, 0, 0, 0.95);
 }
 
 .cat-tile img {
@@ -1811,11 +1804,12 @@ tbody tr:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 40%;
   transition: transform 700ms var(--ease);
 }
 
 .cat-tile:hover img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
 .cat-tile__shade {
@@ -1844,7 +1838,7 @@ tbody tr:hover {
 }
 
 .cat-tile__body h3 {
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   margin: 0;
 }
 
@@ -1859,7 +1853,9 @@ tbody tr:hover {
 }
 
 .cat-tile--lemon .cat-tile__shade {
-  background: linear-gradient(180deg, rgba(255, 225, 77, 0.05) 0%, rgba(255, 196, 0, 0.92) 78%);
+  background:
+    radial-gradient(circle at 80% 12%, rgba(255, 255, 255, 0.4), transparent 45%),
+    linear-gradient(180deg, rgba(255, 225, 77, 0) 32%, rgba(255, 196, 0, 0.96) 82%);
 }
 
 .cat-tile--lemon {
@@ -1867,11 +1863,15 @@ tbody tr:hover {
 }
 
 .cat-tile--purple .cat-tile__shade {
-  background: linear-gradient(180deg, rgba(132, 57, 184, 0.08) 0%, rgba(82, 24, 120, 0.94) 78%);
+  background:
+    radial-gradient(circle at 80% 12%, rgba(183, 255, 0, 0.22), transparent 45%),
+    linear-gradient(180deg, rgba(132, 57, 184, 0) 32%, rgba(74, 20, 110, 0.96) 82%);
 }
 
 .cat-tile--cream .cat-tile__shade {
-  background: linear-gradient(180deg, rgba(255, 201, 168, 0.05) 0%, rgba(255, 143, 94, 0.92) 78%);
+  background:
+    radial-gradient(circle at 80% 12%, rgba(255, 255, 255, 0.45), transparent 45%),
+    linear-gradient(180deg, rgba(255, 201, 168, 0) 32%, rgba(255, 137, 84, 0.96) 82%);
 }
 
 .cat-tile--cream {
@@ -1879,11 +1879,72 @@ tbody tr:hover {
 }
 
 .cat-tile--lime .cat-tile__shade {
-  background: linear-gradient(180deg, rgba(183, 255, 0, 0.04) 0%, rgba(183, 255, 0, 0.94) 78%);
+  background:
+    radial-gradient(circle at 80% 12%, rgba(255, 255, 255, 0.35), transparent 45%),
+    linear-gradient(180deg, rgba(183, 255, 0, 0) 32%, rgba(150, 222, 0, 0.96) 82%);
 }
 
 .cat-tile--lime {
   color: var(--ink);
+}
+
+/* ---------- Banda de ambiente de marca ---------- */
+.brand-band {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(1.4rem, 3vw, 2.6rem);
+  align-items: center;
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(183, 255, 0, 0.16), transparent 46%),
+    linear-gradient(135deg, #221a2c 0%, #17191a 60%);
+  border: 1px solid var(--ink-line);
+}
+
+.brand-band__copy h2 {
+  font-size: var(--step-3);
+  margin-bottom: var(--space-2);
+}
+
+.brand-band__copy p {
+  max-width: 46ch;
+  margin-bottom: var(--space-3);
+}
+
+.brand-band__gallery {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0.7rem;
+  align-items: end;
+}
+
+.brand-band__shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid rgba(244, 243, 234, 0.16);
+  transition: transform 500ms var(--ease);
+}
+
+.brand-band__shot--wide {
+  aspect-ratio: 1 / 1;
+}
+
+.brand-band__shot--tall {
+  aspect-ratio: 4 / 5;
+  transform: translateY(0.9rem);
+}
+
+.brand-band__gallery:hover .brand-band__shot--wide {
+  transform: scale(1.02) rotate(-1deg);
+}
+
+.brand-band__gallery:hover .brand-band__shot--tall {
+  transform: translateY(0.9rem) scale(1.02) rotate(1deg);
 }
 
 /* ---------- P�gina de men� con pesta�as ---------- */
@@ -2126,6 +2187,9 @@ tbody tr:hover {
     margin-inline: auto;
     width: 100%;
   }
+  .brand-band {
+    grid-template-columns: 1fr;
+  }
   .cta-banner {
     grid-template-columns: 1fr;
   }
@@ -2140,11 +2204,13 @@ tbody tr:hover {
     --header-h: 74px;
   }
   .logo__img {
-    height: 46px;
+    height: 34px;
   }
-  .hero__logo-card {
-    width: min(100%, 340px);
-    transform: rotate(-2deg);
+  .hero__photo {
+    width: min(100%, 320px);
+  }
+  .hero__stamp {
+    width: min(92%, 300px);
   }
   .hero__chip {
     font-size: 0.58rem;
@@ -2157,7 +2223,11 @@ tbody tr:hover {
     right: 0;
   }
   .cat-tile {
-    aspect-ratio: 4 / 4.2;
+    aspect-ratio: 4 / 4.6;
+  }
+  .brand-band {
+    grid-template-columns: 1fr;
+    border-radius: 24px;
   }
   .menu-tabs {
     position: static;
@@ -2210,3 +2280,4 @@ tbody tr:hover {
 .brand-logo-frame img {
   border-radius: calc(var(--radius-lg) - 10px);
 }
+
