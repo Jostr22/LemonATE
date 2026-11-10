@@ -61,7 +61,7 @@ export default function ProductCard({ product }) {
       </button>
 
       <Link to={`/producto/${product._id}`} className="product-card__media" tabIndex={-1} aria-hidden="true">
-        <img src={product.image} alt={pick(product.name)} loading="lazy" width="400" height="340" />
+        <img src={product.image} alt={pick(product.name)} loading="lazy" width="600" height="750" />
       </Link>
 
       <div className="product-card__body">

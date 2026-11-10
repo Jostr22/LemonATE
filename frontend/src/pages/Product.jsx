@@ -107,7 +107,7 @@ export default function Product() {
       <div className="pdp">
         <div>
           <div className="pdp__media">
-            <img src={product.image} alt={pick(product.name)} width="800" height="680" />
+            <img src={product.image} alt={pick(product.name)} width="600" height="750" />
           </div>
           <p className="tiny muted" style={{ marginTop: '0.6rem' }}>
             {t('product.deliveryNote')}

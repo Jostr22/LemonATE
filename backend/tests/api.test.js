@@ -200,7 +200,7 @@ describe('LemonATE API', () => {
         category: 'limonadas',
         price: 9500,
         stock: 12,
-        image: 'products/limonada-natural.svg',
+        image: 'products/fotos/limonada-natural.webp',
         customizable: true,
       });
 

@@ -13,7 +13,7 @@ const EMPTY_PRODUCT = {
   category: 'limonadas',
   price: 9000,
   stock: 10,
-  image: 'products/limonada-natural.svg',
+  image: 'products/fotos/limonada-natural.webp',
   featured: false,
   customizable: true,
   active: true,

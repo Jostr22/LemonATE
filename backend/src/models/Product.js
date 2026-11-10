@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema(
     },
     price: { type: Number, required: true, min: 0 },
     stock: { type: Number, required: true, min: 0, default: 0 },
-    image: { type: String, required: true, default: 'products/limonada-natural.svg' },
+    image: { type: String, required: true, default: 'products/fotos/limonada-natural.webp' },
     customizable: { type: Boolean, default: false },
     tags: { type: [String], default: [] },
     featured: { type: Boolean, default: false },
