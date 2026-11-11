@@ -17,6 +17,11 @@ export const env = {
     email: process.env.ADMIN_EMAIL || 'admin@lemonate.com',
     password: process.env.ADMIN_PASSWORD || 'LemonATE2026',
   },
+  notifications: {
+    ownerEmail: process.env.OWNER_NOTIFICATION_EMAIL || 'amilkar0322@gmail.com',
+    resendApiKey: process.env.RESEND_API_KEY || '',
+    fromEmail: process.env.NOTIFICATION_FROM_EMAIL || 'LemonATE <onboarding@resend.dev>',
+  },
   paymentsMode: process.env.PAYMENTS_MODE || 'demo',
 };
 

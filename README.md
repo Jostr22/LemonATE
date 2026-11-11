@@ -68,6 +68,22 @@ En `.env` del frontend:
 - `VITE_DEMO_MODE=true` para que la tienda funcione sin backend usando
   almacenamiento local del navegador (modo demostración para GitHub Pages).
 
+### 3. Aviso de pedidos nuevos al dueño
+
+El panel administrativo consulta pedidos cada 20 segundos y puede mostrar una
+notificación del navegador mientras esté abierto. Para recibir un correo incluso
+con el panel cerrado, configura en el backend:
+
+```env
+OWNER_NOTIFICATION_EMAIL=amilkar0322@gmail.com
+RESEND_API_KEY=re_...
+NOTIFICATION_FROM_EMAIL=LemonATE <onboarding@resend.dev>
+```
+
+`RESEND_API_KEY` se crea en [Resend](https://resend.com/api-keys). Si usas un
+dominio propio, verifícalo y cambia `NOTIFICATION_FROM_EMAIL`. Sin clave, el
+pedido se crea igual y el aviso queda disponible en **Admin → Pedidos**.
+
 ## Despliegue
 
 | Parte | Plataforma | Notas |

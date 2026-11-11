@@ -142,6 +142,52 @@ for (const [hash, name, marker] of routes) {
   check(`Ruta ${name}`, text.includes(marker), errors.length ? errors.slice(0, 2).join(' | ') : '');
 }
 
+// ---------- marca y medios de pago ----------
+const brandText = await goto('#/marca');
+check(
+  'Fundador visible en la marca',
+  /amilkar josé castro martínez/i.test(brandText) && brandText.includes('amilkar0322@gmail.com'),
+  ''
+);
+check('Sin pago con tarjeta en el pie', !brandText.includes('Contra entrega'), '');
+
+// ---------- flujo demo: combo con contenido elegido ----------
+await goto('#/tienda/combos');
+const comboHref = await evaluate(
+  `document.querySelector('a[href*="/producto/"]')?.getAttribute('href') || ''`
+);
+if (comboHref) {
+  await goto(comboHref.includes('#') ? comboHref.slice(comboHref.indexOf('#')) : comboHref);
+  const comboFilled = await evaluate(`
+    (() => {
+      const selects = [...document.querySelectorAll('.pdp select')];
+      const setSelect = (select, value) => {
+        Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(select, value);
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+      selects.forEach((select, index) => {
+        const option = index === 0
+          ? 'limonada-fresa'
+          : index === 1
+            ? 'cheesecake-limon'
+            : select.options[0]?.value;
+        if (option) setSelect(select, option);
+      });
+      document.querySelector('.pdp .btn.grow')?.click();
+      return selects.length;
+    })()
+  `);
+  await sleep(700);
+  const cartText = await evaluate(`document.querySelector('.cart-drawer')?.innerText || ''`);
+  check(
+    'Combo con contenido elegido',
+    comboFilled >= 2 && /Limonada de fresa/.test(cartText) && /Cheesecake de limón/.test(cartText),
+    cartText.slice(0, 180)
+  );
+  await evaluate(`localStorage.removeItem('lemonate.cart.v1'); location.reload()`);
+  await sleep(900);
+}
+
 // ---------- flujo demo: login admin ----------
 await goto('#/login');
 await evaluate(`
@@ -215,6 +261,19 @@ if (!/Pedido recibido/.test(text)) {
   console.log('--- texto del checkout ---');
   console.log(text.slice(0, 1200));
 }
+
+// ---------- flujo demo: el admin ve el contenido del pedido ----------
+await goto('#/admin');
+await evaluate(
+  `[...document.querySelectorAll('.tabs button')].find(b => b.textContent.includes('Pedidos'))?.click()`
+);
+await sleep(900);
+const adminOrdersText = await evaluate('document.body.innerText');
+check(
+  'Admin ve productos del pedido',
+  /Limonada/i.test(adminOrdersText) && /Nequi/.test(adminOrdersText),
+  ''
+);
 
 // ---------- IA ----------
 await goto('#/');

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { api } from '../services/api.js';
@@ -29,29 +29,85 @@ export default function Admin() {
   const [feedback, setFeedback] = useState(null);
   const [error, setError] = useState(null);
   const [settingsForm, setSettingsForm] = useState(null);
+  const [newOrderCount, setNewOrderCount] = useState(0);
+  const [notifyPermission, setNotifyPermission] = useState(() =>
+    typeof Notification === 'undefined' ? 'unsupported' : Notification.permission
+  );
+  const knownOrderIds = useRef(null);
 
-  const loadOrders = () =>
-    api
-      .listOrders()
-      .then(setOrders)
-      .catch((err) => setError(err.message));
+  const loadOrders = useCallback(
+    async ({ silent = false } = {}) => {
+      try {
+        const list = await api.listOrders();
 
-  const loadMessages = () =>
-    api
-      .listMessages()
-      .then(setMessages)
-      .catch((err) => setError(err.message));
+        if (knownOrderIds.current) {
+          const fresh = list.filter((order) => !knownOrderIds.current.has(order._id));
+          if (fresh.length > 0) {
+            setNewOrderCount((count) => count + fresh.length);
+            if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+              try {
+                const first = fresh[0];
+                const browserNotice = new Notification(
+                  `${t('admin.newOrders', { count: fresh.length })} · ${first.code}`,
+                  {
+                    body: `${first.customer?.name || ''} · ${formatCOP(first.total, lang)}`,
+                    tag: `lemonate-order-${first._id}`,
+                  }
+                );
+                browserNotice.onclick = () => {
+                  window.focus();
+                  setTab('orders');
+                };
+              } catch {
+                /* algunos navegadores bloquean la API sin HTTPS */
+              }
+            }
+          }
+        }
+
+        knownOrderIds.current = new Set(list.map((order) => order._id));
+        setOrders(list);
+        if (!silent) setError(null);
+      } catch (err) {
+        if (!silent) setError(err.message);
+      }
+    },
+    [lang, t]
+  );
+
+  const loadMessages = useCallback(
+    () =>
+      api
+        .listMessages()
+        .then(setMessages)
+        .catch((err) => setError(err.message)),
+    []
+  );
 
   useEffect(() => {
     loadOrders();
     loadMessages();
-  }, []);
+    const timer = window.setInterval(() => loadOrders({ silent: true }), 20000);
+    return () => window.clearInterval(timer);
+  }, [loadOrders, loadMessages]);
+
+  const requestNotificationPermission = async () => {
+    if (typeof Notification === 'undefined') return;
+    try {
+      const permission = await Notification.requestPermission();
+      setNotifyPermission(permission);
+    } catch {
+      setNotifyPermission('denied');
+    }
+  };
 
   useEffect(() => {
     if (settings) {
       setSettingsForm({
         whatsapp: settings.contact?.whatsapp || '',
         email: settings.contact?.email || '',
+        founderName: settings.founder?.name || '',
+        founderEmail: settings.founder?.email || '',
         instagram: settings.contact?.instagram || '',
         tiktok: settings.contact?.tiktok || '',
         businessAddress: settings.delivery?.businessAddress || '',
@@ -138,6 +194,11 @@ export default function Admin() {
     setError(null);
     try {
       const updated = await api.updateSettings({
+        founder: {
+          ...settings.founder,
+          name: settingsForm.founderName,
+          email: settingsForm.founderEmail,
+        },
         contact: {
           ...settings.contact,
           whatsapp: settingsForm.whatsapp,
@@ -186,10 +247,33 @@ export default function Admin() {
 
       {feedback && <div className="notice notice--ok">{feedback}</div>}
       {error && <div className="notice notice--error">{error}</div>}
+      {newOrderCount > 0 && (
+        <div className="notice notice--ok">
+          <span>{t('admin.newOrders', { count: newOrderCount })}</span>{' '}
+          <button
+            type="button"
+            className="btn btn--sm btn--ghost"
+            onClick={() => {
+              setTab('orders');
+              setNewOrderCount(0);
+            }}
+          >
+            {t('admin.viewOrders')}
+          </button>
+        </div>
+      )}
 
       <div className="tabs" role="tablist">
         {['dashboard', 'products', 'orders', 'messages', 'settings'].map((item) => (
-          <button key={item} role="tab" aria-selected={tab === item} onClick={() => setTab(item)}>
+          <button
+            key={item}
+            role="tab"
+            aria-selected={tab === item}
+            onClick={() => {
+              setTab(item);
+              if (item === 'orders') setNewOrderCount(0);
+            }}
+          >
             {t(`admin.${item === 'dashboard' ? 'title' : item}`)}
           </button>
         ))}
@@ -288,6 +372,43 @@ export default function Admin() {
 
       {tab === 'orders' && (
         <>
+          <div
+            className={`notice ${
+              notifyPermission === 'granted'
+                ? 'notice--ok'
+                : notifyPermission === 'denied'
+                  ? 'notice--error'
+                  : 'notice--warn'
+            }`}
+          >
+            <div className="row" style={{ justifyContent: 'space-between' }}>
+              <div>
+                <strong>{t('admin.notifications')}</strong>
+                <div className="tiny">
+                  {notifyPermission === 'granted'
+                    ? t('admin.notificationsOn')
+                    : notifyPermission === 'denied'
+                      ? t('admin.notificationsBlocked')
+                      : t('admin.notificationsOff')}
+                </div>
+              </div>
+              {notifyPermission === 'default' && (
+                <button
+                  type="button"
+                  className="btn btn--sm"
+                  onClick={requestNotificationPermission}
+                >
+                  {t('admin.enableNotifications')}
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="tiny muted">
+            {t('admin.emailNotifications', {
+              email: settings?.founder?.email || settings?.contact?.email || '—',
+            })}
+          </p>
+
           {orders.length === 0 ? (
             <div className="empty">{t('account.emptyOrders')}</div>
           ) : (
@@ -298,6 +419,7 @@ export default function Admin() {
                     <th>{t('admin.code')}</th>
                     <th>{t('admin.date')}</th>
                     <th>{t('admin.customer')}</th>
+                    <th>{t('admin.items')}</th>
                     <th>{t('admin.total')}</th>
                     <th>{t('admin.status')}</th>
                     <th>{t('admin.changeStatus')}</th>
@@ -311,6 +433,22 @@ export default function Admin() {
                       <td className="tiny">
                         {order.customer?.name}
                         <div className="muted">{order.customer?.phone}</div>
+                        <div className="muted">{order.address?.line}</div>
+                      </td>
+                      <td className="tiny" style={{ minWidth: 190 }}>
+                        {order.items?.map((item, index) => (
+                          <div key={`${item.productId}-${index}`} style={{ marginBottom: '0.35rem' }}>
+                            {item.qty}× {pick(item.name)}
+                            {item.comboLabel && (
+                              <span className="muted" style={{ display: 'block' }}>
+                                {pick(item.comboLabel)}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                        <span className="muted">
+                          {t('checkout.payment')}: {t(`payment.${order.paymentMethod}`)}
+                        </span>
                       </td>
                       <td className="tiny">{formatCOP(order.total, lang)}</td>
                       <td><span className={`status ${statusClass(order.status)}`}>{t(`status.${order.status}`)}</span></td>
@@ -388,6 +526,26 @@ export default function Admin() {
             <label className="field">
               <span>TikTok</span>
               <input value={settingsForm.tiktok} onChange={(event) => setSettingsForm((c) => ({ ...c, tiktok: event.target.value }))} />
+            </label>
+          </div>
+
+          <hr className="divider" />
+          <h4 style={{ marginBottom: '1rem' }}>{t('admin.founder')}</h4>
+          <div className="form-grid">
+            <label className="field">
+              <span>{t('admin.founderName')}</span>
+              <input
+                value={settingsForm.founderName}
+                onChange={(event) => setSettingsForm((c) => ({ ...c, founderName: event.target.value }))}
+              />
+            </label>
+            <label className="field">
+              <span>{t('admin.founderEmail')}</span>
+              <input
+                type="email"
+                value={settingsForm.founderEmail}
+                onChange={(event) => setSettingsForm((c) => ({ ...c, founderEmail: event.target.value }))}
+              />
             </label>
           </div>
 

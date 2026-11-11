@@ -6,9 +6,12 @@ import {
   createOrder as createOrderService,
   restoreStock,
 } from '../services/orderService.js';
+import { notifyOwnerOfOrder } from '../services/ownerNotifier.js';
 
 export const createOrder = asyncHandler(async (req, res) => {
   const order = await createOrderService(req.body, req.user);
+  // El correo al dueño no bloquea ni hace fallar el pedido si falla el envío.
+  void notifyOwnerOfOrder(order);
   // El PIN solo se entrega al crear el pedido; después se exige junto con el código.
   res.status(201).json({ ...order.toPublic(), pin: order.pin });
 });
