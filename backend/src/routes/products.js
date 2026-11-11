@@ -6,14 +6,14 @@ import {
   removeProduct,
   updateProduct,
 } from '../controllers/productController.js';
-import { requireAdmin, requireAuth } from '../middleware/auth.js';
+import { optionalAuth, requireAdmin, requireAuth } from '../middleware/auth.js';
 import { productSchema } from '../middleware/validators.js';
 import { validateBody } from '../middleware/error.js';
 
 const router = Router();
 
-router.get('/', listProducts);
-router.get('/:id', getProduct);
+router.get('/', optionalAuth, listProducts);
+router.get('/:id', optionalAuth, getProduct);
 
 router.post('/', requireAuth, requireAdmin, validateBody(productSchema), createProduct);
 router.patch(

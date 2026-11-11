@@ -49,9 +49,9 @@ const remote = {
     const query = new URLSearchParams(
       Object.entries(params).filter(([, v]) => v !== undefined && v !== '' && v !== null)
     ).toString();
-    return request(`/products${query ? `?${query}` : ''}`);
+    return request(`/products${query ? `?${query}` : ''}`, { auth: true });
   },
-  getProduct: (id) => request(`/products/${id}`),
+  getProduct: (id) => request(`/products/${id}`, { auth: true }),
   createProduct: (payload) => request('/products', { method: 'POST', body: payload, auth: true }),
   updateProduct: (id, payload) => request(`/products/${id}`, { method: 'PATCH', body: payload, auth: true }),
   removeProduct: (id) => request(`/products/${id}`, { method: 'DELETE', auth: true }),

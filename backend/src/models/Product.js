@@ -35,7 +35,8 @@ const productSchema = new mongoose.Schema(
 
 productSchema.index({ 'name.es': 'text', 'name.en': 'text', tags: 'text' });
 
-productSchema.methods.toPublic = function toPublic() {
+productSchema.methods.toPublic = function toPublic({ includeStock = false } = {}) {
+  const availability = this.stock <= 0 ? 'soldout' : this.stock <= 5 ? 'low' : 'available';
   return {
     _id: this._id,
     slug: this.slug,
@@ -43,7 +44,8 @@ productSchema.methods.toPublic = function toPublic() {
     description: this.description,
     category: this.category,
     price: this.price,
-    stock: this.stock,
+    availability,
+    ...(includeStock ? { stock: this.stock } : {}),
     image: this.image,
     customizable: this.customizable,
     tags: this.tags,

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { api } from '../services/api.js';
+import { AI_CHIPS } from '../../../shared/aiEngine.js';
 import { IconChat, IconClose, IconSpark } from './Icons.jsx';
 
 export default function ChatWidget({ forceOpen = false }) {
@@ -54,10 +55,7 @@ export default function ChatWidget({ forceOpen = false }) {
     }
   };
 
-  const chips =
-    lang === 'en'
-      ? ['Recommend something', 'Sugar free?', 'Prices', 'Hours', 'Delivery']
-      : ['Recomiéndame algo', '¿Tienen sin azúcar?', 'Precios', 'Horarios', 'Domicilios'];
+  const chips = AI_CHIPS[lang] || AI_CHIPS.es;
 
   return (
     <>

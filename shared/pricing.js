@@ -1,6 +1,6 @@
 /**
  * Reglas de precio compartidas entre el frontend y el backend.
- * Se mantiene un único archivo para que el navegador (modo demostración)
+ * Se mantiene un único archivo para que el navegador (respaldo local)
  * y Express calculen exactamente lo mismo.
  */
 
@@ -22,17 +22,24 @@ export const SUGAR_OPTIONS = [
   { id: 'normal', delta: 0, label: { es: 'Normal', en: 'Regular' } },
 ];
 
-export const EXTRAS = [
-  { id: 'limon', price: 1000, label: { es: 'Extra limón', en: 'Extra lemon' } },
-  { id: 'hierbabuena', price: 1000, label: { es: 'Hierbabuena', en: 'Mint' } },
-  { id: 'fruta', price: 2000, label: { es: 'Fruta extra', en: 'Extra fruit' } },
-  { id: 'crema', price: 2500, label: { es: 'Topping de crema', en: 'Cream topping' } },
-  { id: 'chispas', price: 1500, label: { es: 'Chispas de chocolate', en: 'Chocolate chips' } },
-  { id: 'cafe', price: 2500, label: { es: 'Shot de café', en: 'Coffee shot' } },
+export const EXTRA_GROUPS = [
+  { id: 'frutas', label: { es: 'Frutas frescas', en: 'Fresh fruit' } },
+  { id: 'toppings', label: { es: 'Hierbas y toppings', en: 'Herbs and toppings' } },
 ];
 
+export const EXTRAS = [
+  { id: 'fresa', group: 'frutas', price: 2000, label: { es: 'Fresa', en: 'Strawberry' } },
+  { id: 'mango', group: 'frutas', price: 2000, label: { es: 'Mango', en: 'Mango' } },
+  { id: 'maracuya', group: 'frutas', price: 2000, label: { es: 'Maracuyá', en: 'Passion fruit' } },
+  { id: 'mora', group: 'frutas', price: 2000, label: { es: 'Mora', en: 'Blackberry' } },
+  { id: 'limon', group: 'toppings', price: 1000, label: { es: 'Limón extra', en: 'Extra lemon' } },
+  { id: 'hierbabuena', group: 'toppings', price: 1000, label: { es: 'Hierbabuena', en: 'Mint' } },
+  { id: 'crema', group: 'toppings', price: 2500, label: { es: 'Crema batida', en: 'Whipped cream' } },
+];
+
+
 export const DEFAULT_DELIVERY = {
-  businessAddress: 'Dirección provisional — configúrela en el panel',
+  businessAddress: 'Barranquilla, Atlántico, Colombia',
   maxKm: 12,
   ranges: [
     { maxKm: 2, fee: 3000 },
@@ -106,4 +113,22 @@ export function formatCOP(value, lang = 'es') {
     currency: 'COP',
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+const labelOf = (entry, lang) => entry?.label?.[lang] || entry?.label?.es || '';
+
+/** Texto legible para el carrito: "16 oz · Hielo normal · Sin azúcar · Fresa". */
+export function describeCustomization(customization = {}, lang = 'es') {
+  if (!customization?.size) return '';
+  const size = sizeById(customization.size);
+  const ice = ICE_OPTIONS.find((option) => option.id === customization.ice);
+  const sugar = SUGAR_OPTIONS.find((option) => option.id === customization.sugar);
+  const extras = (customization.extras || [])
+    .map((id) => extraById(id))
+    .filter(Boolean)
+    .map((extra) => labelOf(extra, lang));
+
+  return [size?.oz ? `${size.oz} oz` : '', labelOf(ice, lang), labelOf(sugar, lang), ...extras]
+    .filter(Boolean)
+    .join(' · ');
 }

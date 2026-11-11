@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useLang } from '../context/LangContext.jsx';
-import { formatCOP } from '../../../shared/pricing.js';
+import { describeCustomization, formatCOP } from '../../../shared/pricing.js';
 import { IconClose, IconTrash } from './Icons.jsx';
 
 export default function CartDrawer() {
@@ -37,11 +37,9 @@ export default function CartDrawer() {
                   <div>
                     <div className="cart-line__name">{pick(item.name)}</div>
                     <div className="cart-line__meta">
-                      {item.customizable && item.customization?.size
-                        ? `${item.customization.size} oz · ${item.customization.ice || ''} · ${item.customization.sugar || ''}`
+                      {item.customizable
+                        ? describeCustomization(item.customization, lang)
                         : item.category}
-                      {(item.customization?.extras || []).length > 0 &&
-                        ` · ${item.customization.extras.join(', ')}`}
                     </div>
                     <div className="cart-line__controls">
                       <div className="qty">

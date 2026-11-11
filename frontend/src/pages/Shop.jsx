@@ -50,7 +50,7 @@ export default function Shop({ mode = 'shop' }) {
       case 'name':
         return list.sort((a, b) => pick(a.name).localeCompare(pick(b.name)));
       default:
-        return list.sort((a, b) => Number(b.featured) - Number(a.featured) || b.stock - a.stock);
+        return list.sort((a, b) => Number(b.featured) - Number(a.featured) || Number(b.stock || 0) - Number(a.stock || 0));
     }
   }, [activeProducts, category, query, sort, isPromos, pick]);
 

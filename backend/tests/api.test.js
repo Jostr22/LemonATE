@@ -73,6 +73,24 @@ describe('LemonATE API', () => {
     assert.ok(response.body.every((product) => product.active !== false));
   });
 
+  it('oculta las existencias exactas y expone solo disponibilidad', async () => {
+    const publicList = await request(app).get('/api/products');
+    assert.equal(publicList.status, 200);
+    assert.ok(publicList.body.every((product) => product.stock === undefined));
+    assert.ok(
+      publicList.body.every((product) => ['available', 'low', 'soldout'].includes(product.availability))
+    );
+
+    const adminLogin = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'admin@test.com', password: 'LemonATE2026' });
+    const adminList = await request(app)
+      .get('/api/products?includeInactive=true')
+      .set('Authorization', `Bearer ${adminLogin.body.token}`);
+    assert.equal(adminList.status, 200);
+    assert.ok(adminList.body.every((product) => typeof product.stock === 'number'));
+  });
+
   it('registra un cliente y devuelve token', async () => {
     const response = await request(app).post('/api/auth/register').send({
       name: 'Cliente Prueba',
@@ -253,6 +271,31 @@ describe('LemonATE API', () => {
     for (const id of response.body.productIds) {
       assert.ok(await Product.exists({ _id: id }), 'El id recomendado debe existir');
     }
+    assert.doesNotMatch(response.body.reply, /\d+\s+disponibles/i);
+  });
+
+  it('resuelve preguntas frecuentes de la tienda', async () => {
+    const cases = [
+      ['¿A qué hora abren?', /Lunes a sábado/],
+      ['¿Hacen domicilios?', /domicilios/i],
+      ['¿Cómo puedo pagar?', /Nequi/],
+      ['Quiero consultar mi pedido', /Seguimiento/],
+      ['¿Cuánto vale la limonada de fresa?', /Limonada de fresa/],
+      ['Busco algo por 12000', /Opciones hasta/],
+    ];
+
+    for (const [message, expected] of cases) {
+      const response = await request(app).post('/api/ai/chat').send({ message, lang: 'es' });
+      assert.equal(response.status, 200, message);
+      assert.match(response.body.reply, expected, message);
+      assert.doesNotMatch(response.body.reply, /\d+\s+disponibles/i, message);
+    }
+
+    const english = await request(app)
+      .post('/api/ai/chat')
+      .send({ message: 'How can I pay?', lang: 'en' });
+    assert.equal(english.status, 200);
+    assert.match(english.body.reply, /Nequi/);
   });
 
   it('actualiza la configuración y la expone públicamente', async () => {

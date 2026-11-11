@@ -733,6 +733,18 @@
   flex-wrap: wrap;
 }
 
+.option-subgroup + .option-subgroup {
+  margin-top: 0.8rem;
+}
+
+.option-sublabel {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--cream-dim);
+}
+
 .option-chip {
   position: relative;
   display: inline-flex;
@@ -2250,29 +2262,7 @@ tbody tr:hover {
   }
 }
 
-/* ---------- Aviso de modo demostración ---------- */
-.demo-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--acid);
-  color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.3;
-}
-
-.demo-strip__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ink);
-  flex-shrink: 0;
-}
-
+/* ---------- Marca ---------- */
 .brand-logo-frame {
   background: #050606;
   padding: clamp(0.6rem, 1.5vw, 1.1rem);

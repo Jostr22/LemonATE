@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext.jsx';
 import { useLang } from '../context/LangContext.jsx';
-import { formatCOP } from '../../../shared/pricing.js';
+import { describeCustomization, formatCOP } from '../../../shared/pricing.js';
 import { IconTrash } from '../components/Icons.jsx';
 
 export default function Cart() {
@@ -47,7 +47,7 @@ export default function Cart() {
                   <strong>{pick(item.name)}</strong>
                   <div className="tiny muted">
                     {item.customizable
-                      ? `${item.customization.size} oz · ${item.customization.ice} · ${item.customization.sugar}`
+                      ? describeCustomization(item.customization, lang)
                       : item.category}
                   </div>
                   <div className="row" style={{ marginTop: '0.5rem' }}>

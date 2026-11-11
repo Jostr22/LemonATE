@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard.jsx';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import {
   EXTRAS,
+  EXTRA_GROUPS,
   ICE_OPTIONS,
   SIZES,
   SUGAR_OPTIONS,
@@ -83,7 +84,12 @@ export default function Product() {
     );
   }
 
-  const soldOut = Number(product.stock) <= 0;
+  const soldOut = product.availability
+    ? product.availability === 'soldout'
+    : Number(product.stock) <= 0;
+  const lowStock = product.availability
+    ? product.availability === 'low'
+    : !soldOut && Number(product.stock) <= 5;
   const category = CATEGORIES.find((item) => item.id === product.category);
   const related = products
     .filter((item) => item.category === product.category && item._id !== product._id)
@@ -122,7 +128,11 @@ export default function Product() {
           <div className="row" style={{ marginBottom: 'var(--space-4)' }}>
             <span className="pdp__price">{formatCOP(unitPrice * qty, lang)}</span>
             <span className={`status ${soldOut ? 'status--danger' : 'status--ok'}`}>
-              {soldOut ? t('common.soldOut') : t('product.stock', { count: product.stock })}
+              {soldOut
+                ? t('common.soldOut')
+                : lowStock
+                  ? t('product.lowStock')
+                  : t('product.available')}
             </span>
             {product.customizable && <span className="badge" style={{ position: 'static' }}>{t('product.custom')}</span>}
           </div>
@@ -183,20 +193,29 @@ export default function Product() {
 
               <fieldset className="option-group">
                 <legend>{t('product.extras')}</legend>
-                <div className="option-list">
-                  {EXTRAS.map((extra) => (
-                    <button
-                      key={extra.id}
-                      type="button"
-                      className="option-chip"
-                      aria-pressed={customization.extras.includes(extra.id)}
-                      onClick={() => toggleExtra(extra.id)}
-                    >
-                      {pick(extra.label)} <small>+{formatCOP(extra.price, lang)}</small>
-                      {customization.extras.includes(extra.id) && <IconCheck size={14} />}
-                    </button>
-                  ))}
-                </div>
+                {EXTRA_GROUPS.map((group) => {
+                  const groupExtras = EXTRAS.filter((extra) => extra.group === group.id);
+                  if (groupExtras.length === 0) return null;
+                  return (
+                    <div className="option-subgroup" key={group.id}>
+                      <span className="option-sublabel">{pick(group.label)}</span>
+                      <div className="option-list">
+                        {groupExtras.map((extra) => (
+                          <button
+                            key={extra.id}
+                            type="button"
+                            className="option-chip"
+                            aria-pressed={customization.extras.includes(extra.id)}
+                            onClick={() => toggleExtra(extra.id)}
+                          >
+                            {pick(extra.label)} <small>+{formatCOP(extra.price, lang)}</small>
+                            {customization.extras.includes(extra.id) && <IconCheck size={14} />}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </fieldset>
             </>
           )}

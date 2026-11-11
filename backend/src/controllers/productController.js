@@ -5,6 +5,8 @@ import { slugify } from '../utils/orderCode.js';
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+const publicOptions = (req) => ({ includeStock: req.user?.role === 'admin' });
+
 export const listProducts = asyncHandler(async (req, res) => {
   const { category, q, featured } = req.query;
   const filter = {};
@@ -19,13 +21,16 @@ export const listProducts = asyncHandler(async (req, res) => {
   }
 
   const products = await Product.find(filter).sort({ featured: -1, stock: -1, createdAt: 1 });
-  res.json(products.map((product) => product.toPublic()));
+  const options = publicOptions(req);
+  res.json(products.map((product) => product.toPublic(options)));
 });
 
 export const getProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
-  if (!product || product.active === false) throw ApiError.notFound('Producto no encontrado.');
-  res.json(product.toPublic());
+  if (!product || (product.active === false && req.user?.role !== 'admin')) {
+    throw ApiError.notFound('Producto no encontrado.');
+  }
+  res.json(product.toPublic(publicOptions(req)));
 });
 
 async function uniqueSlug(base) {
@@ -45,7 +50,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     payload.slug = await uniqueSlug(payload.slug);
   }
   const product = await Product.create(payload);
-  res.status(201).json(product.toPublic());
+  res.status(201).json(product.toPublic({ includeStock: true }));
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
@@ -58,7 +63,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   Object.assign(product, payload);
   await product.save();
-  res.json(product.toPublic());
+  res.json(product.toPublic({ includeStock: true }));
 });
 
 export const removeProduct = asyncHandler(async (req, res) => {
@@ -68,5 +73,5 @@ export const removeProduct = asyncHandler(async (req, res) => {
     { new: true }
   );
   if (!product) throw ApiError.notFound('Producto no encontrado.');
-  res.json({ ok: true, product: product.toPublic() });
+  res.json({ ok: true, product: product.toPublic({ includeStock: true }) });
 });

@@ -20,7 +20,9 @@ export default function ProductCard({ product }) {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const soldOut = Number(product.stock) <= 0;
+  const soldOut = product.availability
+    ? product.availability === 'soldout'
+    : Number(product.stock) <= 0;
   const isFavorite = (user?.favorites || []).includes(product._id);
 
   const handleFavorite = async (event) => {
