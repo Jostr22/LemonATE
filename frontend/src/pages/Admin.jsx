@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
-import { api, isDemoMode } from '../services/api.js';
+import { api } from '../services/api.js';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import { ORDER_STATUSES } from '../i18n/index.js';
 import { formatCOP } from '../../../shared/pricing.js';
@@ -231,26 +231,6 @@ export default function Admin() {
               {messages.length === 0 && <p className="tiny muted">{t('admin.noMessages')}</p>}
             </div>
           </div>
-
-          {isDemoMode && (
-            <div className="panel" style={{ marginTop: 'var(--space-4)' }}>
-              <h4 style={{ marginBottom: '0.5rem' }}>{t('common.demo')}</h4>
-              <p className="tiny muted">
-                {t('common.demoNotice')}
-              </p>
-              <button
-                type="button"
-                className="btn btn--danger btn--sm"
-                onClick={async () => {
-                  if (!window.confirm(t('admin.resetConfirm'))) return;
-                  await api.resetDemo();
-                  window.location.reload();
-                }}
-              >
-                {t('admin.demoReset')}
-              </button>
-            </div>
-          )}
         </>
       )}
 

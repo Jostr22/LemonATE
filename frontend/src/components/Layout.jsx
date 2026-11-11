@@ -5,7 +5,6 @@ import Footer from './Footer.jsx';
 import CartDrawer from './CartDrawer.jsx';
 import ChatWidget from './ChatWidget.jsx';
 import { useLang } from '../context/LangContext.jsx';
-import { isDemoMode } from '../services/api.js';
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -22,12 +21,6 @@ export default function Layout() {
       </a>
       <Header />
       <main id="contenido">
-        {isDemoMode && (
-          <div className="demo-strip">
-            <span className="demo-strip__dot" aria-hidden="true" />
-            {t('common.demoNotice')}
-          </div>
-        )}
         <Outlet />
       </main>
       <Footer />

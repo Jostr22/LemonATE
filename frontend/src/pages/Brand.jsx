@@ -36,8 +36,8 @@ export default function Brand() {
           </p>
           <p>
             {lang === 'en'
-              ? 'LemonATE is a lemon-based drinks and desserts store. Our identity mixes editorial K-pop energy, chrome details and citrus acidity. Prices and addresses on this site are demo data that the administrator can edit.'
-              : 'LemonATE es una tienda de bebidas y postres a base de limón. Nuestra identidad mezcla energía editorial K-pop, detalles cromados y acidez cítrica. Los precios y direcciones de este sitio son datos de demostración que el administrador puede editar.'}
+              ? 'LemonATE is a lemon-based drinks and desserts store in Barranquilla. We work with fresh fruit, real lemon and recipes made to order.'
+              : 'LemonATE es una tienda de bebidas y postres a base de limón en Barranquilla. Trabajamos con fruta fresca, limón real y recetas preparadas al momento.'}
           </p>
           <Link to="/tienda" className="btn">
             {t('hero.cta1')} <IconArrow />

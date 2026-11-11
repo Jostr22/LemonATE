@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
-import { isDemoMode } from '../services/api.js';
 
 export default function Login() {
   const { t } = useLang();
@@ -65,12 +64,6 @@ export default function Login() {
           {t('auth.noAccount')} <Link to="/registro" style={{ color: 'var(--neon)' }}>{t('auth.register')}</Link>
         </p>
       </form>
-
-      {isDemoMode && (
-        <div className="notice notice--warn" style={{ marginTop: '1rem' }}>
-          {t('auth.demoAdmin')}
-        </div>
-      )}
     </div>
   );
 }

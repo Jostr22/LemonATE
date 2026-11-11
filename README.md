@@ -1,11 +1,11 @@
 # LemonATE — «Exprime el momento»
 
 Tienda virtual de limonadas, bebidas especiales, postres y combos derivados del limón.
-Proyecto final del programa de desarrollo web: aplicación full stack con React, Express,
-MongoDB Atlas y un asistente basado en reglas llamado **LemonATE AI**.
+Aplicación full stack con React, Express, MongoDB Atlas y un asistente virtual
+determinista llamado **LemonATE AI**.
 
-> Los precios, direcciones, teléfonos y datos de pago incluidos son **provisionales y de
-> demostración**. El administrador puede cambiarlos desde el panel.
+> Los precios, horarios, cobertura y medios de pago se administran desde el panel.
+> Sin backend configurado, la tienda usa un almacenamiento local para desarrollo.
 
 ## Estructura
 
@@ -13,7 +13,7 @@ MongoDB Atlas y un asistente basado en reglas llamado **LemonATE AI**.
 LemonATE/
 ├── frontend/        React + Vite (se publica en GitHub Pages)
 ├── backend/         Node.js + Express + MongoDB Atlas (se publica en Render)
-├── docs/            Documentación académica, arquitectura y guía de exposición
+├── docs/            Documentación técnica, arquitectura y guía de operación
 └── index.html       Redirección a la landing publicada
 ```
 

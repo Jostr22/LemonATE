@@ -293,7 +293,9 @@ export default function Checkout() {
               ))}
             </div>
             <p className="tiny muted" style={{ marginTop: '0.8rem' }}>
-              {settings?.payments?.[form.paymentMethod === 'bre-b' ? 'breB' : form.paymentMethod === 'tarjeta' ? 'card' : form.paymentMethod]}
+              {form.paymentMethod === 'tarjeta'
+                ? t('checkout.cashOnDelivery')
+                : t('checkout.paymentDetails')}
             </p>
             <div className="notice notice--warn" style={{ marginBottom: 0 }}>
               {t('checkout.paymentNote')}

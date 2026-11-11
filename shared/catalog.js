@@ -1,8 +1,8 @@
 /**
  * Catálogo inicial de LemonATE.
  * Se utiliza para el seed del backend (MongoDB) y como respaldo en el
- * modo demostración del frontend. Los precios están en COP y son
- * provisionales: el administrador puede cambiarlos en el panel.
+ * almacenamiento local del frontend. Los precios están en COP y se
+ * administran desde el panel.
  *
  * Las fotos viven en `frontend/public/products/fotos/<slug>.webp` y fueron
  * recortadas a 4:5 (600 x 750) a partir de las originales del negocio.
@@ -420,13 +420,13 @@ export const DEFAULT_SETTINGS = {
     name: 'LemonATE',
     slogan: { es: 'Exprime el momento', en: 'Squeeze the moment' },
     story: {
-      es: 'LemonATE nace de una idea simple: el limón no es un ingrediente de fondo. Es el protagonista. Lo exprimimos, lo mezclamos y lo convertimos en limonadas, postres y combos con una identidad propia. No inventamos una historia de fundación: construimos una marca alrededor de lo que ya existe, el limón, y de lo que podemos crear con él.',
-      en: 'LemonATE was born from a simple idea: lemon is not a background ingredient. It is the main character. We squeeze it, mix it and turn it into lemonades, desserts and combos with an identity of their own. We do not invent a founding story: we build a brand around what already exists, lemon, and what we can create with it.',
+      es: 'LemonATE nace de una idea simple: el limón no es un ingrediente de fondo. Es el protagonista. Lo exprimimos, lo mezclamos y lo convertimos en limonadas, postres y combos con una identidad propia. Trabajamos con fruta fresca y recetas preparadas al momento en Barranquilla.',
+      en: 'LemonATE was born from a simple idea: lemon is not a background ingredient. It is the main character. We squeeze it, mix it and turn it into lemonades, desserts and combos with an identity of their own. We work with fresh fruit and recipes made to order in Barranquilla.',
     },
   },
   contact: {
     whatsapp: '573052636817',
-    email: 'hola@lemonate.example',
+    email: 'hola@lemonate.com',
     instagram: 'https://instagram.com/lemonatebq',
     tiktok: 'https://tiktok.com/@lemonatebq',
   },
@@ -436,7 +436,7 @@ export const DEFAULT_SETTINGS = {
   },
   holidays: [],
   delivery: {
-    businessAddress: 'Dirección provisional — configúrela en el panel',
+    businessAddress: 'Barranquilla, Atlántico, Colombia',
     maxKm: 12,
     ranges: [
       { maxKm: 2, fee: 3000 },
@@ -446,11 +446,11 @@ export const DEFAULT_SETTINGS = {
     ],
   },
   payments: {
-    nequi: '300 000 0000 (provisional)',
-    daviplata: '300 000 0000 (provisional)',
-    bancolombia: 'Cuenta de ahorros 000-000000-00 (provisional)',
-    breB: 'Llave Bre-B provisional',
-    card: 'Pago con tarjeta en modo demostración',
+    nequi: 'Nequi',
+    daviplata: 'Daviplata',
+    bancolombia: 'Bancolombia',
+    breB: 'Bre-B',
+    card: 'Pago contra entrega',
   },
   coverage: {
     es: 'Barranquilla y municipios cercanos',

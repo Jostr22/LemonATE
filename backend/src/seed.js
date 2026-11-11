@@ -48,7 +48,7 @@ async function seed() {
   settings.payments = DEFAULT_SETTINGS.payments;
   settings.coverage = DEFAULT_SETTINGS.coverage;
   await settings.save();
-  console.log('[seed] Configuración restablecida a los valores de demostración.');
+  console.log('[seed] Configuración inicial aplicada.');
 
   await disconnectDB();
   console.log('[seed] Listo.');

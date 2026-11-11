@@ -33,7 +33,7 @@ const settingsSchema = new mongoose.Schema(
       daviplata: { type: String, default: '' },
       bancolombia: { type: String, default: '' },
       breB: { type: String, default: '' },
-      card: { type: String, default: 'Pago con tarjeta en modo demostración' },
+      card: { type: String, default: 'Pago contra entrega' },
     },
     coverage: { es: String, en: String },
   },
