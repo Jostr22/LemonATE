@@ -84,7 +84,7 @@ route → middleware (auth / validate) → controller → service → model → 
 | customer | Object | nombre, teléfono, correo |
 | address | Object | dirección de entrega y distancia |
 | subtotal / deliveryFee / discount / total | Number | calculados en el servidor |
-| paymentMethod | Enum | nequi, daviplata, bancolombia, bre-b, tarjeta-demo |
+| paymentMethod | Enum | nequi, daviplata, bancolombia, bre-b (`tarjeta` solo histórico) |
 | paymentStatus | Enum | pending, confirmed (solo el admin confirma) |
 | status | Enum | recibido, pago-pendiente, pago-confirmado, en-preparacion, en-camino, entregado, cancelado |
 | trackingPin | String | 4 dígitos para consultar el pedido |

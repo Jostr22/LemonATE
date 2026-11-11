@@ -9,6 +9,8 @@ export const translations = {
   es: {
     'brand.slogan': 'Exprime el momento',
     'brand.palette': 'Paleta de marca',
+    'brand.founder': 'Detrás de LemonATE',
+    'brand.founderLead': 'Una idea cítrica hecha en Barranquilla.',
     'nav.home': 'Inicio',
     'nav.menu': 'Menú',
     'nav.about': 'Nosotros',
@@ -129,6 +131,10 @@ export const translations = {
     'product.ingredients': 'Ingredientes y notas',
     'product.deliveryNote': 'Domicilio calculado por distancia en el checkout.',
     'product.related': 'También te puede gustar',
+    'product.comboBadge': 'Elige tu combo',
+    'product.comboTitle': 'Arma tu combo',
+    'product.comboHint': 'Elige cada bebida y cada postre. El precio del combo no cambia.',
+    'product.comboIncomplete': 'Completa todas las opciones del combo.',
 
     'cart.title': 'Tu carrito',
     'cart.empty': 'El carrito está vacío.',
@@ -163,7 +169,6 @@ export const translations = {
       'Al confirmar el pedido te compartimos los datos de pago por WhatsApp. El equipo verifica el pago antes de preparar tu pedido.',
     'checkout.paymentDetails':
       'Te enviamos los datos de pago por WhatsApp después de confirmar el pedido.',
-    'checkout.cashOnDelivery': 'Pagas cuando recibes tu pedido.',
     'checkout.placeOrder': 'Confirmar pedido',
     'checkout.summary': 'Resumen',
     'checkout.success': 'Pedido recibido',
@@ -236,6 +241,7 @@ export const translations = {
     'admin.actions': 'Acciones',
     'admin.status': 'Estado',
     'admin.customer': 'Cliente',
+    'admin.items': 'Productos',
     'admin.total': 'Total',
     'admin.date': 'Fecha',
     'admin.code': 'Código',
@@ -251,6 +257,20 @@ export const translations = {
     'admin.confirmDelete': '¿Desactivar este producto?',
     'admin.loginRequired': 'Inicia sesión con una cuenta de administrador.',
     'admin.notAdmin': 'Esta cuenta no tiene permisos de administrador.',
+    'admin.newOrders': 'Tienes {count} pedido(s) nuevo(s).',
+    'admin.viewOrders': 'Ver pedidos',
+    'admin.notifications': 'Notificaciones de pedidos',
+    'admin.notificationsOn': 'Las notificaciones del navegador están activadas.',
+    'admin.notificationsOff':
+      'Activa las notificaciones para enterarte de cada pedido mientras el panel esté abierto.',
+    'admin.notificationsBlocked':
+      'El navegador bloqueó las notificaciones. Actívalas desde la configuración del sitio.',
+    'admin.enableNotifications': 'Activar notificaciones',
+    'admin.emailNotifications':
+      'El correo al dueño se envía a {email} cuando el servidor tiene configurada la clave de Resend.',
+    'admin.founder': 'Fundador',
+    'admin.founderName': 'Nombre del fundador',
+    'admin.founderEmail': 'Correo del fundador',
 
     'contact.title': 'Contacto',
     'contact.lead': 'Escríbenos. El formulario guarda tu solicitud en la base de datos.',
@@ -297,12 +317,14 @@ export const translations = {
     'payment.daviplata': 'Daviplata',
     'payment.bancolombia': 'Bancolombia',
     'payment.bre-b': 'Llaves Bre-B',
-    'payment.tarjeta': 'Contra entrega',
+    'payment.tarjeta': 'Contra entrega (ya no disponible)',
   },
 
   en: {
     'brand.slogan': 'Squeeze the moment',
     'brand.palette': 'Brand palette',
+    'brand.founder': 'Behind LemonATE',
+    'brand.founderLead': 'A citrus idea made in Barranquilla.',
     'nav.home': 'Home',
     'nav.menu': 'Menu',
     'nav.about': 'About us',
@@ -423,6 +445,10 @@ export const translations = {
     'product.ingredients': 'Ingredients and notes',
     'product.deliveryNote': 'Delivery is calculated by distance at checkout.',
     'product.related': 'You may also like',
+    'product.comboBadge': 'Build your combo',
+    'product.comboTitle': 'Build your combo',
+    'product.comboHint': 'Pick every drink and dessert. The combo price stays the same.',
+    'product.comboIncomplete': 'Choose every option in the combo.',
 
     'cart.title': 'Your cart',
     'cart.empty': 'Your cart is empty.',
@@ -457,7 +483,6 @@ export const translations = {
       'After you confirm the order we share the payment details on WhatsApp. The team verifies the payment before preparing your order.',
     'checkout.paymentDetails':
       'We send the payment details on WhatsApp after you confirm the order.',
-    'checkout.cashOnDelivery': 'You pay when you receive your order.',
     'checkout.placeOrder': 'Place order',
     'checkout.summary': 'Summary',
     'checkout.success': 'Order received',
@@ -530,6 +555,7 @@ export const translations = {
     'admin.actions': 'Actions',
     'admin.status': 'Status',
     'admin.customer': 'Customer',
+    'admin.items': 'Items',
     'admin.total': 'Total',
     'admin.date': 'Date',
     'admin.code': 'Code',
@@ -545,6 +571,20 @@ export const translations = {
     'admin.confirmDelete': 'Deactivate this product?',
     'admin.loginRequired': 'Sign in with an admin account.',
     'admin.notAdmin': 'This account has no admin permissions.',
+    'admin.newOrders': 'You have {count} new order(s).',
+    'admin.viewOrders': 'View orders',
+    'admin.notifications': 'Order notifications',
+    'admin.notificationsOn': 'Browser notifications are enabled.',
+    'admin.notificationsOff':
+      'Enable notifications to hear about every order while the panel is open.',
+    'admin.notificationsBlocked':
+      'The browser blocked notifications. Enable them in the site settings.',
+    'admin.enableNotifications': 'Enable notifications',
+    'admin.emailNotifications':
+      'The owner email goes to {email} when the server has a Resend key configured.',
+    'admin.founder': 'Founder',
+    'admin.founderName': 'Founder name',
+    'admin.founderEmail': 'Founder email',
 
     'contact.title': 'Contact',
     'contact.lead': 'Write to us. The form stores your request in the database.',
@@ -591,7 +631,7 @@ export const translations = {
     'payment.daviplata': 'Daviplata',
     'payment.bancolombia': 'Bancolombia',
     'payment.bre-b': 'Bre-B keys',
-    'payment.tarjeta': 'Cash on delivery',
+    'payment.tarjeta': 'Cash on delivery (no longer available)',
   },
 };
 
@@ -616,4 +656,4 @@ export const ORDER_STATUSES = [
   'cancelado',
 ];
 
-export const PAYMENT_METHODS = ['nequi', 'daviplata', 'bancolombia', 'bre-b', 'tarjeta'];
+export const PAYMENT_METHODS = ['nequi', 'daviplata', 'bancolombia', 'bre-b'];

@@ -19,7 +19,13 @@ para operar LemonATE como un negocio real, no como una demo.
 - **Textos de producción**: se retiraron avisos de demo, credenciales visibles,
   direcciones provisionales y datos de pago ficticios de la interfaz pública.
 - **Pagos manuales transparentes**: los datos de pago se comparten por WhatsApp al
-  confirmar el pedido; “tarjeta” se presenta como pago contra entrega.
+  confirmar el pedido. Se retiró la opción de pago con tarjeta.
+- **Combos configurables**: cada combo permite elegir sus limonadas y postres; la
+  selección se guarda en el pedido y se muestra en carrito, checkout y seguimiento.
+- **Aviso de pedidos nuevos**: el panel consulta pedidos cada 20 segundos, permite
+  notificaciones del navegador y envía correo al dueño con Resend si está configurado.
+- **Datos del fundador**: nombre y correo visibles en la página de marca y editables
+  desde la configuración del panel.
 
 ## Prioridad 0 — antes de abrir al público
 
@@ -35,14 +41,14 @@ para operar LemonATE como un negocio real, no como una demo.
    - Verificar el dominio publicado y añadir `CORS_ORIGIN` con esa URL exacta.
 
 3. **Pasarela de pagos real**
-   - Integrar Wompi (Nequi, tarjetas, PSE) o Mercado Pago.
+   - Integrar Wompi (Nequi, PSE) o Mercado Pago.
    - Usar webhooks firmados para confirmar el pago; nunca confiar en el navegador.
-   - Mantener el pago contra entrega como alternativa operativa.
    - Definir conciliación diaria y política de reembolsos.
 
 4. **Notificaciones transaccionales**
    - WhatsApp Business API o Twilio para confirmar pedido, cambio de estado y entrega.
-   - Correo transaccional con Resend o SendGrid para el recibo.
+   - El correo al dueño con Resend ya está implementado; falta verificarlo con la
+     clave real y un remitente propio.
    - Enlaces de seguimiento con código y PIN, sin exponer datos personales.
 
 5. **Páginas legales y confianza**

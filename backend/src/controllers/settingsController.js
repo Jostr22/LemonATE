@@ -1,7 +1,16 @@
 import { Settings } from '../models/Settings.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
-const EDITABLE = ['brand', 'contact', 'hours', 'holidays', 'delivery', 'payments', 'coverage'];
+const EDITABLE = [
+  'brand',
+  'founder',
+  'contact',
+  'hours',
+  'holidays',
+  'delivery',
+  'payments',
+  'coverage',
+];
 
 export const getSettings = asyncHandler(async (_req, res) => {
   const settings = await Settings.getMain();

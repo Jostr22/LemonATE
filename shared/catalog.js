@@ -53,6 +53,45 @@ export const CATEGORIES = [
 
 const img = (slug) => `products/fotos/${slug}.webp`;
 
+/** Bebidas y postres que se pueden elegir dentro de un combo. */
+export const COMBO_DRINK_SLUGS = [
+  'limonada-maracumango',
+  'limonada-brasilena',
+  'limonada-natural',
+  'limonada-hierbabuena',
+  'limonada-fresa',
+  'limonada-frutos-rojos',
+  'limonada-brasilena-mora',
+  'limonada-cerezada',
+  'limonada-sandia',
+  'limonada-coco',
+  'limonada-panela',
+];
+
+export const COMBO_DESSERT_SLUGS = [
+  'pie-limon',
+  'cheesecake-limon',
+  'brownie-citrico',
+  'cupcake-limon',
+  'galletas-limon',
+  'mousse-limon',
+];
+
+const comboSlot = (id, kind, label, extra = {}) => ({
+  id,
+  kind,
+  label,
+  ...extra,
+});
+
+const combo = (slots) => ({
+  slots,
+  options: {
+    drink: COMBO_DRINK_SLUGS,
+    dessert: COMBO_DESSERT_SLUGS,
+  },
+});
+
 export const SEED_PRODUCTS = [
   // ---------------- Limonadas ----------------
   {
@@ -369,14 +408,18 @@ export const SEED_PRODUCTS = [
     slug: 'combo-duo',
     name: { es: 'Combo Dúo', en: 'Duo Combo' },
     description: {
-      es: 'Una limonada mediana + una porción de pie de limón.',
-      en: 'One medium lemonade + one slice of lemon pie.',
+      es: 'Una limonada mediana + un postre a elección. Tú decides la combinación.',
+      en: 'One medium lemonade + one dessert of your choice. You pick the combination.',
     },
     category: 'combos',
     price: 18000,
     stock: 20,
     image: img('combo-duo'),
     customizable: false,
+    combo: combo([
+      comboSlot('bebida-1', 'drink', { es: 'Limonada', en: 'Lemonade' }, { size: 'medium', defaultSlug: 'limonada-natural' }),
+      comboSlot('postre-1', 'dessert', { es: 'Postre', en: 'Dessert' }, { defaultSlug: 'pie-limon' }),
+    ]),
     tags: ['combo', 'para-dos', 'postre'],
     featured: true,
     active: true,
@@ -385,14 +428,22 @@ export const SEED_PRODUCTS = [
     slug: 'combo-fiesta',
     name: { es: 'Combo Fiesta', en: 'Party Combo' },
     description: {
-      es: 'Dos limonadas grandes + cuatro postres surtidos. Para compartir.',
-      en: 'Two large lemonades + four assorted desserts. Made to share.',
+      es: 'Dos limonadas grandes + cuatro postres a elección. Para compartir.',
+      en: 'Two large lemonades + four desserts of your choice. Made to share.',
     },
     category: 'combos',
     price: 35000,
     stock: 12,
     image: img('combo-fiesta'),
     customizable: false,
+    combo: combo([
+      comboSlot('bebida-1', 'drink', { es: 'Limonada 1', en: 'Lemonade 1' }, { size: 'large', defaultSlug: 'limonada-natural' }),
+      comboSlot('bebida-2', 'drink', { es: 'Limonada 2', en: 'Lemonade 2' }, { size: 'large', defaultSlug: 'limonada-brasilena' }),
+      comboSlot('postre-1', 'dessert', { es: 'Postre 1', en: 'Dessert 1' }, { defaultSlug: 'pie-limon' }),
+      comboSlot('postre-2', 'dessert', { es: 'Postre 2', en: 'Dessert 2' }, { defaultSlug: 'cheesecake-limon' }),
+      comboSlot('postre-3', 'dessert', { es: 'Postre 3', en: 'Dessert 3' }, { defaultSlug: 'brownie-citrico' }),
+      comboSlot('postre-4', 'dessert', { es: 'Postre 4', en: 'Dessert 4' }, { defaultSlug: 'cupcake-limon' }),
+    ]),
     tags: ['combo', 'para-compartir', 'postre'],
     featured: false,
     active: true,
@@ -401,14 +452,21 @@ export const SEED_PRODUCTS = [
     slug: 'combo-oficina',
     name: { es: 'Combo Oficina', en: 'Office Combo' },
     description: {
-      es: 'Cuatro limonadas medianas + galletas de limón. Ideal para la tarde.',
-      en: 'Four medium lemonades + lemon cookies. Ideal for the afternoon.',
+      es: 'Cuatro limonadas medianas + un postre a elección. Ideal para la tarde.',
+      en: 'Four medium lemonades + one dessert of your choice. Ideal for the afternoon.',
     },
     category: 'combos',
     price: 42000,
     stock: 8,
     image: img('combo-oficina'),
     customizable: false,
+    combo: combo([
+      comboSlot('bebida-1', 'drink', { es: 'Limonada 1', en: 'Lemonade 1' }, { size: 'medium', defaultSlug: 'limonada-natural' }),
+      comboSlot('bebida-2', 'drink', { es: 'Limonada 2', en: 'Lemonade 2' }, { size: 'medium', defaultSlug: 'limonada-brasilena' }),
+      comboSlot('bebida-3', 'drink', { es: 'Limonada 3', en: 'Lemonade 3' }, { size: 'medium', defaultSlug: 'limonada-maracumango' }),
+      comboSlot('bebida-4', 'drink', { es: 'Limonada 4', en: 'Lemonade 4' }, { size: 'medium', defaultSlug: 'limonada-fresa' }),
+      comboSlot('postre-1', 'dessert', { es: 'Postre', en: 'Dessert' }, { defaultSlug: 'galletas-limon' }),
+    ]),
     tags: ['combo', 'para-compartir'],
     featured: false,
     active: true,
@@ -424,9 +482,14 @@ export const DEFAULT_SETTINGS = {
       en: 'LemonATE was born from a simple idea: lemon is not a background ingredient. It is the main character. We squeeze it, mix it and turn it into lemonades, desserts and combos with an identity of their own. We work with fresh fruit and recipes made to order in Barranquilla.',
     },
   },
+  founder: {
+    name: 'Amilkar José Castro Martínez',
+    email: 'amilkar0322@gmail.com',
+    role: { es: 'Fundador', en: 'Founder' },
+  },
   contact: {
     whatsapp: '573052636817',
-    email: 'hola@lemonate.com',
+    email: 'amilkar0322@gmail.com',
     instagram: 'https://instagram.com/lemonatebq',
     tiktok: 'https://tiktok.com/@lemonatebq',
   },
@@ -450,7 +513,6 @@ export const DEFAULT_SETTINGS = {
     daviplata: 'Daviplata',
     bancolombia: 'Bancolombia',
     breB: 'Bre-B',
-    card: 'Pago contra entrega',
   },
   coverage: {
     es: 'Barranquilla y municipios cercanos',

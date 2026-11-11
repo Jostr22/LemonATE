@@ -46,9 +46,11 @@ export default function Cart() {
                 <div>
                   <strong>{pick(item.name)}</strong>
                   <div className="tiny muted">
-                    {item.customizable
-                      ? describeCustomization(item.customization, lang)
-                      : item.category}
+                    {item.comboLabel
+                      ? pick(item.comboLabel)
+                      : item.customizable
+                        ? describeCustomization(item.customization, lang)
+                        : item.category}
                   </div>
                   <div className="row" style={{ marginTop: '0.5rem' }}>
                     <div className="qty">

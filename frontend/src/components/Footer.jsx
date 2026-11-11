@@ -60,7 +60,6 @@ export default function Footer() {
               <li>Daviplata</li>
               <li>Bancolombia</li>
               <li>Llaves Bre-B</li>
-              <li>{t('payment.tarjeta')}</li>
             </ul>
           </div>
         </div>

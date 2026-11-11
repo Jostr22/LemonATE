@@ -12,6 +12,11 @@ import {
   sizeById,
 } from '../../../shared/pricing.js';
 import { SEED_PRODUCTS, DEFAULT_SETTINGS } from '../../../shared/catalog.js';
+import {
+  describeComboLabels,
+  getComboTemplate,
+  validateComboSelection,
+} from '../../../shared/combos.js';
 import { buildReply } from '../../../shared/aiEngine.js';
 
 const KEY = 'lemonate.demo.v2';
@@ -26,17 +31,27 @@ const clone = (value) => JSON.parse(JSON.stringify(value));
 // la demo coherente dentro de la misma pestaña.
 let memoryDb = null;
 
+function migrate(db) {
+  // Añade campos nuevos sin borrar pedidos ni ajustes existentes de la demo.
+  db.settings = { ...clone(DEFAULT_SETTINGS), ...(db.settings || {}) };
+  db.settings.founder = { ...DEFAULT_SETTINGS.founder, ...(db.settings.founder || {}) };
+  if (db.settings.payments) delete db.settings.payments.card;
+  return db;
+}
+
 function read() {
-  if (memoryDb) return memoryDb;
+  // Se relee el almacenamiento en cada llamada para que dos pestañas de la
+  // demo (comprador y panel) vean los mismos pedidos sin recargar.
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
-      memoryDb = JSON.parse(raw);
+      memoryDb = migrate(JSON.parse(raw));
       return memoryDb;
     }
   } catch {
-    /* almacenamiento no disponible: se reinicia */
+    /* almacenamiento no disponible: se usa la copia en memoria */
   }
+  if (memoryDb) return memoryDb;
   memoryDb = seed();
   return memoryDb;
 }
@@ -306,7 +321,25 @@ export const localBackend = {
       if (product.stock < qty) {
         throw new Error(`No hay existencias suficientes de ${product.name.es}.`);
       }
-      const customization = product.customizable ? raw.customization || {} : {};
+
+      const comboTemplate = getComboTemplate(product.slug);
+      let customization;
+      if (comboTemplate) {
+        const selection = validateComboSelection(comboTemplate, raw.customization);
+        if (!selection.ok) {
+          throw new Error(`Elige todas las opciones del ${product.name.es}.`);
+        }
+        for (const slug of Object.values(selection.value)) {
+          const component = db.products.find((entry) => entry.slug === slug);
+          if (!component || component.active === false || component.stock <= 0) {
+            throw new Error('Una opción elegida para el combo ya no está disponible.');
+          }
+        }
+        customization = { combo: selection.value };
+      } else {
+        customization = product.customizable ? raw.customization || {} : {};
+      }
+
       const unitPrice = computeUnitPrice(product, customization);
       items.push({
         productId: product._id,
@@ -315,6 +348,9 @@ export const localBackend = {
         image: product.image,
         qty,
         customization,
+        comboLabel: comboTemplate
+          ? describeComboLabels(comboTemplate, customization)
+          : null,
         sizeLabel: product.customizable
           ? sizeById(customization.size).label
           : null,

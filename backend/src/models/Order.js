@@ -10,7 +10,10 @@ const ORDER_STATUSES = [
   'cancelado',
 ];
 
-const PAYMENT_METHODS = ['nequi', 'daviplata', 'bancolombia', 'bre-b', 'tarjeta'];
+const PAYMENT_METHODS = ['nequi', 'daviplata', 'bancolombia', 'bre-b'];
+// Pedidos antiguos: se conserva el valor para poder leerlos y actualizarlos,
+// pero ya no se ofrece ni se acepta en pedidos nuevos.
+const LEGACY_PAYMENT_METHODS = ['tarjeta'];
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -27,6 +30,11 @@ const orderItemSchema = new mongoose.Schema(
       ice: { type: String, enum: ['none', 'light', 'normal', ''], default: '' },
       sugar: { type: String, enum: ['none', 'less', 'normal', ''], default: '' },
       extras: { type: [String], default: [] },
+      combo: { type: mongoose.Schema.Types.Mixed, default: undefined },
+    },
+    comboLabel: {
+      es: { type: String, default: '' },
+      en: { type: String, default: '' },
     },
     sizeLabel: {
       es: { type: String, default: '' },
@@ -59,7 +67,11 @@ const orderSchema = new mongoose.Schema(
     deliveryFee: { type: Number, required: true, min: 0 },
     discount: { type: Number, default: 0, min: 0 },
     total: { type: Number, required: true, min: 0 },
-    paymentMethod: { type: String, enum: PAYMENT_METHODS, required: true },
+    paymentMethod: {
+      type: String,
+      enum: [...PAYMENT_METHODS, ...LEGACY_PAYMENT_METHODS],
+      required: true,
+    },
     paymentStatus: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
     status: { type: String, enum: ORDER_STATUSES, default: 'recibido' },
     history: {
@@ -95,4 +107,4 @@ orderSchema.methods.toPublic = function toPublic() {
 };
 
 export const Order = mongoose.model('Order', orderSchema);
-export { ORDER_STATUSES, PAYMENT_METHODS };
+export { ORDER_STATUSES, PAYMENT_METHODS, LEGACY_PAYMENT_METHODS };

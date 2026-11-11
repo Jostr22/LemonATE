@@ -62,6 +62,7 @@ export const orderSchema = z.object({
             ice: z.enum(['none', 'light', 'normal']).optional(),
             sugar: z.enum(['none', 'less', 'normal']).optional(),
             extras: z.array(z.string()).max(8).optional(),
+            combo: z.record(z.string().max(40), z.string().max(80)).optional(),
           })
           .optional()
           .default({}),
@@ -80,7 +81,7 @@ export const orderSchema = z.object({
     notes: z.string().trim().max(240).optional().default(''),
     distanceKm: z.coerce.number().min(0).max(60),
   }),
-  paymentMethod: z.enum(['nequi', 'daviplata', 'bancolombia', 'bre-b', 'tarjeta']),
+  paymentMethod: z.enum(['nequi', 'daviplata', 'bancolombia', 'bre-b']),
   discount: z.coerce.number().min(0).max(1000000).optional().default(0),
 });
 

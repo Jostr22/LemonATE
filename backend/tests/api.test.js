@@ -177,6 +177,72 @@ describe('LemonATE API', () => {
     assert.equal(response.status, 400);
   });
 
+  it('permite elegir el contenido de un combo y lo guarda legible', async () => {
+    const products = await request(app).get('/api/products');
+    const combo = products.body.find((product) => product.slug === 'combo-duo');
+
+    const response = await request(app)
+      .post('/api/orders')
+      .set('Authorization', `Bearer ${customerToken}`)
+      .send({
+        items: [
+          {
+            productId: combo._id,
+            qty: 1,
+            customization: {
+              combo: {
+                'bebida-1': 'limonada-fresa',
+                'postre-1': 'cheesecake-limon',
+              },
+            },
+          },
+        ],
+        customer: { name: 'Cliente Combo', phone: '3001234567' },
+        address: { line: 'Calle 1 #2-3', neighborhood: 'Centro', distanceKm: 3 },
+        paymentMethod: 'nequi',
+      });
+
+    assert.equal(response.status, 201);
+    assert.equal(response.body.items[0].customization.combo['bebida-1'], 'limonada-fresa');
+    assert.match(response.body.items[0].comboLabel.es, /Limonada de fresa/);
+    assert.match(response.body.items[0].comboLabel.es, /Cheesecake de limón/);
+    assert.equal(response.body.items[0].unitPrice, combo.price);
+  });
+
+  it('rechaza un combo sin todas sus opciones', async () => {
+    const products = await request(app).get('/api/products');
+    const combo = products.body.find((product) => product.slug === 'combo-duo');
+
+    const response = await request(app)
+      .post('/api/orders')
+      .send({
+        items: [
+          {
+            productId: combo._id,
+            qty: 1,
+            customization: { combo: { 'bebida-1': 'limonada-natural' } },
+          },
+        ],
+        customer: { name: 'Cliente', phone: '3000000000' },
+        address: { line: 'Calle 1', neighborhood: 'Centro', distanceKm: 3 },
+        paymentMethod: 'nequi',
+      });
+    assert.equal(response.status, 400);
+  });
+
+  it('rechaza los pagos con tarjeta retirados', async () => {
+    const products = await request(app).get('/api/products');
+    const response = await request(app)
+      .post('/api/orders')
+      .send({
+        items: [{ productId: products.body[0]._id, qty: 1 }],
+        customer: { name: 'Cliente', phone: '3000000000' },
+        address: { line: 'Calle 1', neighborhood: 'Centro', distanceKm: 3 },
+        paymentMethod: 'tarjeta',
+      });
+    assert.equal(response.status, 400);
+  });
+
   it('protege las rutas de administración', async () => {
     const response = await request(app)
       .get('/api/orders')

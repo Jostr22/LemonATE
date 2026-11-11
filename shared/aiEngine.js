@@ -38,7 +38,6 @@ const PAYMENT_LABELS = [
   ['daviplata', 'Daviplata'],
   ['bancolombia', 'Bancolombia'],
   ['breB', 'Bre-B'],
-  ['card', { es: 'pago contra entrega', en: 'cash on delivery' }],
 ];
 
 /* ------------------------------------------------------------------ */
@@ -129,8 +128,8 @@ function deliveryText(settings, lang) {
 function paymentsText(lang) {
   const labels = PAYMENT_LABELS.map(([, label]) => (typeof label === 'string' ? label : pick(label, lang)));
   return lang === 'en'
-    ? `We accept ${labels.join(', ')}. After you place the order we share the payment details on WhatsApp, and the team confirms it manually.`
-    : `Aceptamos ${labels.join(', ')}. Al confirmar el pedido te compartimos los datos de pago por WhatsApp y el equipo lo verifica.`;
+    ? `We accept ${labels.join(', ')}. We do not take card payments. After you place the order we share the payment details on WhatsApp, and the team confirms it manually.`
+    : `Aceptamos ${labels.join(', ')}. No recibimos pagos con tarjeta. Al confirmar el pedido te compartimos los datos de pago por WhatsApp y el equipo lo verifica.`;
 }
 
 function contactText(settings, lang) {

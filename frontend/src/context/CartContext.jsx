@@ -1,11 +1,19 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  describeComboLabels,
+  getComboTemplate,
+} from '../../../shared/combos.js';
 
 const CartContext = createContext(null);
 const STORAGE_KEY = 'lemonate.cart.v1';
 
 function lineKey(productId, customization = {}) {
   const extras = [...(customization.extras || [])].sort().join(',');
-  return `${productId}|${customization.size || ''}|${customization.ice || ''}|${customization.sugar || ''}|${extras}`;
+  const combo = Object.entries(customization.combo || {})
+    .sort(([slotA], [slotB]) => slotA.localeCompare(slotB))
+    .map(([slot, slug]) => `${slot}:${slug}`)
+    .join(',');
+  return `${productId}|${customization.size || ''}|${customization.ice || ''}|${customization.sugar || ''}|${extras}|${combo}`;
 }
 
 export function CartProvider({ children }) {
@@ -24,6 +32,7 @@ export function CartProvider({ children }) {
 
   const add = useCallback((product, customization = {}, qty = 1, unitPrice) => {
     const key = lineKey(product._id, customization);
+    const comboTemplate = getComboTemplate(product.slug);
     setItems((current) => {
       const existing = current.find((item) => item.key === key);
       if (existing) {
@@ -36,11 +45,13 @@ export function CartProvider({ children }) {
         {
           key,
           productId: product._id,
+          slug: product.slug,
           name: product.name,
           image: product.image,
           category: product.category,
           customizable: Boolean(product.customizable),
-          customization: product.customizable ? customization : {},
+          customization: product.customizable || comboTemplate ? customization : {},
+          comboLabel: comboTemplate ? describeComboLabels(comboTemplate, customization) : null,
           qty,
           unitPrice,
         },

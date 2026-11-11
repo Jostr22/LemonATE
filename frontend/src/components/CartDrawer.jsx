@@ -37,9 +37,11 @@ export default function CartDrawer() {
                   <div>
                     <div className="cart-line__name">{pick(item.name)}</div>
                     <div className="cart-line__meta">
-                      {item.customizable
-                        ? describeCustomization(item.customization, lang)
-                        : item.category}
+                      {item.comboLabel
+                        ? pick(item.comboLabel)
+                        : item.customizable
+                          ? describeCustomization(item.customization, lang)
+                          : item.category}
                     </div>
                     <div className="cart-line__controls">
                       <div className="qty">

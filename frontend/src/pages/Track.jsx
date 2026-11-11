@@ -109,10 +109,13 @@ export default function Track() {
             <h4 style={{ marginBottom: '0.8rem' }}>{t('track.items')}</h4>
             <ul className="stack" style={{ marginBottom: '1rem' }}>
               {order.items.map((item) => (
-                <li key={`${item.productId}-${item.customization?.size || ''}`} className="row" style={{ justifyContent: 'space-between' }}>
+                <li key={`${item.productId}-${item.customization?.size || ''}-${item.comboLabel?.es || ''}`} className="row" style={{ justifyContent: 'space-between' }}>
                   <span className="tiny">
                     {item.qty}× {pick(item.name)}
                     {item.sizeLabel && ` · ${pick(item.sizeLabel)}`}
+                    {item.comboLabel && (
+                      <span className="muted" style={{ display: 'block' }}>{pick(item.comboLabel)}</span>
+                    )}
                   </span>
                   <span className="tiny">{formatCOP(item.lineTotal, lang)}</span>
                 </li>

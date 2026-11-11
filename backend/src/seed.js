@@ -42,6 +42,7 @@ async function seed() {
   // Configuración
   const settings = await Settings.getMain();
   settings.brand = DEFAULT_SETTINGS.brand;
+  settings.founder = DEFAULT_SETTINGS.founder;
   settings.contact = DEFAULT_SETTINGS.contact;
   settings.hours = DEFAULT_SETTINGS.hours;
   settings.delivery = DEFAULT_SETTINGS.delivery;

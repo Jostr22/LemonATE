@@ -9,6 +9,11 @@ import {
   computeUnitPrice,
   sizeById,
 } from '../../../shared/pricing.js';
+import {
+  describeComboLabels,
+  getComboTemplate,
+  validateComboSelection,
+} from '../../../shared/combos.js';
 
 /** Crea el pedido recalculando todos los precios en el servidor. */
 export async function createOrder(payload, user) {
@@ -16,7 +21,7 @@ export async function createOrder(payload, user) {
   const products = await Product.find({ _id: { $in: ids } });
   const byId = new Map(products.map((product) => [String(product._id), product]));
 
-  const items = payload.items.map((raw) => {
+  const prepared = payload.items.map((raw) => {
     const product = byId.get(String(raw.productId));
     if (!product || product.active === false) {
       throw ApiError.badRequest('Un producto del carrito ya no está disponible.');
@@ -24,7 +29,49 @@ export async function createOrder(payload, user) {
     if (product.stock < raw.qty) {
       throw ApiError.badRequest(`No hay existencias suficientes de ${product.name.es}.`);
     }
-    const customization = product.customizable ? raw.customization || {} : {};
+
+    const comboTemplate = getComboTemplate(product.slug);
+    if (comboTemplate) {
+      const selection = validateComboSelection(comboTemplate, raw.customization);
+      if (!selection.ok) {
+        throw ApiError.badRequest(`Elige todas las opciones del ${product.name.es}.`);
+      }
+      return {
+        raw,
+        product,
+        comboTemplate,
+        customization: { combo: selection.value },
+      };
+    }
+
+    return {
+      raw,
+      product,
+      comboTemplate: null,
+      customization: product.customizable ? raw.customization || {} : {},
+    };
+  });
+
+  // Las opciones elegidas deben seguir activas y con existencias.
+  const componentSlugs = [
+    ...new Set(
+      prepared.flatMap((entry) =>
+        entry.comboTemplate ? Object.values(entry.customization.combo) : []
+      )
+    ),
+  ];
+  if (componentSlugs.length > 0) {
+    const components = await Product.find({ slug: { $in: componentSlugs } });
+    const componentBySlug = new Map(components.map((item) => [item.slug, item]));
+    for (const slug of componentSlugs) {
+      const component = componentBySlug.get(slug);
+      if (!component || component.active === false || component.stock <= 0) {
+        throw ApiError.badRequest('Una opción elegida para el combo ya no está disponible.');
+      }
+    }
+  }
+
+  const items = prepared.map(({ raw, product, comboTemplate, customization }) => {
     const unitPrice = computeUnitPrice(product, customization);
     return {
       productId: product._id,
@@ -33,6 +80,9 @@ export async function createOrder(payload, user) {
       image: product.image,
       qty: raw.qty,
       customization,
+      comboLabel: comboTemplate
+        ? describeComboLabels(comboTemplate, customization)
+        : null,
       sizeLabel: product.customizable ? sizeById(customization.size).label : { es: '', en: '' },
       unitPrice,
       lineTotal: unitPrice * raw.qty,

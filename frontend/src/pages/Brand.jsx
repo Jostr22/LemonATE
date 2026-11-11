@@ -4,8 +4,9 @@ import { useStore } from '../context/StoreContext.jsx';
 import { IconArrow } from '../components/Icons.jsx';
 
 export default function Brand() {
-  const { t, lang } = useLang();
+  const { t, pick, lang } = useLang();
   const { settings } = useStore();
+  const founder = settings?.founder;
 
   const values = [
     {
@@ -61,6 +62,21 @@ export default function Brand() {
           })}
         </div>
       </section>
+
+      {founder?.name && (
+        <section className="section--tight">
+          <div className="panel">
+            <span className="eyebrow">{t('brand.founder')}</span>
+            <h3 style={{ fontSize: 'var(--step-2)', marginBottom: '0.4rem' }}>{founder.name}</h3>
+            <p className="tiny muted" style={{ marginBottom: '0.4rem' }}>
+              {pick(founder.role) || t('admin.founder')} · {t('brand.founderLead')}
+            </p>
+            {founder.email && (
+              <a className="tiny" href={`mailto:${founder.email}`}>{founder.email}</a>
+            )}
+          </div>
+        </section>
+      )}
 
       <section className="section--tight">
         <div className="panel">

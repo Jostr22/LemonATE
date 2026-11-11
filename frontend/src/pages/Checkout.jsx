@@ -198,7 +198,6 @@ export default function Checkout() {
     daviplata: 'Daviplata',
     bancolombia: 'Bancolombia',
     'bre-b': 'Llaves Bre-B',
-    tarjeta: t('payment.tarjeta'),
   };
 
   return (
@@ -293,9 +292,7 @@ export default function Checkout() {
               ))}
             </div>
             <p className="tiny muted" style={{ marginTop: '0.8rem' }}>
-              {form.paymentMethod === 'tarjeta'
-                ? t('checkout.cashOnDelivery')
-                : t('checkout.paymentDetails')}
+              {t('checkout.paymentDetails')}
             </p>
             <div className="notice notice--warn" style={{ marginBottom: 0 }}>
               {t('checkout.paymentNote')}
@@ -310,6 +307,9 @@ export default function Checkout() {
               <li key={item.key} className="row" style={{ justifyContent: 'space-between', gap: '0.5rem' }}>
                 <span className="tiny" style={{ flex: 1 }}>
                   {item.qty}× {pick(item.name)}
+                  {item.comboLabel && (
+                    <span className="muted" style={{ display: 'block' }}>{pick(item.comboLabel)}</span>
+                  )}
                 </span>
                 <span className="tiny">{formatCOP(item.unitPrice * item.qty, lang)}</span>
               </li>

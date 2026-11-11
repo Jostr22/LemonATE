@@ -179,7 +179,7 @@ valor y el servidor lo recalcula con la misma regla.
 | customer | Object | nombre, teléfono, correo |
 | address | Object | dirección, barrio, notas, distancia |
 | subtotal, deliveryFee, discount, total | Number | calculados en el servidor |
-| paymentMethod | Enum | Nequi, Daviplata, Bancolombia, Bre-B, tarjeta |
+| paymentMethod | Enum | Nequi, Daviplata, Bancolombia, Bre-B (`tarjeta` solo en pedidos históricos) |
 | paymentStatus | Enum | pending, confirmed, cancelled |
 | status | Enum | 7 estados del pedido |
 | history | Array | estado y fecha |

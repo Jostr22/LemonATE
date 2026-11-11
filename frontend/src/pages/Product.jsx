@@ -14,7 +14,14 @@ import {
   SUGAR_OPTIONS,
   computeUnitPrice,
   formatCOP,
+  sizeById,
 } from '../../../shared/pricing.js';
+import {
+  comboOptionsFor,
+  defaultComboSelection,
+  getComboTemplate,
+  validateComboSelection,
+} from '../../../shared/combos.js';
 import { IconArrow, IconCheck } from '../components/Icons.jsx';
 
 export default function Product() {
@@ -35,7 +42,13 @@ export default function Product() {
     ice: 'normal',
     sugar: 'normal',
     extras: [],
+    combo: {},
   });
+
+  const comboTemplate = useMemo(
+    () => (product ? getComboTemplate(product.slug) : null),
+    [product]
+  );
 
   useEffect(() => {
     if (editing) {
@@ -45,9 +58,27 @@ export default function Product() {
         ice: editing.customization?.ice || 'normal',
         sugar: editing.customization?.sugar || 'normal',
         extras: editing.customization?.extras || [],
+        combo: editing.customization?.combo || {},
       });
     }
   }, [editing]);
+
+  useEffect(() => {
+    if (!comboTemplate) return;
+    setCustomization((current) => {
+      const defaults = defaultComboSelection(comboTemplate, products);
+      const merged = { ...defaults };
+      for (const slot of comboTemplate.slots) {
+        const candidate = current.combo?.[slot.id];
+        const allowed = comboTemplate.options?.[slot.kind] || [];
+        if (candidate && allowed.includes(candidate)) merged[slot.id] = candidate;
+      }
+      const unchanged = comboTemplate.slots.every(
+        (slot) => merged[slot.id] === current.combo?.[slot.id]
+      );
+      return unchanged ? current : { ...current, combo: merged };
+    });
+  }, [comboTemplate, products]);
 
   const unitPrice = useMemo(
     () => (product ? computeUnitPrice(product, customization) : 0),
@@ -97,6 +128,10 @@ export default function Product() {
 
   const handleAdd = () => {
     if (soldOut) return;
+    if (comboTemplate && !validateComboSelection(comboTemplate, customization).ok) {
+      showToast(t('product.comboIncomplete'));
+      return;
+    }
     if (editing) remove(editing.key);
     add(product, customization, qty, unitPrice);
     showToast(t('product.added'));
@@ -135,7 +170,57 @@ export default function Product() {
                   : t('product.available')}
             </span>
             {product.customizable && <span className="badge" style={{ position: 'static' }}>{t('product.custom')}</span>}
+            {comboTemplate && <span className="badge" style={{ position: 'static' }}>{t('product.comboBadge')}</span>}
           </div>
+
+          {comboTemplate && (
+            <fieldset className="option-group">
+              <legend>{t('product.comboTitle')}</legend>
+              <p className="tiny muted" style={{ marginBottom: '0.9rem' }}>
+                {t('product.comboHint')}
+              </p>
+              <div className="form-grid">
+                {comboTemplate.slots.map((slot) => {
+                  const size = slot.size ? sizeById(slot.size) : null;
+                  const options = comboOptionsFor(comboTemplate, slot.kind).map((option) => {
+                    const live = products.find((item) => item.slug === option.slug);
+                    return live || { ...option, missing: true };
+                  });
+                  return (
+                    <label className="field" key={slot.id}>
+                      <span>
+                        {pick(slot.label)}
+                        {size ? ` · ${size.note}` : ''}
+                      </span>
+                      <select
+                        value={customization.combo?.[slot.id] || ''}
+                        onChange={(event) =>
+                          setCustomization((current) => ({
+                            ...current,
+                            combo: { ...current.combo, [slot.id]: event.target.value },
+                          }))
+                        }
+                      >
+                        {options.map((option) => {
+                          const unavailable =
+                            option.missing ||
+                            option.active === false ||
+                            option.availability === 'soldout' ||
+                            (!option.availability && Number(option.stock) <= 0);
+                          return (
+                            <option key={option.slug} value={option.slug} disabled={unavailable}>
+                              {pick(option.name)}
+                              {unavailable ? ` · ${t('common.soldOut')}` : ''}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {product.customizable && (
             <>

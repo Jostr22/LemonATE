@@ -9,6 +9,11 @@ const settingsSchema = new mongoose.Schema(
       slogan: { es: String, en: String },
       story: { es: String, en: String },
     },
+    founder: {
+      name: { type: String, default: '' },
+      email: { type: String, default: '' },
+      role: { es: { type: String, default: '' }, en: { type: String, default: '' } },
+    },
     contact: {
       whatsapp: { type: String, default: '' },
       email: { type: String, default: '' },
@@ -33,7 +38,6 @@ const settingsSchema = new mongoose.Schema(
       daviplata: { type: String, default: '' },
       bancolombia: { type: String, default: '' },
       breB: { type: String, default: '' },
-      card: { type: String, default: 'Pago contra entrega' },
     },
     coverage: { es: String, en: String },
   },
