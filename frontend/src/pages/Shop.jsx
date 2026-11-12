@@ -3,13 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import { ProductGridSkeleton } from '../components/Skeleton.jsx';
+import ErrorState from '../components/ErrorState.jsx';
 import { IconSearch } from '../components/Icons.jsx';
 import { CATEGORIES } from '../../../shared/catalog.js';
 
 export default function Shop({ mode = 'shop' }) {
   const { category: routeCategory } = useParams();
   const { t, pick } = useLang();
-  const { products, loading } = useStore();
+  const { products, loading, error, refresh } = useStore();
   const [category, setCategory] = useState(routeCategory || '');
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('recommended');
@@ -56,6 +58,16 @@ export default function Shop({ mode = 'shop' }) {
 
   const currentCategory = CATEGORIES.find((item) => item.id === category);
 
+  if (error && !loading) {
+    return (
+      <ErrorState
+        title={t('error.storeTitle')}
+        message={t('error.store')}
+        onRetry={refresh}
+      />
+    );
+  }
+
   return (
     <div className="shell section menu-page">
       <div className="menu-head">
@@ -76,13 +88,15 @@ export default function Shop({ mode = 'shop' }) {
                 : t('shop.lead')}
           </p>
         </div>
-        <span className="menu-head__count">{t('shop.results', { count: visible.length })}</span>
+        <span className="menu-head__count">
+          {loading ? '—' : t('shop.results', { count: visible.length })}
+        </span>
       </div>
 
       {!isPromos && (
         <nav className="menu-tabs" aria-label={t('nav.menu')}>
           <Link to="/tienda" className={!category ? 'is-active' : ''} aria-current={!category ? 'page' : undefined}>
-            {t('common.all')} <span>{counts['']}</span>
+            {t('common.all')} <span>{loading ? '—' : counts['']}</span>
           </Link>
           {CATEGORIES.map((item) => (
             <Link
@@ -91,7 +105,7 @@ export default function Shop({ mode = 'shop' }) {
               className={category === item.id ? 'is-active' : ''}
               aria-current={category === item.id ? 'page' : undefined}
             >
-              {pick(item.name)} <span>{counts[item.id]}</span>
+              {pick(item.name)} <span>{loading ? '—' : counts[item.id]}</span>
             </Link>
           ))}
         </nav>
@@ -121,7 +135,7 @@ export default function Shop({ mode = 'shop' }) {
       </form>
 
       {loading ? (
-        <p className="muted">{t('common.loading')}</p>
+        <ProductGridSkeleton count={8} />
       ) : visible.length === 0 ? (
         <div className="empty">
           <p>{t('shop.empty')}</p>

@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import { ProductGridSkeleton } from '../components/Skeleton.jsx';
+import ErrorState from '../components/ErrorState.jsx';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import { IconArrow, IconSpark, IconWhatsapp } from '../components/Icons.jsx';
 
@@ -14,7 +16,7 @@ const TILE_CLASS = {
 
 export default function Home() {
   const { t, pick } = useLang();
-  const { products, featured, settings, loading } = useStore();
+  const { products, featured, settings, loading, error, refresh } = useStore();
 
   const categories = CATEGORIES.map((category) => ({
     ...category,
@@ -30,6 +32,16 @@ export default function Home() {
   const whatsapp = whatsappNumber ? `https://wa.me/${whatsappNumber}` : '/contacto';
 
   const openChat = () => window.dispatchEvent(new CustomEvent('lemonate:open-chat'));
+
+  if (error && !loading) {
+    return (
+      <ErrorState
+        title={t('error.storeTitle')}
+        message={t('error.store')}
+        onRetry={refresh}
+      />
+    );
+  }
 
   return (
     <>
@@ -124,7 +136,9 @@ export default function Home() {
             >
               <img src={category.image} alt="" loading="lazy" width="600" height="750" />
               <span className="cat-tile__shade" aria-hidden="true" />
-              <span className="cat-tile__count">{String(category.count).padStart(2, '0')}</span>
+              <span className="cat-tile__count">
+                {loading ? '—' : String(category.count).padStart(2, '0')}
+              </span>
               <span className="cat-tile__body">
                 <h3>{category.label}</h3>
                 <span className="cat-tile__cta">
@@ -150,7 +164,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <p className="muted">{t('common.loading')}</p>
+          <ProductGridSkeleton count={4} compact />
         ) : (
           <div className="grid grid--4">
             {favorites.map((product) => (

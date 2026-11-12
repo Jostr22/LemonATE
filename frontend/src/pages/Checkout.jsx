@@ -334,7 +334,17 @@ export default function Checkout() {
           </label>
           <label className="checkbox">
             <input type="checkbox" checked={form.terms} onChange={update('terms')} aria-invalid={Boolean(errors.terms)} />
-            <span>{t('checkout.terms')}</span>
+            <span>
+              {t('checkout.termsPrefix')}{' '}
+              <Link to="/terminos" onClick={(event) => event.stopPropagation()}>
+                {t('legal.terms')}
+              </Link>{' '}
+              {t('checkout.termsJoin')}{' '}
+              <Link to="/privacidad" onClick={(event) => event.stopPropagation()}>
+                {t('legal.privacy')}
+              </Link>
+              .
+            </span>
           </label>
           {errors.terms && <p className="field__error" style={{ marginTop: '-0.5rem' }}>{errors.terms}</p>}
 

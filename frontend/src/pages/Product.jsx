@@ -5,6 +5,8 @@ import { useStore } from '../context/StoreContext.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import ProductCard from '../components/ProductCard.jsx';
+import { ProductDetailSkeleton } from '../components/Skeleton.jsx';
+import ErrorState from '../components/ErrorState.jsx';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import {
   EXTRAS,
@@ -29,7 +31,7 @@ export default function Product() {
   const [searchParams] = useSearchParams();
   const editKey = searchParams.get('editar');
   const { t, pick, lang } = useLang();
-  const { products, loading } = useStore();
+  const { products, loading, error, refresh } = useStore();
   const { add, remove, items } = useCart();
   const { showToast } = useToast();
 
@@ -94,12 +96,18 @@ export default function Product() {
     }));
   };
 
-  if (loading) {
+  if (error && !loading) {
     return (
-      <div className="shell section">
-        <p className="muted">{t('common.loading')}</p>
-      </div>
+      <ErrorState
+        title={t('error.storeTitle')}
+        message={t('error.store')}
+        onRetry={refresh}
+      />
     );
+  }
+
+  if (loading) {
+    return <ProductDetailSkeleton />;
   }
 
   if (!product || product.active === false) {

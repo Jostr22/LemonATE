@@ -5,6 +5,7 @@ import { api } from '../services/api.js';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import { ORDER_STATUSES } from '../i18n/index.js';
 import { formatCOP } from '../../../shared/pricing.js';
+import { Skeleton, RowsSkeleton, TableSkeleton } from '../components/Skeleton.jsx';
 import { IconArrow, IconCheck, IconClose, IconTrash } from '../components/Icons.jsx';
 
 const EMPTY_PRODUCT = {
@@ -25,6 +26,8 @@ export default function Admin() {
   const [tab, setTab] = useState('dashboard');
   const [orders, setOrders] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [messagesLoading, setMessagesLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [error, setError] = useState(null);
@@ -37,6 +40,7 @@ export default function Admin() {
 
   const loadOrders = useCallback(
     async ({ silent = false } = {}) => {
+      if (!silent) setOrdersLoading(true);
       try {
         const list = await api.listOrders();
 
@@ -70,19 +74,23 @@ export default function Admin() {
         if (!silent) setError(null);
       } catch (err) {
         if (!silent) setError(err.message);
+      } finally {
+        if (!silent) setOrdersLoading(false);
       }
     },
     [lang, t]
   );
 
-  const loadMessages = useCallback(
-    () =>
-      api
-        .listMessages()
-        .then(setMessages)
-        .catch((err) => setError(err.message)),
-    []
-  );
+  const loadMessages = useCallback(async () => {
+    setMessagesLoading(true);
+    try {
+      setMessages(await api.listMessages());
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setMessagesLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     loadOrders();
@@ -134,6 +142,8 @@ export default function Admin() {
     }),
     [products, orders, messages]
   );
+
+  const statsLoading = loading || ordersLoading || messagesLoading;
 
   const notify = (message) => {
     setFeedback(message);
@@ -282,37 +292,53 @@ export default function Admin() {
       {tab === 'dashboard' && (
         <>
           <div className="grid grid--4" style={{ marginBottom: 'var(--space-4)' }}>
-            <div className="stat-card"><strong>{stats.products}</strong><span>{t('admin.stats.products')}</span></div>
-            <div className="stat-card"><strong>{stats.orders}</strong><span>{t('admin.stats.orders')}</span></div>
-            <div className="stat-card"><strong>{stats.pending}</strong><span>{t('admin.stats.pending')}</span></div>
-            <div className="stat-card"><strong>{stats.messages}</strong><span>{t('admin.stats.messages')}</span></div>
+            {statsLoading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <Skeleton key={index} className="skeleton--stat" />
+              ))
+            ) : (
+              <>
+                <div className="stat-card"><strong>{stats.products}</strong><span>{t('admin.stats.products')}</span></div>
+                <div className="stat-card"><strong>{stats.orders}</strong><span>{t('admin.stats.orders')}</span></div>
+                <div className="stat-card"><strong>{stats.pending}</strong><span>{t('admin.stats.pending')}</span></div>
+                <div className="stat-card"><strong>{stats.messages}</strong><span>{t('admin.stats.messages')}</span></div>
+              </>
+            )}
           </div>
 
           <div className="grid grid--2">
             <div className="panel">
               <h4 style={{ marginBottom: '0.8rem' }}>{t('admin.orders')}</h4>
-              {orders.slice(0, 5).map((order) => (
-                <div key={order._id} className="row" style={{ justifyContent: 'space-between', paddingBlock: '0.4rem', borderBottom: '1px solid var(--ink-line)' }}>
-                  <span className="tiny">{order.code}</span>
-                  <span className={`status ${statusClass(order.status)}`}>{t(`status.${order.status}`)}</span>
-                  <strong className="tiny">{formatCOP(order.total, lang)}</strong>
-                </div>
-              ))}
-              {orders.length === 0 && <p className="tiny muted">{t('account.emptyOrders')}</p>}
+              {ordersLoading ? (
+                <RowsSkeleton rows={3} />
+              ) : (
+                orders.slice(0, 5).map((order) => (
+                  <div key={order._id} className="row" style={{ justifyContent: 'space-between', paddingBlock: '0.4rem', borderBottom: '1px solid var(--ink-line)' }}>
+                    <span className="tiny">{order.code}</span>
+                    <span className={`status ${statusClass(order.status)}`}>{t(`status.${order.status}`)}</span>
+                    <strong className="tiny">{formatCOP(order.total, lang)}</strong>
+                  </div>
+                ))
+              )}
+              {!ordersLoading && orders.length === 0 && <p className="tiny muted">{t('account.emptyOrders')}</p>}
             </div>
 
             <div className="panel">
               <h4 style={{ marginBottom: '0.8rem' }}>{t('admin.messages')}</h4>
-              {messages.slice(0, 5).map((message) => (
-                <div key={message._id} style={{ paddingBlock: '0.4rem', borderBottom: '1px solid var(--ink-line)' }}>
-                  <div className="row" style={{ justifyContent: 'space-between' }}>
-                    <strong className="tiny">{message.subject}</strong>
-                    <span className={`status ${message.status === 'nuevo' ? 'status--warn' : 'status--ok'}`}>{message.status}</span>
+              {messagesLoading ? (
+                <RowsSkeleton rows={3} />
+              ) : (
+                messages.slice(0, 5).map((message) => (
+                  <div key={message._id} style={{ paddingBlock: '0.4rem', borderBottom: '1px solid var(--ink-line)' }}>
+                    <div className="row" style={{ justifyContent: 'space-between' }}>
+                      <strong className="tiny">{message.subject}</strong>
+                      <span className={`status ${message.status === 'nuevo' ? 'status--warn' : 'status--ok'}`}>{message.status}</span>
+                    </div>
+                    <span className="tiny muted">{message.name}</span>
                   </div>
-                  <span className="tiny muted">{message.name}</span>
-                </div>
-              ))}
-              {messages.length === 0 && <p className="tiny muted">{t('admin.noMessages')}</p>}
+                ))
+              )}
+              {!messagesLoading && messages.length === 0 && <p className="tiny muted">{t('admin.noMessages')}</p>}
             </div>
           </div>
         </>
@@ -321,52 +347,58 @@ export default function Admin() {
       {tab === 'products' && (
         <>
           <div className="row" style={{ justifyContent: 'space-between', marginBottom: 'var(--space-3)' }}>
-            <span className="tiny muted">{products.length} {t('admin.products').toLowerCase()}</span>
+            <span className="tiny muted">
+              {loading ? '—' : `${products.length} ${t('admin.products').toLowerCase()}`}
+            </span>
             <button type="button" className="btn btn--sm" onClick={() => setEditing({ ...EMPTY_PRODUCT })}>
               + {t('admin.newProduct')}
             </button>
           </div>
 
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>{t('admin.image')}</th>
-                  <th>{t('admin.products')}</th>
-                  <th>{t('admin.category')}</th>
-                  <th>{t('admin.price')}</th>
-                  <th>{t('admin.stock')}</th>
-                  <th>{t('admin.actions')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product._id}>
-                    <td><img src={product.image} alt="" width="46" height="46" style={{ borderRadius: 6, objectFit: 'cover' }} /></td>
-                    <td>
-                      <strong className="tiny">{pick(product.name)}</strong>
-                      {product.featured && <span className="badge badge--chrome" style={{ position: 'static', marginLeft: 6 }}>★</span>}
-                    </td>
-                    <td className="tiny">{pick(CATEGORIES.find((c) => c.id === product.category)?.name)}</td>
-                    <td className="tiny">{formatCOP(product.price, lang)}</td>
-                    <td>
-                      <span className={`status ${product.stock > 0 ? 'status--ok' : 'status--danger'}`}>{product.stock}</span>
-                    </td>
-                    <td>
-                      <div className="row" style={{ gap: '0.3rem' }}>
-                        <button type="button" className="btn btn--sm btn--ghost" onClick={() => setEditing({ ...product })}>
-                          {t('common.edit')}
-                        </button>
-                        <button type="button" className="btn btn--sm btn--danger" onClick={() => deactivate(product)}>
-                          <IconTrash />
-                        </button>
-                      </div>
-                    </td>
+          {loading ? (
+            <TableSkeleton rows={5} cols={6} />
+          ) : (
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>{t('admin.image')}</th>
+                    <th>{t('admin.products')}</th>
+                    <th>{t('admin.category')}</th>
+                    <th>{t('admin.price')}</th>
+                    <th>{t('admin.stock')}</th>
+                    <th>{t('admin.actions')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product._id}>
+                      <td><img src={product.image} alt="" width="46" height="46" style={{ borderRadius: 6, objectFit: 'cover' }} /></td>
+                      <td>
+                        <strong className="tiny">{pick(product.name)}</strong>
+                        {product.featured && <span className="badge badge--chrome" style={{ position: 'static', marginLeft: 6 }}>★</span>}
+                      </td>
+                      <td className="tiny">{pick(CATEGORIES.find((c) => c.id === product.category)?.name)}</td>
+                      <td className="tiny">{formatCOP(product.price, lang)}</td>
+                      <td>
+                        <span className={`status ${product.stock > 0 ? 'status--ok' : 'status--danger'}`}>{product.stock}</span>
+                      </td>
+                      <td>
+                        <div className="row" style={{ gap: '0.3rem' }}>
+                          <button type="button" className="btn btn--sm btn--ghost" onClick={() => setEditing({ ...product })}>
+                            {t('common.edit')}
+                          </button>
+                          <button type="button" className="btn btn--sm btn--danger" onClick={() => deactivate(product)}>
+                            <IconTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </>
       )}
 
@@ -409,7 +441,9 @@ export default function Admin() {
             })}
           </p>
 
-          {orders.length === 0 ? (
+          {ordersLoading ? (
+            <TableSkeleton rows={4} cols={7} />
+          ) : orders.length === 0 ? (
             <div className="empty">{t('account.emptyOrders')}</div>
           ) : (
             <div className="table-wrap">
@@ -475,35 +509,41 @@ export default function Admin() {
 
       {tab === 'messages' && (
         <div className="stack">
-          {messages.length === 0 && <div className="empty">{t('admin.noMessages')}</div>}
-          {messages.map((message) => (
-            <article className="panel" key={message._id}>
-              <div className="row" style={{ justifyContent: 'space-between' }}>
-                <div>
-                  <strong>{message.subject}</strong>
-                  <div className="tiny muted">
-                    {message.name} · {message.contact} · {new Date(message.createdAt).toLocaleString(lang)}
+          {messagesLoading ? (
+            <RowsSkeleton rows={3} rowClassName="skeleton--notice" />
+          ) : (
+            <>
+              {messages.length === 0 && <div className="empty">{t('admin.noMessages')}</div>}
+              {messages.map((message) => (
+                <article className="panel" key={message._id}>
+                  <div className="row" style={{ justifyContent: 'space-between' }}>
+                    <div>
+                      <strong>{message.subject}</strong>
+                      <div className="tiny muted">
+                        {message.name} · {message.contact} · {new Date(message.createdAt).toLocaleString(lang)}
+                      </div>
+                    </div>
+                    <div className="row">
+                      <span className={`status ${message.status === 'nuevo' ? 'status--warn' : 'status--ok'}`}>{message.status}</span>
+                      {message.status === 'nuevo' && (
+                        <button
+                          type="button"
+                          className="btn btn--sm btn--ghost"
+                          onClick={async () => {
+                            await api.markMessage(message._id);
+                            loadMessages();
+                          }}
+                        >
+                          <IconCheck /> {t('admin.markRead')}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <span className={`status ${message.status === 'nuevo' ? 'status--warn' : 'status--ok'}`}>{message.status}</span>
-                  {message.status === 'nuevo' && (
-                    <button
-                      type="button"
-                      className="btn btn--sm btn--ghost"
-                      onClick={async () => {
-                        await api.markMessage(message._id);
-                        loadMessages();
-                      }}
-                    >
-                      <IconCheck /> {t('admin.markRead')}
-                    </button>
-                  )}
-                </div>
-              </div>
-              <p className="tiny" style={{ marginTop: '0.6rem', marginBottom: 0 }}>{message.message}</p>
-            </article>
-          ))}
+                  <p className="tiny" style={{ marginTop: '0.6rem', marginBottom: 0 }}>{message.message}</p>
+                </article>
+              ))}
+            </>
+          )}
         </div>
       )}
 
@@ -722,8 +762,6 @@ export default function Admin() {
           </form>
         </div>
       )}
-
-      {loading && <p className="muted" style={{ marginTop: '1rem' }}>{t('common.loading')}</p>}
     </div>
   );
 }

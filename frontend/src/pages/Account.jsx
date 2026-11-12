@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
 import { api } from '../services/api.js';
 import ProductCard from '../components/ProductCard.jsx';
+import { ProductGridSkeleton, RowsSkeleton } from '../components/Skeleton.jsx';
 import { formatCOP } from '../../../shared/pricing.js';
 import { IconTrash } from '../components/Icons.jsx';
 
@@ -13,7 +14,7 @@ const TABS = ['profile', 'addresses', 'orders', 'favorites'];
 export default function Account() {
   const { t, pick, lang } = useLang();
   const { user, updateMe, logout } = useAuth();
-  const { products } = useStore();
+  const { products, loading: storeLoading } = useStore();
   const [tab, setTab] = useState('profile');
   const [form, setForm] = useState({ name: user?.name || '', phone: user?.phone || '' });
   const [orders, setOrders] = useState(null);
@@ -144,7 +145,7 @@ export default function Account() {
 
       {tab === 'orders' && (
         <div className="stack">
-          {orders === null && <p className="muted">{t('common.loading')}</p>}
+          {orders === null && <RowsSkeleton rows={3} rowClassName="skeleton--notice" />}
           {orders?.length === 0 && <div className="empty">{t('account.emptyOrders')}</div>}
           {orders?.map((order) => (
             <div key={order._id} className="panel">
@@ -168,7 +169,9 @@ export default function Account() {
 
       {tab === 'favorites' && (
         <>
-          {favorites.length === 0 ? (
+          {storeLoading ? (
+            <ProductGridSkeleton count={4} />
+          ) : favorites.length === 0 ? (
             <div className="empty">{t('account.emptyFavorites')}</div>
           ) : (
             <div className="grid grid--products">

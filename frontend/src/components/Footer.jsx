@@ -66,7 +66,11 @@ export default function Footer() {
 
         <div className="footer__bottom">
           <span>© {new Date().getFullYear()} LemonATE. {t('footer.rights')}</span>
-          <span>{t('footer.legal')}</span>
+          <span className="footer__legal">
+            <Link to="/terminos">{t('legal.terms')}</Link>
+            <Link to="/privacidad">{t('legal.privacy')}</Link>
+            <span>{t('footer.legal')}</span>
+          </span>
         </div>
       </div>
     </footer>
