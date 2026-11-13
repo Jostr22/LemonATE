@@ -89,8 +89,8 @@ pedido se crea igual y el aviso queda disponible en **Admin → Pedidos**.
 | Parte | Plataforma | Notas |
 |---|---|---|
 | Frontend | GitHub Pages | `npm run build` en `frontend/`, base `./`. El workflow `.github/workflows/deploy.yml` lo automatiza. |
-| Backend | Render | Web Service con `rootDir: backend`, build `npm install`, start `npm start`. Variables de entorno en el panel de Render. |
-| Base de datos | MongoDB Atlas | Cadena `MONGODB_URI`. Crear usuario de base de datos con permisos de lectura/escritura. |
+| Backend | Render | Web Service con `rootDir: backend`, build `npm ci`, start `npm start`. Variables de entorno en el panel de Render. |
+| Base de datos | MongoDB Atlas | Base **`lemonate`** en el cluster `lemonate`. Cadena `MONGODB_URI` con `/lemonate` al final. Usuario de base de datos con permiso `readWrite`. |
 
 Antes del primer despliegue, en GitHub entra a **Settings → Pages → Build and deployment**
 y elige **Source: GitHub Actions**. Si Pages no está habilitado, el workflow falla en el
@@ -101,6 +101,7 @@ Nunca se suben al repositorio el archivo `.env`, la cadena de MongoDB ni el `JWT
 ## Documentación
 
 - [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) — decisiones técnicas y diagramas.
+- [`docs/BASE_DE_DATOS.md`](docs/BASE_DE_DATOS.md) — cómo consultar, editar, respaldar y recuperar la base.
 - [`docs/DOCUMENTACION.md`](docs/DOCUMENTACION.md) — documento académico completo.
 - [`docs/GUIA_EXPOSICION.md`](docs/GUIA_EXPOSICION.md) — guion de defensa y preguntas del profesor.
 - [`docs/FOTOS.md`](docs/FOTOS.md) — catálogo de fotos reales, medidas y cómo reemplazarlas.
