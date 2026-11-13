@@ -13,7 +13,6 @@ determinista llamado **LemonATE AI**.
 LemonATE/
 ├── frontend/        React + Vite (se publica en GitHub Pages)
 ├── backend/         Node.js + Express + MongoDB Atlas (se publica en Render)
-├── docs/            Documentación técnica, arquitectura y guía de operación
 └── index.html       Redirección a la landing publicada
 ```
 
@@ -98,15 +97,6 @@ paso `Configurar Pages`.
 
 Nunca se suben al repositorio el archivo `.env`, la cadena de MongoDB ni el `JWT_SECRET`.
 
-## Documentación
-
-- [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) — decisiones técnicas y diagramas.
-- [`docs/BASE_DE_DATOS.md`](docs/BASE_DE_DATOS.md) — cómo consultar, editar, respaldar y recuperar la base.
-- [`docs/DOCUMENTACION.md`](docs/DOCUMENTACION.md) — documento académico completo.
-- [`docs/GUIA_EXPOSICION.md`](docs/GUIA_EXPOSICION.md) — guion de defensa y preguntas del profesor.
-- [`docs/FOTOS.md`](docs/FOTOS.md) — catálogo de fotos reales, medidas y cómo reemplazarlas.
-
 ## Estado del proyecto
 
-Ver la sección «Estado y limitaciones» en `docs/DOCUMENTACION.md`. El proyecto se
-desarrolla por etapas y cada etapa se registra en un commit.
+El proyecto se desarrolla por etapas y cada etapa se registra en un commit.
