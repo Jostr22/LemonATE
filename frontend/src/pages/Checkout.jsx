@@ -157,6 +157,11 @@ export default function Checkout() {
             <span>{t('cart.total')}</span>
             <strong>{formatCOP(order.total, lang)}</strong>
           </div>
+          {order.deliveryPending && (
+            <p className="tiny muted" style={{ marginTop: '0.5rem', marginBottom: 0 }}>
+              {t('checkout.deliveryPending')}
+            </p>
+          )}
           <Link
             to={`/seguimiento?code=${order.code}&pin=${order.pin}`}
             className="btn btn--block"
