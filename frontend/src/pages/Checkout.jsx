@@ -34,7 +34,6 @@ export default function Checkout() {
     addressLine: saved.addressLine || '',
     neighborhood: saved.neighborhood || '',
     notes: saved.notes || '',
-    distanceKm: saved.distanceKm || '',
     paymentMethod: 'nequi',
     saveData: true,
     terms: false,
@@ -44,11 +43,9 @@ export default function Checkout() {
   const [order, setOrder] = useState(null);
   const [serverError, setServerError] = useState(null);
 
-  const distance = Number(form.distanceKm);
-  const delivery = useMemo(
-    () => computeDelivery(distance, settings?.delivery),
-    [distance, settings]
-  );
+  // El domicilio es una tarifa fija configurada por el negocio:
+  // el cliente ya no declara kilómetros.
+  const delivery = useMemo(() => computeDelivery(settings?.delivery), [settings]);
   const totals = useMemo(
     () => computeTotals(items, delivery.available ? delivery.fee : 0, 0),
     [items, delivery]
@@ -65,11 +62,6 @@ export default function Checkout() {
     if (!form.phone.trim()) found.phone = t('checkout.requiredFields');
     if (!form.addressLine.trim()) found.addressLine = t('checkout.requiredFields');
     if (!form.neighborhood.trim()) found.neighborhood = t('checkout.requiredFields');
-    if (form.distanceKm === '' || Number.isNaN(distance) || distance < 0) {
-      found.distanceKm = t('checkout.requiredFields');
-    } else if (!delivery.available) {
-      found.distanceKm = t('checkout.noCoverage', { max: settings?.delivery?.maxKm ?? 12 });
-    }
     if (!form.terms) found.terms = t('checkout.requiredFields');
     setErrors(found);
     return Object.keys(found).length === 0;
@@ -92,7 +84,6 @@ export default function Checkout() {
           line: form.addressLine,
           neighborhood: form.neighborhood,
           notes: form.notes,
-          distanceKm: distance,
         },
         paymentMethod: form.paymentMethod,
       });
@@ -107,7 +98,6 @@ export default function Checkout() {
             addressLine: form.addressLine,
             neighborhood: form.neighborhood,
             notes: form.notes,
-            distanceKm: form.distanceKm,
           })
         );
       }
@@ -123,7 +113,6 @@ export default function Checkout() {
                   label: form.neighborhood,
                   line: form.addressLine,
                   notes: form.notes,
-                  distanceKm: distance,
                 },
               ],
             })
@@ -247,33 +236,15 @@ export default function Checkout() {
                 <input value={form.neighborhood} onChange={update('neighborhood')} aria-invalid={Boolean(errors.neighborhood)} />
                 {errors.neighborhood && <p className="field__error">{errors.neighborhood}</p>}
               </label>
-              <label className="field">
-                <span>{t('checkout.distance')} *</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="60"
-                  step="0.1"
-                  value={form.distanceKm}
-                  onChange={update('distanceKm')}
-                  aria-invalid={Boolean(errors.distanceKm)}
-                />
-                <p className="field__hint">{t('checkout.distanceHint')}</p>
-                {errors.distanceKm && <p className="field__error">{errors.distanceKm}</p>}
-              </label>
               <label className="field field--full">
                 <span>{t('checkout.notes')} ({t('common.optional')})</span>
                 <textarea value={form.notes} onChange={update('notes')} rows={2} />
               </label>
             </div>
 
-            {form.distanceKm !== '' && (
-              <div className={`notice ${delivery.available ? 'notice--ok' : 'notice--error'}`} style={{ marginBottom: 0 }}>
-                {delivery.available
-                  ? `${t('checkout.coverage')}: ${formatCOP(delivery.fee, lang)}`
-                  : t('checkout.noCoverage', { max: settings?.delivery?.maxKm ?? 12 })}
-              </div>
-            )}
+            <div className="notice notice--ok" style={{ marginBottom: 0 }}>
+              {t('checkout.coverage')}: {formatCOP(delivery.fee, lang)} · {t('checkout.flatFeeNote')}
+            </div>
           </div>
 
           <div className="panel">

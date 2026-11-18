@@ -500,13 +500,7 @@ export const DEFAULT_SETTINGS = {
   holidays: [],
   delivery: {
     businessAddress: 'Barranquilla, Atlántico, Colombia',
-    maxKm: 12,
-    ranges: [
-      { maxKm: 2, fee: 3000 },
-      { maxKm: 5, fee: 5000 },
-      { maxKm: 8, fee: 7000 },
-      { maxKm: 12, fee: 10000 },
-    ],
+    flatFee: 5000,
   },
   payments: {
     nequi: 'Nequi',

@@ -119,8 +119,7 @@ export default function Admin() {
         instagram: settings.contact?.instagram || '',
         tiktok: settings.contact?.tiktok || '',
         businessAddress: settings.delivery?.businessAddress || '',
-        maxKm: settings.delivery?.maxKm || 12,
-        ranges: settings.delivery?.ranges || [],
+        flatFee: settings.delivery?.flatFee ?? 5000,
         weekdaysOpen: settings.hours?.weekdays?.open || '10:00',
         weekdaysClose: settings.hours?.weekdays?.close || '20:00',
         sundayOpen: settings.hours?.sunday?.open || '10:00',
@@ -223,8 +222,7 @@ export default function Admin() {
         delivery: {
           ...settings.delivery,
           businessAddress: settingsForm.businessAddress,
-          maxKm: Number(settingsForm.maxKm),
-          ranges: settingsForm.ranges.map((range) => ({ maxKm: Number(range.maxKm), fee: Number(range.fee) })),
+          flatFee: Number(settingsForm.flatFee),
         },
         payments: {
           ...settings.payments,
@@ -618,40 +616,19 @@ export default function Admin() {
               <input value={settingsForm.businessAddress} onChange={(event) => setSettingsForm((c) => ({ ...c, businessAddress: event.target.value }))} />
             </label>
             <label className="field">
-              <span>Radio máximo (km)</span>
-              <input type="number" min="1" value={settingsForm.maxKm} onChange={(event) => setSettingsForm((c) => ({ ...c, maxKm: event.target.value }))} />
+              <span>{t('checkout.flatFee')}</span>
+              <input
+                type="number"
+                min="0"
+                step="500"
+                value={settingsForm.flatFee}
+                onChange={(event) => setSettingsForm((c) => ({ ...c, flatFee: event.target.value }))}
+              />
             </label>
           </div>
-          <div className="grid grid--4">
-            {settingsForm.ranges.map((range, index) => (
-              <div className="panel" key={index} style={{ padding: '0.8rem' }}>
-                <span className="tiny muted">Hasta km</span>
-                <input
-                  type="number"
-                  value={range.maxKm}
-                  onChange={(event) =>
-                    setSettingsForm((c) => ({
-                      ...c,
-                      ranges: c.ranges.map((r, i) => (i === index ? { ...r, maxKm: event.target.value } : r)),
-                    }))
-                  }
-                  style={{ width: '100%', marginBottom: '0.4rem', padding: '0.4rem', background: '#101213', border: '1px solid var(--ink-line)', borderRadius: 6 }}
-                />
-                <span className="tiny muted">Tarifa (COP)</span>
-                <input
-                  type="number"
-                  value={range.fee}
-                  onChange={(event) =>
-                    setSettingsForm((c) => ({
-                      ...c,
-                      ranges: c.ranges.map((r, i) => (i === index ? { ...r, fee: event.target.value } : r)),
-                    }))
-                  }
-                  style={{ width: '100%', padding: '0.4rem', background: '#101213', border: '1px solid var(--ink-line)', borderRadius: 6 }}
-                />
-              </div>
-            ))}
-          </div>
+          <p className="tiny muted" style={{ marginTop: '0.6rem' }}>
+            {t('checkout.flatFeeNote')}
+          </p>
 
           <hr className="divider" />
           <h4 style={{ marginBottom: '1rem' }}>{t('checkout.payment')}</h4>

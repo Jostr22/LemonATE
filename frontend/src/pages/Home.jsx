@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard.jsx';
 import { ProductGridSkeleton } from '../components/Skeleton.jsx';
 import ErrorState from '../components/ErrorState.jsx';
 import { CATEGORIES } from '../../../shared/catalog.js';
+import { formatCOP } from '../../../shared/pricing.js';
 import { IconArrow, IconSpark, IconWhatsapp } from '../components/Icons.jsx';
 
 const TILE_CLASS = {
@@ -15,7 +16,7 @@ const TILE_CLASS = {
 };
 
 export default function Home() {
-  const { t, pick } = useLang();
+  const { t, pick, lang } = useLang();
   const { products, featured, settings, loading, error, refresh } = useStore();
 
   const categories = CATEGORIES.map((category) => ({
@@ -70,7 +71,7 @@ export default function Home() {
                 <span>{t('hero.metric1')}</span>
               </div>
               <div>
-                <strong>{settings?.delivery?.maxKm ?? 12} km</strong>
+                <strong>{formatCOP(settings?.delivery?.flatFee ?? 5000, lang)}</strong>
                 <span>{t('hero.metric2')}</span>
               </div>
               <div>

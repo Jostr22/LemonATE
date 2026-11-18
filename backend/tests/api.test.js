@@ -144,7 +144,7 @@ describe('LemonATE API', () => {
           { productId: dessert._id, qty: 1 },
         ],
         customer: { name: 'Cliente Prueba', phone: '3001234567', email: 'cliente@test.com' },
-        address: { line: 'Calle 1 #2-3', neighborhood: 'Centro', distanceKm: 3 },
+        address: { line: 'Calle 1 #2-3', neighborhood: 'Centro' },
         paymentMethod: 'nequi',
       });
 
@@ -164,7 +164,7 @@ describe('LemonATE API', () => {
     assert.equal(wrong.status, 404);
   });
 
-  it('rechaza pedidos fuera de cobertura', async () => {
+  it('cobra una tarifa fija de domicilio sin importar la distancia', async () => {
     const products = await request(app).get('/api/products');
     const response = await request(app)
       .post('/api/orders')
@@ -174,7 +174,8 @@ describe('LemonATE API', () => {
         address: { line: 'Muy lejos', distanceKm: 40 },
         paymentMethod: 'nequi',
       });
-    assert.equal(response.status, 400);
+    assert.equal(response.status, 201);
+    assert.equal(response.body.deliveryFee, 5000);
   });
 
   it('permite elegir el contenido de un combo y lo guarda legible', async () => {
@@ -198,7 +199,7 @@ describe('LemonATE API', () => {
           },
         ],
         customer: { name: 'Cliente Combo', phone: '3001234567' },
-        address: { line: 'Calle 1 #2-3', neighborhood: 'Centro', distanceKm: 3 },
+        address: { line: 'Calle 1 #2-3', neighborhood: 'Centro' },
         paymentMethod: 'nequi',
       });
 
@@ -224,7 +225,7 @@ describe('LemonATE API', () => {
           },
         ],
         customer: { name: 'Cliente', phone: '3000000000' },
-        address: { line: 'Calle 1', neighborhood: 'Centro', distanceKm: 3 },
+        address: { line: 'Calle 1', neighborhood: 'Centro' },
         paymentMethod: 'nequi',
       });
     assert.equal(response.status, 400);
@@ -237,7 +238,7 @@ describe('LemonATE API', () => {
       .send({
         items: [{ productId: products.body[0]._id, qty: 1 }],
         customer: { name: 'Cliente', phone: '3000000000' },
-        address: { line: 'Calle 1', neighborhood: 'Centro', distanceKm: 3 },
+        address: { line: 'Calle 1', neighborhood: 'Centro' },
         paymentMethod: 'tarjeta',
       });
     assert.equal(response.status, 400);
@@ -368,13 +369,13 @@ describe('LemonATE API', () => {
     const updated = await request(app)
       .put('/api/settings')
       .set('Authorization', `Bearer ${adminToken}`)
-      .send({ delivery: { maxKm: 15 } });
+      .send({ delivery: { flatFee: 6500 } });
 
     assert.equal(updated.status, 200);
-    assert.equal(updated.body.delivery.maxKm, 15);
+    assert.equal(updated.body.delivery.flatFee, 6500);
 
     const publicSettings = await request(app).get('/api/settings');
     assert.equal(publicSettings.status, 200);
-    assert.equal(publicSettings.body.delivery.maxKm, 15);
+    assert.equal(publicSettings.body.delivery.flatFee, 6500);
   });
 });

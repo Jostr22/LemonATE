@@ -19,7 +19,7 @@ con datos locales, de forma que la tienda siempre puede presentarse.
 | Nombre | LemonATE |
 | Eslogan | «Exprime el momento» |
 | Actividad | Limonadas, bebidas especiales, postres y combos |
-| Cobertura | Barranquilla y municipios cercanos (12 km, configurable) |
+| Cobertura | Barranquilla y municipios cercanos (tarifa fija de domicilio configurable) |
 | Público | Jóvenes y adultos |
 | Personalidad | Fresca, juvenil, atrevida, creativa, energética |
 | Canal principal | WhatsApp Business; Instagram y TikTok como contenido |
@@ -151,7 +151,7 @@ valor y el servidor lo recalcula con la misma regla.
 | passwordHash | String | bcrypt, `select: false` |
 | role | Enum | `customer` / `admin` |
 | phone | String | opcional |
-| addresses | Array | etiqueta, dirección, barrio, notas, distancia |
+| addresses | Array | etiqueta, dirección, barrio, notas |
 | favorites | [ObjectId] | referencia a productos |
 | timestamps | Date | creación y actualización |
 
@@ -177,7 +177,7 @@ valor y el servidor lo recalcula con la misma regla.
 | pin | String | 4 dígitos, solo se entrega al crear |
 | items | Array | producto, cantidad, personalización, precios |
 | customer | Object | nombre, teléfono, correo |
-| address | Object | dirección, barrio, notas, distancia |
+| address | Object | dirección, barrio, notas |
 | subtotal, deliveryFee, discount, total | Number | calculados en el servidor |
 | paymentMethod | Enum | Nequi, Daviplata, Bancolombia, Bre-B (`tarjeta` solo en pedidos históricos) |
 | paymentStatus | Enum | pending, confirmed, cancelled |
@@ -192,7 +192,7 @@ Nombre, contacto, asunto, mensaje, estado (`nuevo`/`leido`) y fecha.
 ### `settings`
 
 Documento único (`key: main`) con marca, contacto, redes, horarios, festivos, dirección del
-negocio, radio y tarifas de domicilio, métodos de pago y cobertura.
+negocio, tarifa fija de domicilio, métodos de pago y cobertura.
 
 ## 10. Explicación de la API
 
@@ -234,9 +234,9 @@ Formato de error: `{ "message": "...", "errors": [{ "field", "message" }] }`.
 1. El cliente agrega productos; si la bebida es personalizable elige tamaño, hielo, azúcar
    y extras, y el precio se recalcula al instante.
 2. El carrito guarda producto, personalización, cantidad y precio unitario.
-3. En el checkout ingresa sus datos y la distancia aproximada.
-4. El domicilio se calcula por rangos: 0–2 km $3.000, 2–5 km $5.000, 5–8 km $7.000 y
-   8–12 km $10.000 (valores configurables). Fuera del radio se bloquea el pedido.
+3. En el checkout ingresa sus datos y su dirección; no declara kilómetros.
+4. El domicilio tiene una tarifa fija configurable desde el panel (por defecto $5.000),
+   sin importar la distancia. La cobertura se confirma por WhatsApp.
 5. Al confirmar, el servidor vuelve a validar existencias y precios, genera `LMT-XXXXXX` y
    un PIN, y guarda el pedido con estado «Recibido».
 6. El cliente consulta el estado con código + PIN; el administrador lo cambia manualmente.
@@ -257,7 +257,7 @@ Un único administrador accede con correo y contraseña. Puede:
   si es personalizable.
 - Consultar pedidos, ver cliente, total y estado; cambiarlo con un selector.
 - Leer mensajes del formulario y marcarlos como leídos.
-- Editar contacto, redes, horarios, dirección, radio, tarifas y datos de pago.
+- Editar contacto, redes, horarios, dirección, tarifa de domicilio y datos de pago.
 - En modo demostración, restablecer los datos locales.
 
 ## 14. LemonATE AI

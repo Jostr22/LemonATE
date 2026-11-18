@@ -40,13 +40,9 @@ export const EXTRAS = [
 
 export const DEFAULT_DELIVERY = {
   businessAddress: 'Barranquilla, Atlántico, Colombia',
-  maxKm: 12,
-  ranges: [
-    { maxKm: 2, fee: 3000 },
-    { maxKm: 5, fee: 5000 },
-    { maxKm: 8, fee: 7000 },
-    { maxKm: 12, fee: 10000 },
-  ],
+  // Tarifa única de domicilio. La distancia la confirma el negocio al
+  // despachar; el cliente ya no la escribe.
+  flatFee: 5000,
 };
 
 export const TAX_RATE = 0;
@@ -75,23 +71,13 @@ export function computeUnitPrice(product, customization = {}) {
   return price;
 }
 
-/** Costo de domicilio según la distancia en kilómetros. */
-export function computeDelivery(distanceKm, config = DEFAULT_DELIVERY) {
-  const km = Number(distanceKm);
-  const ranges = [...(config?.ranges || DEFAULT_DELIVERY.ranges)].sort((a, b) => a.maxKm - b.maxKm);
-  const maxKm = config?.maxKm ?? DEFAULT_DELIVERY.maxKm;
-
-  if (!Number.isFinite(km) || km < 0) {
-    return { available: false, fee: 0, reason: 'invalid' };
-  }
-  if (km > maxKm) {
-    return { available: false, fee: 0, reason: 'coverage' };
-  }
-  const range = ranges.find((r) => km <= r.maxKm);
-  if (!range) {
-    return { available: false, fee: 0, reason: 'coverage' };
-  }
-  return { available: true, fee: range.fee, rangeMaxKm: range.maxKm };
+/** Tarifa fija de domicilio definida por el negocio. */
+export function computeDelivery(config = DEFAULT_DELIVERY) {
+  const fee = Number(config?.flatFee ?? DEFAULT_DELIVERY.flatFee);
+  return {
+    available: true,
+    fee: Number.isFinite(fee) && fee >= 0 ? fee : DEFAULT_DELIVERY.flatFee,
+  };
 }
 
 /** Totales de un pedido. El backend vuelve a calcularlos siempre. */

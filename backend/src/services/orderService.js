@@ -90,12 +90,7 @@ export async function createOrder(payload, user) {
   });
 
   const settings = await Settings.getMain();
-  const delivery = computeDelivery(payload.address.distanceKm, settings.delivery);
-  if (!delivery.available) {
-    throw ApiError.badRequest(
-      `Sin cobertura para ${payload.address.distanceKm} km. El máximo es ${settings.delivery.maxKm} km.`
-    );
-  }
+  const delivery = computeDelivery(settings.delivery);
 
   const totals = computeTotals(items, delivery.fee, payload.discount || 0);
 

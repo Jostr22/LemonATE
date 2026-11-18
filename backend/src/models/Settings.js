@@ -27,11 +27,7 @@ const settingsSchema = new mongoose.Schema(
     holidays: { type: [String], default: [] },
     delivery: {
       businessAddress: { type: String, default: '' },
-      maxKm: { type: Number, default: 12 },
-      ranges: {
-        type: [{ maxKm: Number, fee: Number }],
-        default: DEFAULT_SETTINGS.delivery.ranges,
-      },
+      flatFee: { type: Number, default: DEFAULT_SETTINGS.delivery.flatFee, min: 0 },
     },
     payments: {
       nequi: { type: String, default: '' },

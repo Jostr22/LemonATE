@@ -61,7 +61,7 @@ const orderSchema = new mongoose.Schema(
       line: { type: String, required: true, trim: true },
       neighborhood: { type: String, trim: true, default: '' },
       notes: { type: String, trim: true, default: '' },
-      distanceKm: { type: Number, required: true, min: 0 },
+      distanceKm: { type: Number, min: 0, default: 0 },
     },
     subtotal: { type: Number, required: true, min: 0 },
     deliveryFee: { type: Number, required: true, min: 0 },

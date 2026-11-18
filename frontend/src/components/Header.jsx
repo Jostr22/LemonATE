@@ -51,9 +51,15 @@ export default function Header() {
             </div>
 
             <Link
-              to={user ? '/cuenta' : '/login'}
+              to={isAdmin ? '/admin' : user ? '/cuenta' : '/login'}
               className="icon-btn"
-              aria-label={user ? `${t('nav.account')} — ${user.name}` : t('auth.login')}
+              aria-label={
+                isAdmin
+                  ? t('nav.admin')
+                  : user
+                    ? `${t('nav.account')} — ${user.name}`
+                    : t('auth.login')
+              }
             >
               <IconUser />
             </Link>
@@ -100,8 +106,9 @@ export default function Header() {
             ))}
           </div>
           <Link to="/seguimiento">{t('nav.track')}</Link>
-          <Link to={user ? '/cuenta' : '/login'}>{user ? t('nav.account') : t('auth.login')}</Link>
-          {isAdmin && <Link to="/admin">{t('nav.admin')}</Link>}
+          <Link to={isAdmin ? '/admin' : user ? '/cuenta' : '/login'}>
+            {isAdmin ? t('nav.admin') : user ? t('nav.account') : t('auth.login')}
+          </Link>
         </nav>
       )}
     </>

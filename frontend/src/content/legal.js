@@ -26,14 +26,14 @@ export const LEGAL = {
         {
           title: '3. Precios y pagos',
           paragraphs: [
-            'Los precios se muestran en pesos colombianos (COP). El valor final incluye el domicilio calculado según la distancia.',
+            'Los precios se muestran en pesos colombianos (COP). El valor final incluye el domicilio con tarifa fija vigente, sin importar la distancia.',
             'Aceptamos los medios de pago habilitados en el checkout (actualmente Nequi, Daviplata, Bancolombia y llaves Bre-B). Los datos de pago se comparten por WhatsApp después de confirmar el pedido. El pedido se prepara cuando el pago es verificado. No se procesan pagos con tarjeta en este sitio.',
           ],
         },
         {
           title: '4. Domicilios',
           paragraphs: [
-            'Entregamos dentro de la zona de cobertura indicada en el checkout. El costo del domicilio se calcula por rangos de distancia. El tiempo estimado se informa al confirmar el pedido y puede variar por clima, tráfico o demanda.',
+            'Entregamos en Barranquilla y municipios cercanos; la cobertura exacta se confirma por WhatsApp al recibir el pedido. El domicilio tiene una tarifa fija vigente, sin importar la distancia. El tiempo estimado se informa al confirmar el pedido y puede variar por clima, tráfico o demanda.',
           ],
         },
         {
@@ -79,14 +79,14 @@ export const LEGAL = {
         {
           title: '3. Prices and payments',
           paragraphs: [
-            'Prices are shown in Colombian pesos (COP). The final amount includes the delivery fee calculated by distance.',
+            'Prices are shown in Colombian pesos (COP). The final amount includes the delivery fee at the current flat rate, regardless of distance.',
             'We accept the payment methods enabled at checkout (currently Nequi, Daviplata, Bancolombia and Bre-B keys). Payment details are shared on WhatsApp after you confirm the order. The order is prepared once payment is verified. We do not process card payments on this site.',
           ],
         },
         {
           title: '4. Delivery',
           paragraphs: [
-            'We deliver within the coverage area shown at checkout. The delivery fee is calculated by distance range. The estimated time is provided when you confirm the order and may vary due to weather, traffic or demand.',
+            'We deliver in Barranquilla and nearby municipalities; the exact coverage is confirmed by WhatsApp when we receive the order. Delivery has a current flat fee, regardless of distance. The estimated time is provided when you confirm the order and may vary due to weather, traffic or demand.',
           ],
         },
         {
@@ -127,7 +127,7 @@ export const LEGAL = {
         {
           title: '2. Datos que recibimos',
           paragraphs: [
-            'Recibimos los datos que envías al crear una cuenta, hacer un pedido o escribirnos: nombre, teléfono, correo electrónico (opcional), dirección de entrega, barrio o municipio, referencias, distancia aproximada, productos y método de pago. No recibimos ni almacenamos números de tarjeta, contraseñas bancarias ni códigos de seguridad.',
+            'Recibimos los datos que envías al crear una cuenta, hacer un pedido o escribirnos: nombre, teléfono, correo electrónico (opcional), dirección de entrega, barrio o municipio, referencias, productos y método de pago. No recibimos ni almacenamos números de tarjeta, contraseñas bancarias ni códigos de seguridad.',
           ],
         },
         {
@@ -194,7 +194,7 @@ export const LEGAL = {
         {
           title: '2. Data we receive',
           paragraphs: [
-            'We receive the data you submit when creating an account, placing an order or writing to us: name, phone number, email address (optional), delivery address, neighborhood or municipality, references, approximate distance, products and payment method. We do not receive or store card numbers, banking passwords or security codes.',
+            'We receive the data you submit when creating an account, placing an order or writing to us: name, phone number, email address (optional), delivery address, neighborhood or municipality, references, products and payment method. We do not receive or store card numbers, banking passwords or security codes.',
           ],
         },
         {

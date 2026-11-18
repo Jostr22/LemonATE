@@ -82,7 +82,7 @@ route → middleware (auth / validate) → controller → service → model → 
 | code | String | `LMT-XXXXXX`, único |
 | items | [OrderItem] | producto, cantidad, personalización, precio unitario |
 | customer | Object | nombre, teléfono, correo |
-| address | Object | dirección de entrega y distancia |
+| address | Object | dirección de entrega (línea, barrio, notas) |
 | subtotal / deliveryFee / discount / total | Number | calculados en el servidor |
 | paymentMethod | Enum | nequi, daviplata, bancolombia, bre-b (`tarjeta` solo histórico) |
 | paymentStatus | Enum | pending, confirmed (solo el admin confirma) |
@@ -95,7 +95,7 @@ Formulario de contacto: nombre, teléfono/correo, asunto, mensaje, estado (`nuev
 
 ### Settings
 Documento único con: marca, contacto, redes, horarios, festivos, dirección del negocio,
-radio de cobertura, tarifas por rango, métodos de pago, costo de extras y textos legales.
+tarifa fija de domicilio, métodos de pago, costo de extras y textos legales.
 
 ## 5. API REST
 
@@ -126,7 +126,8 @@ radio de cobertura, tarifas por rango, métodos de pago, costo de extras y texto
 
 - **Precios**: el servidor recalcula todo. El cliente nunca envía el total definitivo.
 - **Personalización**: tamaño (12/16/22 oz), hielo, azúcar y extras con precio.
-- **Domicilio**: se calcula por rangos de distancia; fuera del radio no hay cobertura.
+- **Domicilio**: tarifa fija configurable (`delivery.flatFee`), sin importar la distancia.
+  La cobertura se acuerda por WhatsApp y queda lista para una futura API de geolocalización.
 - **Inventario**: al confirmar el pago se descuenta la existencia; si falta, el pedido se rechaza.
 - **Pagos**: flujo de demostración. Ningún pedido se marca pagado automáticamente.
 - **Seguimiento**: código + PIN de 4 dígitos; sin PIN no se revelan datos personales.

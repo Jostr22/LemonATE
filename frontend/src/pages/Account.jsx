@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
@@ -18,7 +18,7 @@ export default function Account() {
   const [tab, setTab] = useState('profile');
   const [form, setForm] = useState({ name: user?.name || '', phone: user?.phone || '' });
   const [orders, setOrders] = useState(null);
-  const [newAddress, setNewAddress] = useState({ label: '', line: '', neighborhood: '', notes: '', distanceKm: '' });
+  const [newAddress, setNewAddress] = useState({ label: '', line: '', neighborhood: '', notes: '' });
   const [feedback, setFeedback] = useState(null);
 
   useEffect(() => {
@@ -43,8 +43,8 @@ export default function Account() {
   const addAddress = async (event) => {
     event.preventDefault();
     if (!newAddress.line.trim()) return;
-    await updateMe({ addresses: [...(user.addresses || []), { ...newAddress, distanceKm: Number(newAddress.distanceKm) || 0 }] });
-    setNewAddress({ label: '', line: '', neighborhood: '', notes: '', distanceKm: '' });
+    await updateMe({ addresses: [...(user.addresses || []), newAddress] });
+    setNewAddress({ label: '', line: '', neighborhood: '', notes: '' });
     setFeedback(t('account.saved'));
   };
 
@@ -53,6 +53,9 @@ export default function Account() {
   };
 
   const favorites = products.filter((product) => (user?.favorites || []).includes(product._id));
+
+  // La cuenta del administrador no es una cuenta de cliente.
+  if (user?.role === 'admin') return <Navigate to="/admin" replace />;
 
   return (
     <div className="shell section">
@@ -135,8 +138,8 @@ export default function Account() {
               <input value={newAddress.neighborhood} onChange={(event) => setNewAddress((c) => ({ ...c, neighborhood: event.target.value }))} />
             </label>
             <label className="field">
-              <span>{t('checkout.distance')}</span>
-              <input type="number" min="0" step="0.1" value={newAddress.distanceKm} onChange={(event) => setNewAddress((c) => ({ ...c, distanceKm: event.target.value }))} />
+              <span>{t('checkout.notes')}</span>
+              <input value={newAddress.notes} onChange={(event) => setNewAddress((c) => ({ ...c, notes: event.target.value }))} />
             </label>
             <button type="submit" className="btn btn--block">{t('common.save')}</button>
           </form>

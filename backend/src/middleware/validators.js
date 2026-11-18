@@ -79,7 +79,7 @@ export const orderSchema = z.object({
     line: z.string().trim().min(4, 'Escribe la dirección').max(160),
     neighborhood: z.string().trim().max(80).optional().default(''),
     notes: z.string().trim().max(240).optional().default(''),
-    distanceKm: z.coerce.number().min(0).max(60),
+    distanceKm: z.coerce.number().min(0).max(60).optional().default(0),
   }),
   paymentMethod: z.enum(['nequi', 'daviplata', 'bancolombia', 'bre-b']),
   discount: z.coerce.number().min(0).max(1000000).optional().default(0),

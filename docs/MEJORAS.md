@@ -78,7 +78,8 @@ para operar LemonATE como un negocio real, no como una demo.
    - Alertas cuando un producto quede por debajo de un mínimo.
 
 9. **Entrega y cobertura**
-   - Zonas de domicilio configurables por barrio, no solo por kilómetros.
+   - Zonas de domicilio configurables por barrio.
+   - Integrar una API de geolocalización para calcular distancia y tarifa automáticamente.
    - Horarios especiales, festivos y cierres temporales desde el panel.
    - Seguimiento del repartidor o integración con una plataforma de entregas.
    - Opción de recogida con franja horaria.

@@ -360,11 +360,7 @@ export const localBackend = {
     }
     if (items.length === 0) throw new Error('El carrito está vacío.');
 
-    const distanceKm = Number(payload.address?.distanceKm);
-    const delivery = computeDelivery(distanceKm, db.settings.delivery);
-    if (!delivery.available) {
-      throw new Error('La dirección está fuera de la cobertura de domicilio.');
-    }
+    const delivery = computeDelivery(db.settings.delivery);
     const totals = computeTotals(items, delivery.fee, payload.discount || 0);
 
     const code = `LMT-${Math.floor(100000 + Math.random() * 899999)}`;

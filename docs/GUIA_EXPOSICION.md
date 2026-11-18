@@ -8,7 +8,7 @@ seguimiento sin depender de mensajes sueltos de WhatsApp.»
 
 **Recorrido.** «Esta es la landing: marca, propuesta y accesos. Entro a la tienda, filtro por
 categoría, abro una limonada, elijo tamaño, hielo, azúcar y extras; el precio cambia. La
-agrego al carrito, voy al checkout, ingreso mi dirección y la distancia calcula el domicilio.
+agrego al carrito, voy al checkout, ingreso mi dirección y se aplica la tarifa fija de domicilio.
 Confirmo y recibo un código y un PIN para seguir el pedido.»
 
 **Panel.** «Con la cuenta de administrador entro al panel: creo o edito productos, cambio
@@ -114,7 +114,7 @@ No. Es un flujo de demostración. Ningún pedido se marca como pagado automátic
 administrador lo confirma. La pasarela real queda como mejora futura.
 
 **¿Por qué no hay opción de recoger en tienda?**
-El modelo de negocio definido es solo domicilios. La dirección y el radio son configurables.
+El modelo de negocio definido es solo domicilios. La dirección y la tarifa fija son configurables.
 
 **¿Cómo evitan que alguien vea un pedido ajeno?**
 El seguimiento exige código y PIN. Sin ambos no se devuelve información.
@@ -123,8 +123,8 @@ El seguimiento exige código y PIN. Sin ambos no se devuelve información.
 Como hash bcrypt en la base de datos. Nunca se devuelve al cliente.
 
 **¿Cómo se calcula el domicilio?**
-Por rangos de distancia configurables. Si la distancia supera el radio máximo, el sistema
-bloquea el pedido y avisa que no hay cobertura.
+Con una tarifa fija configurable desde el panel. El cliente no declara kilómetros: la
+distancia la confirma el negocio al despachar y la cobertura se acuerda por WhatsApp.
 
 **¿Qué pasa si dos personas compran el último producto?**
 El backend valida existencias al crear el pedido y al confirmar el pago. En una versión
@@ -160,8 +160,8 @@ continua.
 2. Ir a Menú, buscar «maracumango» y cambiar entre las pestañas de categoría.
 3. Abrir una limonada, cambiar a tamaño grande y agregar un extra; ver el precio.
 4. Agregar dos productos y abrir el carrito; cambiar cantidades.
-5. Checkout con distancia de 3 km: debe cobrar $5.000 de domicilio.
-6. Probar 20 km: debe mostrar «sin cobertura».
+5. Checkout con cualquier dirección: debe cobrar la tarifa fija de domicilio ($5.000 por defecto).
+6. En el panel, cambiar la tarifa y verificar que el checkout y el hero la reflejan.
 7. Confirmar el pedido y anotar código y PIN.
 8. Ir a Seguimiento, consultar con código y PIN.
 9. Iniciar sesión como administrador (ver credenciales abajo).

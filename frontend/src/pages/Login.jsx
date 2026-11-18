@@ -18,7 +18,15 @@ export default function Login() {
     setLoading(true);
     try {
       const user = await login(form);
-      const target = location.state?.from || (user.role === 'admin' ? '/admin' : '/cuenta');
+      const from = location.state?.from;
+      // Un administrador siempre aterriza en el panel, aunque haya llegado
+      // al login intentando abrir otra página (por ejemplo, el checkout).
+      const target =
+        user.role === 'admin'
+          ? from?.startsWith('/admin')
+            ? from
+            : '/admin'
+          : from || '/cuenta';
       navigate(target, { replace: true });
     } catch (err) {
       setError(err.message);
