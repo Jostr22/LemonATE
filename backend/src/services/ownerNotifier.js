@@ -42,7 +42,7 @@ function buildText(order) {
     ...order.items.map(itemLine),
     '',
     `Subtotal: ${formatCOP(order.subtotal, 'es')}`,
-    `Domicilio: ${formatCOP(order.deliveryFee, 'es')}`,
+    `Domicilio: se confirma por WhatsApp`,
     `Total: ${formatCOP(order.total, 'es')}`,
     `Pago: ${PAYMENT_LABELS[order.paymentMethod] || order.paymentMethod}`,
     '',

@@ -19,7 +19,7 @@ con datos locales, de forma que la tienda siempre puede presentarse.
 | Nombre | LemonATE |
 | Eslogan | «Exprime el momento» |
 | Actividad | Limonadas, bebidas especiales, postres y combos |
-| Cobertura | Barranquilla y municipios cercanos (tarifa fija de domicilio configurable) |
+| Cobertura | Barranquilla y municipios cercanos (el costo del domicilio se confirma por WhatsApp) |
 | Público | Jóvenes y adultos |
 | Personalidad | Fresca, juvenil, atrevida, creativa, energética |
 | Canal principal | WhatsApp Business; Instagram y TikTok como contenido |
@@ -192,7 +192,7 @@ Nombre, contacto, asunto, mensaje, estado (`nuevo`/`leido`) y fecha.
 ### `settings`
 
 Documento único (`key: main`) con marca, contacto, redes, horarios, festivos, dirección del
-negocio, tarifa fija de domicilio, métodos de pago y cobertura.
+negocio, datos de domicilio, métodos de pago y cobertura.
 
 ## 10. Explicación de la API
 
@@ -235,8 +235,8 @@ Formato de error: `{ "message": "...", "errors": [{ "field", "message" }] }`.
    y extras, y el precio se recalcula al instante.
 2. El carrito guarda producto, personalización, cantidad y precio unitario.
 3. En el checkout ingresa sus datos y su dirección; no declara kilómetros.
-4. El domicilio tiene una tarifa fija configurable desde el panel (por defecto $5.000),
-   sin importar la distancia. La cobertura se confirma por WhatsApp.
+4. El checkout no cobra domicilio: el costo se confirma por WhatsApp según la dirección y
+   la distancia. La cobertura se confirma al recibir el pedido.
 5. Al confirmar, el servidor vuelve a validar existencias y precios, genera `LMT-XXXXXX` y
    un PIN, y guarda el pedido con estado «Recibido».
 6. El cliente consulta el estado con código + PIN; el administrador lo cambia manualmente.

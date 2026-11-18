@@ -111,12 +111,11 @@ function hoursText(settings, lang) {
 }
 
 function deliveryText(settings, lang) {
-  const fee = money(Number(settings?.delivery?.flatFee ?? 5000), lang);
   const coverage = pick(settings?.coverage, lang);
 
   return lang === 'en'
-    ? `We deliver in Barranquilla and nearby municipalities${coverage ? ` (${coverage})` : ''}. The delivery fee is ${fee}, no matter the distance.`
-    : `Hacemos domicilios en Barranquilla y municipios cercanos${coverage ? ` (${coverage})` : ''}. El domicilio tiene una tarifa fija de ${fee}, sin importar la distancia.`;
+    ? `We deliver in Barranquilla and nearby municipalities${coverage ? ` (${coverage})` : ''}. The delivery cost depends on the address and distance, so we confirm it on WhatsApp after you place the order.`
+    : `Hacemos domicilios en Barranquilla y municipios cercanos${coverage ? ` (${coverage})` : ''}. El costo del domicilio depende de la dirección y la distancia, así que lo confirmamos por WhatsApp después de tu pedido.`;
 }
 
 function paymentsText(lang) {
@@ -189,7 +188,7 @@ function changeOrderText(settings, lang) {
 function etaText(lang) {
   return lang === 'en'
     ? 'Preparation usually takes 15 to 25 minutes. Delivery time depends on the distance and the order volume; we confirm an estimate on WhatsApp when the order is placed.'
-    : 'La preparación suele tomar entre 15 y 25 minutos. El domicilio tiene una tarifa fija y el tiempo de entrega depende de la distancia y del volumen de pedidos; al confirmar te damos un estimado por WhatsApp.';
+    : 'La preparación suele tomar entre 15 y 25 minutos. El costo del domicilio se confirma por WhatsApp según la dirección; el tiempo de entrega depende de la distancia y del volumen de pedidos.';
 }
 
 function nutritionText(lang) {

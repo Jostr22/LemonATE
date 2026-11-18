@@ -27,7 +27,6 @@ const settingsSchema = new mongoose.Schema(
     holidays: { type: [String], default: [] },
     delivery: {
       businessAddress: { type: String, default: '' },
-      flatFee: { type: Number, default: DEFAULT_SETTINGS.delivery.flatFee, min: 0 },
     },
     payments: {
       nequi: { type: String, default: '' },

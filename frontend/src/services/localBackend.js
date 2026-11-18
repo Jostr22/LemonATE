@@ -377,6 +377,7 @@ export const localBackend = {
       },
       address: payload.address || {},
       ...totals,
+      deliveryPending: Boolean(delivery.pending),
       paymentMethod: payload.paymentMethod || 'nequi',
       paymentStatus: 'pending',
       status: 'recibido',

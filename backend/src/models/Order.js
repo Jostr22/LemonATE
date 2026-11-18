@@ -65,6 +65,7 @@ const orderSchema = new mongoose.Schema(
     },
     subtotal: { type: Number, required: true, min: 0 },
     deliveryFee: { type: Number, required: true, min: 0 },
+    deliveryPending: { type: Boolean, default: true },
     discount: { type: Number, default: 0, min: 0 },
     total: { type: Number, required: true, min: 0 },
     paymentMethod: {
@@ -96,6 +97,7 @@ orderSchema.methods.toPublic = function toPublic() {
     address: this.address,
     subtotal: this.subtotal,
     deliveryFee: this.deliveryFee,
+    deliveryPending: Number(this.deliveryFee) === 0 && this.deliveryPending !== false,
     discount: this.discount,
     total: this.total,
     paymentMethod: this.paymentMethod,

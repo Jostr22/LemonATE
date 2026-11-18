@@ -150,7 +150,8 @@ describe('LemonATE API', () => {
 
     assert.equal(response.status, 201);
     assert.match(response.body.code, /^LMT-\d{6}$/);
-    assert.equal(response.body.deliveryFee, 5000);
+    assert.equal(response.body.deliveryFee, 0);
+    assert.equal(response.body.deliveryPending, true);
     assert.equal(response.body.items[0].unitPrice, lemonade.price + 4000 + 1000);
     assert.equal(response.body.status, 'recibido');
 
@@ -162,9 +163,16 @@ describe('LemonATE API', () => {
     const wrong = await request(app)
       .get(`/api/orders/track?code=${response.body.code}&pin=0000`);
     assert.equal(wrong.status, 404);
+
+    const mine = await request(app)
+      .get('/api/orders/mine')
+      .set('Authorization', `Bearer ${customerToken}`);
+    assert.equal(mine.status, 200);
+    const saved = mine.body.find((entry) => entry.code === response.body.code);
+    assert.equal(saved.pin, response.body.pin);
   });
 
-  it('cobra una tarifa fija de domicilio sin importar la distancia', async () => {
+  it('deja el costo del domicilio por confirmar por WhatsApp', async () => {
     const products = await request(app).get('/api/products');
     const response = await request(app)
       .post('/api/orders')
@@ -175,7 +183,8 @@ describe('LemonATE API', () => {
         paymentMethod: 'nequi',
       });
     assert.equal(response.status, 201);
-    assert.equal(response.body.deliveryFee, 5000);
+    assert.equal(response.body.deliveryFee, 0);
+    assert.equal(response.body.deliveryPending, true);
   });
 
   it('permite elegir el contenido de un combo y lo guarda legible', async () => {
@@ -369,13 +378,13 @@ describe('LemonATE API', () => {
     const updated = await request(app)
       .put('/api/settings')
       .set('Authorization', `Bearer ${adminToken}`)
-      .send({ delivery: { flatFee: 6500 } });
+      .send({ delivery: { businessAddress: 'Calle 80 # 45-12, Barranquilla' } });
 
     assert.equal(updated.status, 200);
-    assert.equal(updated.body.delivery.flatFee, 6500);
+    assert.equal(updated.body.delivery.businessAddress, 'Calle 80 # 45-12, Barranquilla');
 
     const publicSettings = await request(app).get('/api/settings');
     assert.equal(publicSettings.status, 200);
-    assert.equal(publicSettings.body.delivery.flatFee, 6500);
+    assert.equal(publicSettings.body.delivery.businessAddress, 'Calle 80 # 45-12, Barranquilla');
   });
 });

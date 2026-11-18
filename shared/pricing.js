@@ -40,9 +40,6 @@ export const EXTRAS = [
 
 export const DEFAULT_DELIVERY = {
   businessAddress: 'Barranquilla, Atlántico, Colombia',
-  // Tarifa única de domicilio. La distancia la confirma el negocio al
-  // despachar; el cliente ya no la escribe.
-  flatFee: 5000,
 };
 
 export const TAX_RATE = 0;
@@ -71,13 +68,12 @@ export function computeUnitPrice(product, customization = {}) {
   return price;
 }
 
-/** Tarifa fija de domicilio definida por el negocio. */
-export function computeDelivery(config = DEFAULT_DELIVERY) {
-  const fee = Number(config?.flatFee ?? DEFAULT_DELIVERY.flatFee);
-  return {
-    available: true,
-    fee: Number.isFinite(fee) && fee >= 0 ? fee : DEFAULT_DELIVERY.flatFee,
-  };
+/**
+ * El domicilio no se cobra automáticamente: depende de la dirección y la
+ * distancia real. El negocio lo confirma por WhatsApp después del pedido.
+ */
+export function computeDelivery(_config = DEFAULT_DELIVERY) {
+  return { available: true, fee: 0, pending: true };
 }
 
 /** Totales de un pedido. El backend vuelve a calcularlos siempre. */

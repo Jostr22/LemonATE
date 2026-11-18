@@ -26,14 +26,14 @@ export const LEGAL = {
         {
           title: '3. Precios y pagos',
           paragraphs: [
-            'Los precios se muestran en pesos colombianos (COP). El valor final incluye el domicilio con tarifa fija vigente, sin importar la distancia.',
+            'Los precios se muestran en pesos colombianos (COP). El valor final del checkout incluye los productos. El costo del domicilio se confirma por WhatsApp según la dirección y la distancia.',
             'Aceptamos los medios de pago habilitados en el checkout (actualmente Nequi, Daviplata, Bancolombia y llaves Bre-B). Los datos de pago se comparten por WhatsApp después de confirmar el pedido. El pedido se prepara cuando el pago es verificado. No se procesan pagos con tarjeta en este sitio.',
           ],
         },
         {
           title: '4. Domicilios',
           paragraphs: [
-            'Entregamos en Barranquilla y municipios cercanos; la cobertura exacta se confirma por WhatsApp al recibir el pedido. El domicilio tiene una tarifa fija vigente, sin importar la distancia. El tiempo estimado se informa al confirmar el pedido y puede variar por clima, tráfico o demanda.',
+            'Entregamos en Barranquilla y municipios cercanos; la cobertura exacta se confirma por WhatsApp al recibir el pedido. El costo del domicilio depende de la dirección y la distancia, y se informa por WhatsApp antes de despachar. El tiempo estimado puede variar por clima, tráfico o demanda.',
           ],
         },
         {
@@ -79,14 +79,14 @@ export const LEGAL = {
         {
           title: '3. Prices and payments',
           paragraphs: [
-            'Prices are shown in Colombian pesos (COP). The final amount includes the delivery fee at the current flat rate, regardless of distance.',
+            'Prices are shown in Colombian pesos (COP). The checkout total includes the products. The delivery cost is confirmed on WhatsApp based on the address and distance.',
             'We accept the payment methods enabled at checkout (currently Nequi, Daviplata, Bancolombia and Bre-B keys). Payment details are shared on WhatsApp after you confirm the order. The order is prepared once payment is verified. We do not process card payments on this site.',
           ],
         },
         {
           title: '4. Delivery',
           paragraphs: [
-            'We deliver in Barranquilla and nearby municipalities; the exact coverage is confirmed by WhatsApp when we receive the order. Delivery has a current flat fee, regardless of distance. The estimated time is provided when you confirm the order and may vary due to weather, traffic or demand.',
+            'We deliver in Barranquilla and nearby municipalities; the exact coverage is confirmed by WhatsApp when we receive the order. The delivery cost depends on the address and distance, and is confirmed by WhatsApp before dispatch. The estimated time may vary due to weather, traffic or demand.',
           ],
         },
         {

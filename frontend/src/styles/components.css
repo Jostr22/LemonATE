@@ -684,6 +684,35 @@
   margin: 0;
 }
 
+.field__control {
+  position: relative;
+}
+
+.field__control input {
+  padding-right: 2.9rem;
+}
+
+.field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--cream-dim);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.field__toggle:hover,
+.field__toggle:focus-visible {
+  color: var(--neon);
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

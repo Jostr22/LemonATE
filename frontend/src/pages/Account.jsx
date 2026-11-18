@@ -165,6 +165,17 @@ export default function Account() {
               <div className="tiny muted" style={{ marginTop: '0.5rem' }}>
                 {order.items.map((item) => `${item.qty}× ${pick(item.name)}`).join(' · ')}
               </div>
+              <div className="row" style={{ marginTop: '0.6rem', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {order.pin && <span className="tiny muted">{t('account.pin')}: {order.pin}</span>}
+                {order.pin && (
+                  <Link
+                    className="btn btn--sm"
+                    to={`/seguimiento?code=${encodeURIComponent(order.code)}&pin=${encodeURIComponent(order.pin)}`}
+                  >
+                    {t('account.trackOrder')}
+                  </Link>
+                )}
+              </div>
             </div>
           ))}
         </div>

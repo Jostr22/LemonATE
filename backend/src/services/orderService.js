@@ -109,6 +109,7 @@ export async function createOrder(payload, user) {
     customer: payload.customer,
     address: payload.address,
     ...totals,
+    deliveryPending: Boolean(delivery.pending),
     paymentMethod: payload.paymentMethod,
     paymentStatus: 'pending',
     status: 'recibido',

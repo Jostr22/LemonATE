@@ -500,7 +500,6 @@ export const DEFAULT_SETTINGS = {
   holidays: [],
   delivery: {
     businessAddress: 'Barranquilla, Atlántico, Colombia',
-    flatFee: 5000,
   },
   payments: {
     nequi: 'Nequi',

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { api } from '../services/api.js';
+import { listSavedOrders, removeSavedOrder, subscribeSavedOrders } from '../services/savedOrders.js';
 import { formatCOP } from '../../../shared/pricing.js';
 import { ORDER_STATUSES } from '../i18n/index.js';
+import { IconTrash } from '../components/Icons.jsx';
 
 const FLOW = ['recibido', 'pago-pendiente', 'pago-confirmado', 'en-preparacion', 'en-camino', 'entregado'];
 
@@ -15,14 +17,14 @@ export default function Track() {
   const [order, setOrder] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [savedOrders, setSavedOrders] = useState(() => listSavedOrders());
 
-  const search = async (event) => {
-    event?.preventDefault();
+  const lookup = async (codeValue, pinValue) => {
     setLoading(true);
     setError(null);
     setOrder(null);
     try {
-      const data = await api.trackOrder({ code, pin });
+      const data = await api.trackOrder({ code: codeValue, pin: pinValue });
       setOrder(data);
     } catch (err) {
       setError(err.message || t('track.notFound'));
@@ -31,8 +33,21 @@ export default function Track() {
     }
   };
 
+  const search = (event) => {
+    event?.preventDefault();
+    lookup(code, pin);
+  };
+
+  const trackSaved = (entry) => {
+    setCode(entry.code);
+    setPin(entry.pin);
+    lookup(entry.code, entry.pin);
+  };
+
+  useEffect(() => subscribeSavedOrders(() => setSavedOrders(listSavedOrders())), []);
+
   useEffect(() => {
-    if (code && pin) search();
+    if (code && pin) lookup(code, pin);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,6 +58,49 @@ export default function Track() {
       <span className="eyebrow">{t('nav.track')}</span>
       <h1 style={{ fontSize: 'var(--step-4)', marginBottom: '0.5rem' }}>{t('track.title')}</h1>
       <p>{t('track.lead')}</p>
+
+      <div className="panel" style={{ maxWidth: 620, marginBottom: 'var(--space-4)' }}>
+        <h3 style={{ fontSize: 'var(--step-1)', marginBottom: '0.4rem' }}>{t('track.savedTitle')}</h3>
+        <p className="tiny muted" style={{ marginTop: 0 }}>{t('track.savedLead')}</p>
+
+        {savedOrders.length === 0 ? (
+          <div className="empty">{t('track.savedEmpty')}</div>
+        ) : (
+          <ul className="stack" style={{ marginTop: '1rem' }}>
+            {savedOrders.map((entry) => (
+              <li
+                key={entry.code}
+                className="row"
+                style={{ justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}
+              >
+                <div style={{ flex: 1, minWidth: 220 }}>
+                  <strong>{entry.code}</strong>{' '}
+                  <span className="tiny muted">{t('track.pin')}: {entry.pin}</span>
+                  <div className="tiny muted">
+                    {new Date(entry.createdAt).toLocaleString(lang)} · {formatCOP(entry.total, lang)}
+                  </div>
+                  <div className="tiny muted">
+                    {(entry.items || []).map((item) => `${item.qty}× ${pick(item.name)}`).join(' · ')}
+                  </div>
+                </div>
+                <div className="row" style={{ gap: '0.4rem' }}>
+                  <button type="button" className="btn btn--sm" onClick={() => trackSaved(entry)}>
+                    {t('track.savedTrack')}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn--sm btn--ghost"
+                    onClick={() => removeSavedOrder(entry.code)}
+                    aria-label={`${t('track.savedRemove')}: ${entry.code}`}
+                  >
+                    <IconTrash />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <form className="panel" onSubmit={search} style={{ maxWidth: 620, marginBottom: 'var(--space-5)' }}>
         <div className="form-grid">
@@ -128,7 +186,7 @@ export default function Track() {
             </div>
             <div className="cart-total-row">
               <span>{t('cart.delivery')}</span>
-              <span>{formatCOP(order.deliveryFee, lang)}</span>
+              <span>{order.deliveryPending ? t('checkout.deliveryPendingShort') : formatCOP(order.deliveryFee, lang)}</span>
             </div>
             <div className="cart-total-row cart-total-row--grand">
               <span>{t('cart.total')}</span>
@@ -142,6 +200,9 @@ export default function Track() {
               {t('track.placed')}: {new Date(order.createdAt).toLocaleString(lang)} · {t('checkout.payment')}:{' '}
               {t(`payment.${order.paymentMethod}`)}
             </p>
+            {order.deliveryPending && (
+              <p className="tiny muted" style={{ marginBottom: 0 }}>{t('checkout.deliveryPending')}</p>
+            )}
           </div>
         </div>
       )}

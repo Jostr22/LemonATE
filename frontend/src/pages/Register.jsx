@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { IconEye, IconEyeOff } from '../components/Icons.jsx';
 
 export default function Register() {
   const { t } = useLang();
@@ -10,6 +11,7 @@ export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -60,18 +62,30 @@ export default function Register() {
             autoComplete="tel"
           />
         </label>
-        <label className="field">
-          <span>{t('auth.password')}</span>
-          <input
-            type="password"
-            value={form.password}
-            onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-            autoComplete="new-password"
-            minLength={8}
-            required
-          />
+        <div className="field">
+          <label htmlFor="register-password">{t('auth.password')}</label>
+          <div className="field__control">
+            <input
+              id="register-password"
+              type={showPassword ? 'text' : 'password'}
+              value={form.password}
+              onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
+              autoComplete="new-password"
+              minLength={8}
+              required
+            />
+            <button
+              type="button"
+              className="field__toggle"
+              aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              {showPassword ? <IconEyeOff /> : <IconEye />}
+            </button>
+          </div>
           <p className="field__hint">{t('auth.passwordHint')}</p>
-        </label>
+        </div>
         <button type="submit" className="btn btn--block" disabled={loading}>
           {loading ? t('common.loading') : t('auth.register')}
         </button>

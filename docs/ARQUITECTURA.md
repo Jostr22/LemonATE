@@ -95,7 +95,7 @@ Formulario de contacto: nombre, teléfono/correo, asunto, mensaje, estado (`nuev
 
 ### Settings
 Documento único con: marca, contacto, redes, horarios, festivos, dirección del negocio,
-tarifa fija de domicilio, métodos de pago, costo de extras y textos legales.
+métodos de pago, costo de extras y textos legales.
 
 ## 5. API REST
 
@@ -126,8 +126,8 @@ tarifa fija de domicilio, métodos de pago, costo de extras y textos legales.
 
 - **Precios**: el servidor recalcula todo. El cliente nunca envía el total definitivo.
 - **Personalización**: tamaño (12/16/22 oz), hielo, azúcar y extras con precio.
-- **Domicilio**: tarifa fija configurable (`delivery.flatFee`), sin importar la distancia.
-  La cobertura se acuerda por WhatsApp y queda lista para una futura API de geolocalización.
+- **Domicilio**: el checkout no cobra domicilio. El negocio confirma el costo por WhatsApp
+  según la dirección y la distancia; queda listo para una futura API de geolocalización.
 - **Inventario**: al confirmar el pago se descuenta la existencia; si falta, el pedido se rechaza.
 - **Pagos**: flujo de demostración. Ningún pedido se marca pagado automáticamente.
 - **Seguimiento**: código + PIN de 4 dígitos; sin PIN no se revelan datos personales.

@@ -23,7 +23,8 @@ export const listOrders = asyncHandler(async (_req, res) => {
 
 export const myOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ userId: req.user._id }).sort({ createdAt: -1 });
-  res.json(orders.map((order) => order.toPublic()));
+  // El dueño del pedido puede ver su PIN para volver a consultarlo.
+  res.json(orders.map((order) => ({ ...order.toPublic(), pin: order.pin })));
 });
 
 export const trackOrder = asyncHandler(async (req, res) => {

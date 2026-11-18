@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../services/api.js';
 import { PAYMENT_METHODS } from '../i18n/index.js';
 import { computeDelivery, computeTotals, formatCOP } from '../../../shared/pricing.js';
+import { saveOrder } from '../services/savedOrders.js';
 import { IconArrow } from '../components/Icons.jsx';
 
 const SAVED_KEY = 'lemonate.checkout.v1';
@@ -43,8 +44,8 @@ export default function Checkout() {
   const [order, setOrder] = useState(null);
   const [serverError, setServerError] = useState(null);
 
-  // El domicilio es una tarifa fija configurada por el negocio:
-  // el cliente ya no declara kilómetros.
+  // El domicilio no se cobra en el checkout: depende de la dirección y la
+  // distancia real, y el negocio lo confirma por WhatsApp.
   const delivery = useMemo(() => computeDelivery(settings?.delivery), [settings]);
   const totals = useMemo(
     () => computeTotals(items, delivery.available ? delivery.fee : 0, 0),
@@ -87,6 +88,10 @@ export default function Checkout() {
         },
         paymentMethod: form.paymentMethod,
       });
+
+      // Guardamos código + PIN en el navegador para poder rastrearlo
+      // aunque el cliente cierre la página o pierda el código.
+      saveOrder(created);
 
       if (form.saveData) {
         localStorage.setItem(
@@ -242,8 +247,9 @@ export default function Checkout() {
               </label>
             </div>
 
-            <div className="notice notice--ok" style={{ marginBottom: 0 }}>
-              {t('checkout.coverage')}: {formatCOP(delivery.fee, lang)} · {t('checkout.flatFeeNote')}
+            <div className="notice notice--warn" style={{ marginBottom: 0 }}>
+              <strong>{t('checkout.coverage')}: {t('checkout.deliveryPendingShort')}.</strong>{' '}
+              {t('checkout.deliveryPending')}
             </div>
           </div>
 
@@ -292,7 +298,7 @@ export default function Checkout() {
           </div>
           <div className="cart-total-row">
             <span>{t('cart.delivery')}</span>
-            <span>{delivery.available ? formatCOP(delivery.fee, lang) : '—'}</span>
+            <span>{delivery.pending ? t('checkout.deliveryPendingShort') : formatCOP(delivery.fee, lang)}</span>
           </div>
           <div className="cart-total-row cart-total-row--grand">
             <span>{t('cart.total')}</span>

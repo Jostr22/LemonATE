@@ -36,7 +36,7 @@ Nunca se sube al repositorio: `.env` está en `.gitignore`.
 | `users` | cuentas | nombre, correo, `passwordHash`, rol (`customer`/`admin`), direcciones, favoritos |
 | `orders` | pedidos | ítems, totales, cliente, dirección, estado, `pin` de seguimiento, historial |
 | `messages` | contacto | formulario del sitio: nombre, contacto, asunto, mensaje, `status` |
-| `settings` | **1 solo documento** | marca, contacto, horarios, cobertura, tarifa fija de domicilio, métodos de pago |
+| `settings` | **1 solo documento** | marca, contacto, horarios, cobertura, dirección del negocio, métodos de pago |
 
 ## 3. Cómo entrar y editar
 

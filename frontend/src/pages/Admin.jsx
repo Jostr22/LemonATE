@@ -119,7 +119,6 @@ export default function Admin() {
         instagram: settings.contact?.instagram || '',
         tiktok: settings.contact?.tiktok || '',
         businessAddress: settings.delivery?.businessAddress || '',
-        flatFee: settings.delivery?.flatFee ?? 5000,
         weekdaysOpen: settings.hours?.weekdays?.open || '10:00',
         weekdaysClose: settings.hours?.weekdays?.close || '20:00',
         sundayOpen: settings.hours?.sunday?.open || '10:00',
@@ -222,7 +221,6 @@ export default function Admin() {
         delivery: {
           ...settings.delivery,
           businessAddress: settingsForm.businessAddress,
-          flatFee: Number(settingsForm.flatFee),
         },
         payments: {
           ...settings.payments,
@@ -466,6 +464,9 @@ export default function Admin() {
                         {order.customer?.name}
                         <div className="muted">{order.customer?.phone}</div>
                         <div className="muted">{order.address?.line}</div>
+                        {order.deliveryPending && (
+                          <div className="muted">{t('checkout.coverage')}: {t('checkout.deliveryPendingShort')}</div>
+                        )}
                       </td>
                       <td className="tiny" style={{ minWidth: 190 }}>
                         {order.items?.map((item, index) => (
@@ -609,25 +610,15 @@ export default function Admin() {
           </div>
 
           <hr className="divider" />
-          <h4 style={{ marginBottom: '1rem' }}>{t('checkout.address')} / {t('checkout.coverage')}</h4>
+          <h4 style={{ marginBottom: '1rem' }}>{t('checkout.address')}</h4>
           <div className="form-grid">
             <label className="field field--full">
               <span>{t('checkout.address')}</span>
               <input value={settingsForm.businessAddress} onChange={(event) => setSettingsForm((c) => ({ ...c, businessAddress: event.target.value }))} />
             </label>
-            <label className="field">
-              <span>{t('checkout.flatFee')}</span>
-              <input
-                type="number"
-                min="0"
-                step="500"
-                value={settingsForm.flatFee}
-                onChange={(event) => setSettingsForm((c) => ({ ...c, flatFee: event.target.value }))}
-              />
-            </label>
           </div>
           <p className="tiny muted" style={{ marginTop: '0.6rem' }}>
-            {t('checkout.flatFeeNote')}
+            {t('checkout.deliveryPending')}
           </p>
 
           <hr className="divider" />
