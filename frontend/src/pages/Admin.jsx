@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLang } from '../context/LangContext.jsx';
 import { useStore } from '../context/StoreContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { api } from '../services/api.js';
 import { CATEGORIES } from '../../../shared/catalog.js';
 import { ORDER_STATUSES } from '../i18n/index.js';
@@ -23,6 +25,8 @@ const EMPTY_PRODUCT = {
 export default function Admin() {
   const { t, pick, lang } = useLang();
   const { products, settings, refresh, loading } = useStore();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [tab, setTab] = useState('dashboard');
   const [orders, setOrders] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -245,11 +249,26 @@ export default function Admin() {
     return 'status--warn';
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
+
   return (
     <div className="shell section">
-      <span className="eyebrow">{t('nav.admin')}</span>
-      <h1 style={{ fontSize: 'var(--step-4)', marginBottom: '0.4rem' }}>{t('admin.title')}</h1>
-      <p>{t('admin.lead')}</p>
+      <div
+        className="row"
+        style={{ justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}
+      >
+        <div>
+          <span className="eyebrow">{t('nav.admin')}</span>
+          <h1 style={{ fontSize: 'var(--step-4)', marginBottom: '0.4rem' }}>{t('admin.title')}</h1>
+          <p>{t('admin.lead')}</p>
+        </div>
+        <button type="button" className="btn btn--ghost btn--sm" onClick={handleLogout}>
+          {t('auth.logout')}
+        </button>
+      </div>
 
       {feedback && <div className="notice notice--ok">{feedback}</div>}
       {error && <div className="notice notice--error">{error}</div>}
